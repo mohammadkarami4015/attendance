@@ -29,6 +29,11 @@ class UnitTest extends TestCase
         ->assertViewIs('admin.unit.create');
     }
 
+    public function test()
+    {
+        
+    }
+
 
 
     public function test_title_required_in_create_new_unit()
