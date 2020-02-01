@@ -4,7 +4,7 @@
 @endsection
 
 @section('content')
-    <a style="direction: ltr" href="{{route('shifts.index')}}" class="btn btn-danger">بازگشت</a>
+    <a style="direction: ltr" href="{{ URL::previous()}}" class="btn btn-danger">بازگشت</a>
     <div class="row">
         <div class="col-md-5">
             <div class="box box-primary">

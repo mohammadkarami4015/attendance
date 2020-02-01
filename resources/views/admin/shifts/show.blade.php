@@ -45,7 +45,7 @@
                 </div>
 
                     <div class="box-footer">
-                        <a href="{{route('shifts.addTimeForm',$shift->id)}}" class="btn btn-success">تنظیمات زمان های کاری</a>
+                        <a href="{{route('shifts.editTime',$shift->id)}}" class="btn btn-success">تنظیمات زمان های کاری</a>
                         <a href="{{route('shifts.editDays',$shift->id)}}" class="btn btn-success">ویرایش روز های کاری</a>
                         <button type="submit" class="btn btn-primary">ویرایش</button>
                         <a href="{{route('shifts.index')}}" class="btn btn-danger">بازگشت</a>

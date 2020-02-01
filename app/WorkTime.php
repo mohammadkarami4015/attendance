@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Helper\message;
 use Illuminate\Database\Eloquent\Model;
 
 class WorkTime extends Model
@@ -13,10 +14,25 @@ class WorkTime extends Model
         return $this->belongsTo(DayShift::class);
     }
 
-    public function day()
+    public static function getCurrentWorkTimes($shift,$day)
     {
-        return $this->hasOneThrough(Day::class, DayShift::class, 'id', 'id');
+        return  DayShift::query()->where([['shift_id', $shift->id], ['day_id', $day], ['to', null]])
+            ->first()
+            ->workTimes()
+            ->where('to', null)
+            ->get();
     }
+
+    public static function removeTime($time)
+    {
+        self::query()->find($time)->update([
+            'to'=>now()
+        ]);
+        message::show('زمان های کاری با موفقیت حذف شدند');
+
+    }
+
+
 
 
 }

@@ -52,7 +52,36 @@
 
                     <div style="direction: ltr" class="box-footer">
                         <button type="submit" class="btn btn-primary">ثبت نهایی</button>
-                        <a href="{{route('shifts.index')}}" class="btn btn-danger">بازگشت</a>
+                        <a href="{{ URL::previous()}}" class="btn btn-danger">بازگشت</a>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+{{--        //***********************************--}}
+        <div class="col-md-9">
+            <div class="box box-primary">
+                <form method="post"
+                      action="{{route('shifts.removeWorkTime')}}">
+                    {{csrf_field()}}
+
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label> انتخاب روزهای کاری شیفت {{$shift->title}} </label>
+                            <select required name="day" class="form-control "
+                                  onchange="getWorkTimes(this.value)">
+                                <option selected disabled value=> انتخاب روز کاری</option>
+                            @foreach($days as $day)
+                                    <option value="{{$day->id}}">{{$day->label}} </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div id="test"></div>
+                    </div>
+                    <div style="direction: ltr" class="box-footer">
+                        <button type="submit" class="btn btn-primary">ثبت نهایی</button>
+                        <a href="{{ URL::previous()}}" class="btn btn-danger">بازگشت</a>
                     </div>
 
                 </form>
@@ -60,7 +89,27 @@
         </div>
     </div>
 
+
+
+
+
     <script>
+
+        function getWorkTimes(id) {
+            var url = '{{URL::asset('admin/shift/getWorkTime')}}';
+            var shift = '{{$shift->id}}';
+            // alert(sub_url);
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById('test').innerHTML = this.responseText;
+
+                }
+            };
+            // xhttp.open("GET", url + 'day=' + id, true);
+            xhttp.open("GET", url + '/' + shift + '?day=' + id, true);
+            xhttp.send();
+        }
 
         function add() {
             var count = document.getElementsByClassName('count').length + 1;

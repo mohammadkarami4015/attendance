@@ -4,10 +4,14 @@ namespace App\Http\Controllers\admin;
 
 use App\Day;
 use App\DayShift;
+use App\Helper\message;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ShiftRequest;
+use App\Http\Requests\TimeRequest;
+use App\Http\Requests\WorkTimeRequest;
 use App\Shift;
 use App\Unit;
+use App\WorkTime;
 use Carbon\Carbon;
 use http\Env\Url;
 use Illuminate\Http\Request;
@@ -43,25 +47,38 @@ class ShiftController extends Controller
     {
         return view('admin.shifts.show', [
             'shift' => $shift,
-            'days'=>$shift->getDay()
+            'days' => $shift->getDay()
         ]);
     }
 
-
-    public function addTimeForm(Shift $shift)
+    public function editTime(Shift $shift)
     {
         $days = $shift->getDay();
-        return view('admin.shifts.addTime', compact('days', 'shift'));
+        return view('admin.shifts.editTime', compact('days', 'shift'));
 
     }
 
-    public function addWorkTime(Request $request, Shift $shift)
+    public function getWorkTimeAjax(Request $request, Shift $shift)
+    {
+        $workTime=WorkTime::getCurrentWorkTimes($shift,$request->day);
+        return view('admin/shifts/editWorkTimeAjax', compact('workTime'));
+    }
+
+    public function addWorkTime(WorkTimeRequest $request, Shift $shift)
     {
         $days = DayShift::getDays($shift, $request->days);
         foreach ($days as $day) {
             Shift::addWorkTime($request->ws, $request->we, $day);
         }
         return back();
+    }
+
+    public function removeWorkTime(TimeRequest $request)
+    {
+        foreach ($request->workTimes as $time)
+            WorkTime::removeTime($time);
+        return back();
+
     }
 
     public function editDays(Shift $shift)
@@ -74,7 +91,7 @@ class ShiftController extends Controller
     public function addDays(Request $request, Shift $shift)
     {
         $shift->days()->attach($request->days);
-        session()->flash('flash_message', 'روزهای مورد نظر با موفقیت ثبت شدند');
+        message::show('روزهای مورد نظر با موفقیت ثبت شدند');
         return redirect(route('shifts.index'));
 
     }
@@ -90,7 +107,7 @@ class ShiftController extends Controller
     public function edit(Shift $shift)
     {
 
-        return view('admin.shifts.edit', compact( 'shift'));
+        return view('admin.shifts.edit', compact('shift'));
     }
 
     public function update(ShiftRequest $request, Shift $shift)

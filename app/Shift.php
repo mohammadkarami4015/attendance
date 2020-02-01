@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Helper\message;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -47,8 +48,7 @@ class Shift extends Model
                 'end' => $end[$counter]
             ]);
         }
-//        session()->flash('flash_message', 'زمان های مورد نظر با موفقیت ثبت شدند');
-        self::showMessage('زمان های مورد نظر با موفقیت ثبت شدند');
+        message::show('زمان های مورد نظر با موفقیت ثبت شدند');
     }
 
     public function getPivotDay($days)
@@ -66,15 +66,10 @@ class Shift extends Model
             $day->pivot->to = Carbon::now();
             $day->pivot->save();
         }
-//        session()->flash('flash_message', ' روزهای  مورد نظر با موفقیت حذف شدند');
-        self::showMessage(' روزهای  مورد نظر با موفقیت حذف شدن');
+        message::show(' روزهای  مورد نظر با موفقیت حذف شدند');
     }
 
-    public  static function showMessage($message)
-    {
-        session()->flash('flash_message', $message);
 
-    }
 
 
 }
