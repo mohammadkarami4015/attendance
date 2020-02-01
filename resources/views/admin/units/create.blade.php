@@ -1,35 +1,30 @@
 @extends('layouts.master')
-
 @section('title')
-    گروه های کاری
-@endsection
-
-@section('description')
-
+    ایجاد گروه کاری
 @endsection
 
 @section('content')
+    <div class="row">
+        <div class="col-md-6">
+            <div class="box box-primary">
+                <form method="post"
 
-    <div class="box">
-        {{--        <input onkeyup="Search()" type="text" name="search" id="text" class="form-control col-md-8"--}}
-        {{--               style="margin:1% 79% 1% 1%; width: 20%"--}}
-        {{--               placeholder="جستجو ">--}}
-        <div class="box table-responsive no-padding">
+                      action="{{route('units.store')}}">
+                    {{csrf_field()}}
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label for="title"><span class="text-danger">عنوان</span></label>
+                            <input name="title" type="text" class="form-control" id="title" placeholder="عنوان">
+                        </div>
+                    </div>
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-primary">ایجاد</button>
+                        <a href="{{route('units.index')}}" class="btn btn-danger">بازگشت</a>
+                    </div>
 
-            <table class="table table-hover">
-                <thead>
-                <tr>
-                    <th>عنوان</th>
-                    <th>تنظیمات</th>
-                </tr>
-                </thead>
-            </table>
-            <div style="margin-right: 40%">
-                {{--            {{$units->appends(request()->all())->links()}}--}}
+                </form>
             </div>
         </div>
-
-
     </div>
-
 @endsection
+

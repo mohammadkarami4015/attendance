@@ -10,7 +10,8 @@
     "require": {
         "php": "^7.2",
         "fideloper/proxy": "^4.0",
-        "laravel/framework": "^5.8",
+        "hekmatinasser/verta": "^1.10",
+        "laravel/framework": "^6.0",
         "laravel/tinker": "^2.0"
     },
     "require-dev": {

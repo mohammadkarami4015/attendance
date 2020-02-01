@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 class CreateVacationTypesTable extends Migration
@@ -16,9 +17,17 @@ class CreateVacationTypesTable extends Migration
         Schema::create('vacation_types', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('title');
-          //$table->integer('amount')->nullable();
+            $table->integer('default_amount')->nullable();
+            $table->unsignedBigInteger('vacation_period_time_id');
+            $table->unsignedBigInteger('vacation_measurement_id');
             $table->timestamps();
+            $table->foreign('vacation_period_time_id')
+                ->references('id')->on('vacation_period_time');
+            $table->foreign('vacation_measurement_id')
+                ->references('id')->on('vacation_measurement');
         });
+
+
     }
 
     /**

@@ -6,10 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class WorkTime extends Model
 {
-   protected $guarded= [];
+    protected $guarded = [];
 
-   public function day()
-   {
-       return $this->belongsTo(Day::class);
-   }
+    public function dayShift()
+    {
+        return $this->belongsTo(DayShift::class);
+    }
+
+    public function day()
+    {
+        return $this->hasOneThrough(Day::class, DayShift::class, 'id', 'id');
+    }
+
+
 }

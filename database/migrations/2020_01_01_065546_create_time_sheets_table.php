@@ -18,9 +18,9 @@ class CreateTimeSheetsTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->timestamp('finger_print_time');
             $table->timestamps();
-            $table->foreign('user_id')
-                ->references('id')->on('users')
-                ->onDelete('cascade');
+//            $table->foreign('user_id')
+//                ->references('id')->on('users');
+               // ->onDelete('cascade');
         });
     }
 

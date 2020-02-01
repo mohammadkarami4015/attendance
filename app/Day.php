@@ -10,15 +10,31 @@ class Day extends Model
 
     protected $guarded = [];
 
-    public function shift ()
+    public function shifts()
     {
-        return $this->belongsTo(Shift::class);
+        return $this->belongsToMany(Shift::class, 'day_shift')->withPivot('id', 'from', 'to');
     }
-
 
     public function workTimes()
     {
-        return $this->hasMany(WorkTime::class);
+        return $this->hasManyThrough(WorkTime::class, DayShift::class, 'day_id', 'day_shift_id');
+    }
+
+//
+//    public static function addShift($shift, $days)
+//    {
+//        foreach ($days as $day) {
+//            $shift->days()->create([
+//                'title' => $day
+//            ]);
+//        }
+//        session()->flash('flash_message', 'شیفت مورد نظر با موفقیت ثبت شد');
+//
+//    }
+
+    public function getWorkTimes()
+    {
+       return DayShift::find($this->pivot->id)->workTimes;
     }
 
 

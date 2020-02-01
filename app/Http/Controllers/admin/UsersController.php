@@ -16,13 +16,9 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $users = User::all();
-//            ->orderby('id')
-//            ->get();
-          //dd($users);
-
         return view('admin.users.index', [
-            'users' => $users,
+            'users' => User::all(),
+            'index' => 1,
         ]);
     }
 
@@ -53,6 +49,7 @@ class UsersController extends Controller
             'personal_code'=>$request->get('personal_code'),
             'email'=>$request->get('email'),
             'password'=> Hash::make($request->get('password')),
+            'date_of_employment' =>$request->get('date_of_employment'),
 
         ]);
 

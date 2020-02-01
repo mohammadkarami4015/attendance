@@ -15,12 +15,14 @@ class CreateWorkTimesTable extends Migration
     {
         Schema::create('work_times', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('day_id');
+            $table->unsignedBigInteger('day_shift_id');
             $table->time('start');
             $table->time('end');
+            $table->timestamp('from')->default(now());
+            $table->timestamp('to')->nullable();
             $table->timestamps();
-            $table->foreign('day_id')
-                ->references('id')->on('days')
+            $table->foreign('day_shift_id')
+                ->references('id')->on('day_shift')
                 ->onDelete('cascade');
         });
     }

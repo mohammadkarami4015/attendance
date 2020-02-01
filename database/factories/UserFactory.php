@@ -1,7 +1,10 @@
 <?php
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
+
+use App\Unit;
 use App\User;
+use Carbon\Carbon;
 use Faker\Generator as Faker;
 use Illuminate\Support\Str;
 
@@ -26,5 +29,6 @@ $factory->define(User::class, function (Faker $faker) {
         'email_verified_at' => now(),
         'password' => '$2y$10$Q5IoW9MDi2jKslAtyCaV/Ot3qbLRBtjSWsacuKN76fLOQo0az0QOO', // password
         'remember_token' => Str::random(10),
+        'date_of_employment' => date("Y-m-d", strtotime("2019-09-25")),
     ];
 });

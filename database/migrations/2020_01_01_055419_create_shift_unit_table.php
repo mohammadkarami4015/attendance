@@ -17,7 +17,7 @@ class CreateShiftUnitTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('unit_id');
             $table->unsignedBigInteger('shift_id');
-            $table->timestamp('from');
+            $table->timestamp('from')->default(now());
             $table->timestamp('to')->nullable();
             $table->foreign('unit_id')
                 ->references('id')->on('units')

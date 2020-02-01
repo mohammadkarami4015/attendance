@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-
+<html lang="fa">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="/dist/css/persian-datepicker-0.4.5.min.css"/>
     <link rel="stylesheet" href="/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
 
+
     <!-- Bootstrap rtl -->
     <link rel="stylesheet" href="/dist/css/rtl.css">
     <!-- Font Awesome -->
@@ -18,6 +19,8 @@
     <!-- Ionicons -->
     <link rel="stylesheet" href="/bower_components/Ionicons/css/ionicons.min.css">
     <link rel="stylesheet" href="/bower_components/select2/dist/css/select2.min.css">
+    <link rel="stylesheet" href="/plugins/timepicker/bootstrap-timepicker.min.css">
+
 
     <!-- Theme style -->
     <link rel="stylesheet" href="/dist/css/AdminLTE.css">
@@ -32,6 +35,7 @@
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <![endif]-->
     <style>
         .flex-checkbox {
@@ -48,7 +52,6 @@
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-
 
 
 </head>
@@ -97,35 +100,35 @@ desired effect
 
 
                     <li class="dropdown notifications-menu">
-{{--                        <a href="{{route('demand.child')}}" class="dropdown-toggle">--}}
-{{--                            <i id="test" class="fa fa-envelope"></i>--}}
-{{--                            <span class="label label-success">{{$newDemand}}</span>--}}
-{{--                        </a>--}}
+                        {{--                        <a href="{{route('demand.child')}}" class="dropdown-toggle">--}}
+                        {{--                            <i id="test" class="fa fa-envelope"></i>--}}
+                        {{--                            <span class="label label-success">{{$newDemand}}</span>--}}
+                        {{--                        </a>--}}
                     </li>
 
 
                     <!-- Tasks: style can be found in dropdown.less -->
 
                     <li class="dropdown tasks-menu">
-{{--                        <a href="{{route('demand.referDemand')}}" class="dropdown-toggle">--}}
-{{--                            <i class="fa fa-envelope"></i>--}}
-{{--                            <span class="label label-danger">{{$referDemand}}</span>--}}
-{{--                        </a>--}}
+                        {{--                        <a href="{{route('demand.referDemand')}}" class="dropdown-toggle">--}}
+                        {{--                            <i class="fa fa-envelope"></i>--}}
+                        {{--                            <span class="label label-danger">{{$referDemand}}</span>--}}
+                        {{--                        </a>--}}
                     </li>
 
                     <li class="dropdown tasks-menu">
-{{--                        <a href="{{route('demand.allFinalConfirm')}}" class="dropdown-toggle">--}}
-{{--                            <i class="fa fa-envelope"></i>--}}
-{{--                            <span class="label label-info">@if($finalConfirm > 0)--}}
-{{--                                    جدید--}}
-{{--                                @endif</span></a>
-{{--</li>--}}
+                    {{--                        <a href="{{route('demand.allFinalConfirm')}}" class="dropdown-toggle">--}}
+                    {{--                            <i class="fa fa-envelope"></i>--}}
+                    {{--                            <span class="label label-info">@if($finalConfirm > 0)--}}
+                    {{--                                    جدید--}}
+                    {{--                                @endif</span></a>
+                    {{--</li>--}}
                     <!-- User Account: style can be found in dropdown.less -->
 
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             @if(auth()->check())
-{{--                                <span class="hidden-xs">{{\App\Helpers\NameFormat::userfullName(auth()->user())}}</span>--}}
+                                {{--                                <span class="hidden-xs">{{\App\Helpers\NameFormat::userfullName(auth()->user())}}</span>--}}
                             @endif
                         </a>
                         <ul class="dropdown-menu">
@@ -182,23 +185,44 @@ desired effect
                         </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="{{ route('users.index')}} ">کاربران</a></li>
+                        <li><a href="{{ route('users.index')}} ">لیست کاربران</a></li>
                         <li><a href="{{ route('users.create') }}">ثبت کاربر جدید</a></li>
                         <li><a href="">تغییر رمز عبور کاربران </a></li>
                     </ul>
                 </li>
+                <li>
+                    <a href="{{route('units.index')}}"><i class="fa fa-link"></i> <span>گروه های کاری</span>
+
+                    </a>
+                </li>
 
 
                 <li class="treeview">
-                    <a href="#"><i class="fa fa-link"></i> <span>مرخصی و ماموریت</span>
+                    <a href="#"><i class="fa fa-link"></i> <span>بخش مدیریت</span>
                         <span class="pull-left-container">
                             <i class="fa fa-angle-right pull-left"></i>
                         </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="{{ route('users.index')}} ">لیست درخواست ها</a></li>
-                        <li><a href="{{ route('users.create') }}">ثبت درخواست جدید</a></li>
-                        <li><a href=""></a></li>
+                        <li><a href="{{ route('userVacation.index')}} ">درخواست های مرخصی</a></li>
+
+                        <li><a href="{{ route('vacationType.index') }}"> تعریف انواع مرخصی</a></li>
+                        <li><a href="{{ route('specialVacation.index') }}"> مرخصی های خاص</a></li>
+                        <li><a href="{{ route('attendanceFiles.index') }}"> حضور و غیاب</a></li>
+                        <li><a href="{{ route('roles.index') }}">تعریف نقش ها</a></li>
+                        <li><a href="{{ route('userRoles.index') }}">اختصاص نقش به کاربر</a></li>
+                    </ul>
+                </li>
+
+                <li class="treeview">
+                    <a href="#"><i class="fa fa-link"></i> <span> درخواست مرخصی/ ماموریت</span>
+                        <span class="pull-left-container">
+                            <i class="fa fa-angle-right pull-left"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="{{ route('demandVacation.index')}} ">لیست درخواست های من</a></li>
+                        <li><a href="{{ route('demandVacation.create') }}">ثبت درخواست جدید</a></li>
                     </ul>
                 </li>
 
@@ -284,10 +308,11 @@ desired effect
      Both of these plugins are recommended to enhance the
      user experience. -->
 <script src="{{asset('/js/jquery-1.10.2.js')}}"></script>
-<script src="{{asset('/js/jquery-ui-1.10.3.js')}}" ></script>
+<script src="{{asset('/js/jquery-ui-1.10.3.js')}}"></script>
 <script src="{{asset('/dist/js/persian-date-0.1.8.min.js')}}"></script>
 <script src="{{asset('/dist/js/persian-datepicker-0.4.5.min.js')}}"></script>
 <script src="{{asset('/bower_components/select2/dist/js/select2.full.min.js')}}"></script>
+<script src="{{asset('/plugins/timepicker/bootstrap-timepicker.min.js')}}"></script>
 @yield('script')
 <script>
     $(document).ready(function () {
@@ -302,19 +327,35 @@ desired effect
             format: 'YYYY/MM/DD',
         });
 
-        $('.tarikhh').persianDatepicker({
+        $('.tarikh').persianDatepicker({
             autoClose: true,
             initialValue: false,
-            format: 'YYYY/MM/DD',
-        });
+            format:'HH:mm',
+            onlyTimePicker: true,
+            timePicker24Hour:true,
+            timeFormat:'HH:ii'
+
+    })
+        ;
 
         $(function () {
             //Initialize Select2 Elements
-            $('.select2').select2();
-        });
-    });
-</script>
+            $('.select2').select2({
+                dir:"rtl"
+            });
+            $('.Select2').val(null).trigger('change');
 
+        });
+
+        //Timepicker
+        $('.timepicker').timepicker({
+            showInputs: false,
+        })
+    });
+
+</script>
+<script src="{{ asset('/js/app.js') }}"></script>
+<script src="{{ asset('/js/all.js') }}"></script>
 
 </body>
 </html>
