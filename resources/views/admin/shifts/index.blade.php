@@ -11,7 +11,7 @@
 @section('content')
     <div class="col-md-9">
 
-        <a href="{{route('shifts.create')}}" class="btn btn-facebook">تعریف شیفت کاری جدید</a>
+        <a href="{{route('shifts.create')}}" class="btn btn-primary">تعریف شیفت کاری جدید</a>
         <div class="box">
             {{--        <input onkeyup="Search()" type="text" name="search" id="text" class="form-control col-md-8"--}}
             {{--               style="margin:1% 79% 1% 1%; width: 20%"--}}

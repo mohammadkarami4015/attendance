@@ -195,6 +195,11 @@ desired effect
 
                     </a>
                 </li>
+                <li>
+                    <a href="{{route('shifts.index')}}"><i class="fa fa-link"></i> <span>شیفت های کاری</span>
+
+                    </a>
+                </li>
 
 
                 <li class="treeview">

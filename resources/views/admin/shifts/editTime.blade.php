@@ -7,6 +7,7 @@
     <div class="row">
         <div class="col-md-9">
             <div class="box box-primary">
+                <h4 style="margin-right: 42%"><label > فرم افزودن زمان کاری</label></h4>
                 <form method="post"
                       action="{{route('shifts.addWorkTime',$shift)}}">
                     {{csrf_field()}}
@@ -51,8 +52,8 @@
 
 
                     <div style="direction: ltr" class="box-footer">
-                        <button type="submit" class="btn btn-primary">ثبت نهایی</button>
                         <a href="{{ URL::previous()}}" class="btn btn-danger">بازگشت</a>
+                        <button type="submit" class="btn btn-primary"> تایید</button>
                     </div>
 
                 </form>
@@ -62,6 +63,7 @@
 {{--        //***********************************--}}
         <div class="col-md-9">
             <div class="box box-primary">
+                <h4 style="margin-right: 42%"><label > فرم حذف زمان کاری</label></h4>
                 <form method="post"
                       action="{{route('shifts.removeWorkTime')}}">
                     {{csrf_field()}}
@@ -80,8 +82,8 @@
                         <div id="test"></div>
                     </div>
                     <div style="direction: ltr" class="box-footer">
-                        <button type="submit" class="btn btn-primary">ثبت نهایی</button>
-                        <a href="{{ URL::previous()}}" class="btn btn-danger">بازگشت</a>
+                        <a href="{{ route('shifts.show',$shift->id)}}" class="btn btn-danger">بازگشت</a>
+                        <button type="submit" class="btn btn-primary">تایید </button>
                     </div>
 
                 </form>

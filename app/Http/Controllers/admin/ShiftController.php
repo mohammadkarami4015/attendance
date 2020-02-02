@@ -39,6 +39,7 @@ class ShiftController extends Controller
     {
         $shift = Shift::query()->create($request->validated());
         $shift->days()->sync($request->days);
+        message::show('شیفت جدید با موفقیت ثبت شد');
         return back();
 
     }
