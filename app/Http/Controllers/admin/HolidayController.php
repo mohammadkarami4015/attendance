@@ -2,84 +2,65 @@
 
 namespace App\Http\Controllers\admin;
 
+use App\Day;
+use App\Helper\message;
+use App\Helpers\DateFormat;
+use App\Holiday;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\HolidayRequest;
 use Illuminate\Http\Request;
+use test\Mockery\Adapter\Phpunit\BaseClassStub;
 
 class HolidayController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
-        //
+        $holidays = Holiday::query()->latest()->paginate(20);
+        return view('admin.holidays.index', compact('holidays'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
-        //
+        return view('admin.holidays.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+
+    public function store(HolidayRequest $request)
     {
-        //
+        Holiday::create(Holiday::data($request));
+        message::show('تعطیلی جدید با موفقیت ثبت شد');
+        return redirect(route('holidays.index'));
+
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function show($id)
     {
-        //
+
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+
+    public function edit(Holiday $holiday)
     {
-        //
+        return view('admin.holidays.edit',compact('holiday'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+
+    public function update(HolidayRequest $request, Holiday $holiday)
     {
-        //
+        $holiday->update(Holiday::data($request));
+        message::show('تعطیلی  با موفقیت ویرایش شد');
+        return redirect(route('holidays.index'));
+
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+
+    public function destroy(Holiday $holiday)
     {
-        //
+        $holiday->delete();
+        message::show('تعطیلی  با موفقیت حذف شد');
+        return back();
     }
 }

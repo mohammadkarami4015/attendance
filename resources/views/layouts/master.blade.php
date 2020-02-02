@@ -335,10 +335,11 @@ desired effect
         $('.tarikh').persianDatepicker({
             autoClose: true,
             initialValue: false,
-            format:'HH:mm',
-            onlyTimePicker: true,
-            timePicker24Hour:true,
-            timeFormat:'HH:ii'
+            format: 'YYYY/MM/DD HH:mm',
+            timePicker: {
+                enabled: true
+            },
+
 
     })
         ;

@@ -36,9 +36,12 @@
         "psr-4": {
             "App\\": "app/"
         },
-        "file" : {
-            "app\\Helpers" : "Message"
-        },
+        "file": [
+            "app/Helpers/message.php",
+            "app/Helpers/DateFormat.php"
+
+        ],
+
         "classmap": [
             "database/seeds",
             "database/factories"

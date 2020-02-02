@@ -29,24 +29,22 @@ Route::namespace('admin')->prefix('/admin')->group(function () {
     Route::get('/shift/getWorkTime/{shift}', 'ShiftController@getWorkTimeAjax')->name('shifts.getWorkTimes');
     Route::post('/shift/addWorkTime/{shift}', 'ShiftController@addWorkTime')->name('shifts.addWorkTime');
     Route::post('/shift/removeWorkTime', 'ShiftController@removeWorkTime')->name('shifts.removeWorkTime');
-
-
     Route::get('/shift/editDays/{shift}', 'ShiftController@editDays')->name('shifts.editDays');
     Route::patch('/shift/updateDays/{shift}', 'ShiftController@updateDays')->name('shifts.updateDays');
-//    Route::post('/shift/addDays/{shift}', 'ShiftController@addDays')->name('shifts.addDays');
-//    Route::post('/shift/removeDays/{shift}', 'ShiftController@removeDays')->name('shifts.removeDays');
-
-
 
     //**************WorkTime Route**************
     Route::resource('workTime', 'WorkTimeController');
+
+
+    //**************Holiday Route**************
+    Route::resource('holidays', 'HolidayController');
+
 
 });
 
 Route::resource('users', 'admin\UsersController');
 Route::resource('vacationType', 'admin\VacationTypeController');
 Route::resource('specialVacation', 'admin\SpecialVacationController');
-Route::resource('holidays', 'admin\HolidayController');
 Route::resource('demandVacation', 'DemandVacationController');
 Route::resource('userVacation', 'admin\UserVacationController');
 Route::resource('attendanceFiles', 'admin\AttendanceFileController');
@@ -60,4 +58,4 @@ Route::resource('userRoles', 'admin\UserRoleController');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::resource('demandVacation', 'DemandVacationController')->middleware('auth');
+Route::resource('demandVacation', 'DemandVacationController');

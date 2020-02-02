@@ -138,7 +138,7 @@ class ShiftController extends Controller
     public function update(ShiftRequest $request, Shift $shift)
     {
         $shift->update($request->validated());
-        Shift::showMessage('ویرایش با موفقیت انجام شد');
+        message::show('ویرایش با موفقیت انجام شد');
         return redirect(route('shifts.index'));
 
     }
