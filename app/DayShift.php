@@ -18,4 +18,9 @@ class DayShift extends Model
     {
         return self::query()->where('shift_id', $shift->id)->whereIn('day_id', $days)->get();
     }
+
+    public static function getNullDays($shift, $days)
+    {
+        return self::query()->whereIn('day_id', $days)->where('to', null)->where('shift_id', $shift->id)->get();
+    }
 }

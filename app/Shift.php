@@ -55,21 +55,46 @@ class Shift extends Model
     {
         return $this->days()->wherePivotIn('day_id', $days)->get();
     }
+
     public function getDay()
     {
-        return $this->days()->wherePivot('to',null)->get();
+        return $this->days()->wherePivot('to', null)->get();
     }
 
-    public static function removeDays($days)
+
+//**************last method
+//    public static function removeDays($days)
+//    {
+//        foreach ($days as $day) {
+//            $day->pivot->to = Carbon::now();
+//            $day->pivot->save();
+//        }
+//        message::show(' روزهای  مورد نظر با موفقیت حذف شدند');
+//    }
+
+    public function updateDays($days)
     {
-        foreach ($days as $day) {
-            $day->pivot->to = Carbon::now();
-            $day->pivot->save();
+//        $removeDays = (($this->getDay())->diff(Day::find($days)))->pluck('id')->toArray();
+//        $value = DayShift::query()->whereIn('day_id', $removeDays)->where('to', null)->where('shift_id', $this->id)->get();
+        $removeDays = $this->getRemoveDays($days);
+        $value = DayShift::getNullDays($this, $removeDays);
+        foreach ($value as $day) {
+            $day->to = now();
+            $day->save();
         }
-        message::show(' روزهای  مورد نظر با موفقیت حذف شدند');
+
+
     }
 
+    public function getRemoveDays($days)
+    {
+        return (($this->getDay())->diff(Day::find($days)))->pluck('id')->toArray();
+    }
 
+    public function getAddedDays($days)
+    {
+        return Day::find($days)->diff($this->getDay());
+    }
 
 
 }

@@ -32,8 +32,11 @@ Route::namespace('admin')->prefix('/admin')->group(function () {
 
 
     Route::get('/shift/editDays/{shift}', 'ShiftController@editDays')->name('shifts.editDays');
-    Route::post('/shift/addDays/{shift}', 'ShiftController@addDays')->name('shifts.addDays');
-    Route::post('/shift/removeDays/{shift}', 'ShiftController@removeDays')->name('shifts.removeDays');
+    Route::patch('/shift/updateDays/{shift}', 'ShiftController@updateDays')->name('shifts.updateDays');
+//    Route::post('/shift/addDays/{shift}', 'ShiftController@addDays')->name('shifts.addDays');
+//    Route::post('/shift/removeDays/{shift}', 'ShiftController@removeDays')->name('shifts.removeDays');
+
+
 
     //**************WorkTime Route**************
     Route::resource('workTime', 'WorkTimeController');

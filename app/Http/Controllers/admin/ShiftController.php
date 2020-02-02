@@ -55,12 +55,11 @@ class ShiftController extends Controller
     {
         $days = $shift->getDay();
         return view('admin.shifts.editTime', compact('days', 'shift'));
-
     }
 
     public function getWorkTimeAjax(Request $request, Shift $shift)
     {
-        $workTime=WorkTime::getCurrentWorkTimes($shift,$request->day);
+        $workTime = WorkTime::getCurrentWorkTimes($shift, $request->day);
         return view('admin/shifts/editWorkTimeAjax', compact('workTime'));
     }
 
@@ -84,25 +83,50 @@ class ShiftController extends Controller
     public function editDays(Shift $shift)
     {
         $currentDays = $shift->getDay();
-        $days = Day::all()->diff($currentDays);
+
+        $days = Day::all();
         return view('admin.shifts.editDay', compact('shift', 'days', 'currentDays'));
     }
 
-    public function addDays(Request $request, Shift $shift)
+    public function updateDays(Request $request, Shift $shift)
     {
-        $shift->days()->attach($request->days);
-        message::show('روزهای مورد نظر با موفقیت ثبت شدند');
-        return redirect(route('shifts.index'));
+        $shift->updateDays($request->days);
+        $newDays = $shift->getAddedDays($request->days);
+        $shift->days()->attach($newDays);
+        message::show('روزهای کاری با موفقیت ویرایش شدند');
+        return back();
+
+
+//        $removeDays = (($shift->getDay())->diff(Day::find($request->dayss)))->pluck('id')->toArray();
+//        $newDays=Day::find($request->dayss)->diff($shift->getDay());
+//        $value = DayShift::query()->whereIn('day_id', $removeDays)->where('to', null)->where('shift_id', $shift->id)->get();
+//        foreach ($value as $day) {
+//                $day->to = now();
+//                $day->save();
+//            }
+
 
     }
 
-    public function removeDays(Request $request, Shift $shift)
-    {
-        $dayShift = $shift->getPivotDay($request->days);
-        Shift::removeDays($dayShift);
-        return redirect(route('shifts.index'));
+//********last method
+//    public
+//    function addDays(Request $request, Shift $shift)
+//
+//    {
+//        $shift->days()->attach($request->days);
+//        message::show('روزهای مورد نظر با موفقیت ثبت شدند');
+//        return redirect(route('shifts.index'));
+//
+//    }
 
-    }
+//    public
+//    function removeDays(Request $request, Shift $shift)
+//    {
+//        $dayShift = $shift->getPivotDay($request->days);
+//        Shift::removeDays($dayShift);
+//        return redirect(route('shifts.index'));
+//
+//    }
 
     public function edit(Shift $shift)
     {
@@ -118,7 +142,8 @@ class ShiftController extends Controller
 
     }
 
-    public function destroy(Shift $shift)
+    public
+    function destroy(Shift $shift)
     {
         //
     }
