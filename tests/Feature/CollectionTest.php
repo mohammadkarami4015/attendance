@@ -309,8 +309,8 @@ class CollectionTest extends TestCase
         $selectedDay = $currentDate->dayOfWeek;
         $list = collect();
 
-
         $user = User::find(1);
+
 
         $workTimes = $user->shifts->first()->days->find($selectedDay)->workTimes;
 
@@ -530,5 +530,72 @@ class CollectionTest extends TestCase
         }
     }
 
+    public function testGetData1()
+    {
+        $currentDate = Carbon::parse('2020-01-06');
+        $selectedDay = $currentDate->dayOfWeek;
+        $list = collect();
+
+        $user = User::find(1);
+        $userShift = $user->unit->shifts()->wherePivot('to',null)->first();
+        $var = $userShift->days->find($selectedDay)->pivot;
+
+        dd(WorkTime::query()->where('day_shift_id',$var->id)->get()->toArray());
+
+        $workTimes = $user->shifts->first()->days->find($selectedDay)->workTimes;
+
+        $userTimeSheet = $user->timeSheets()->whereDate('finger_print_time', $currentDate)->get()->chunk(2);
+
+        $userVacation = $user->vacations()->whereDate('start', '<=', $currentDate)->whereDate('end', '>=', $currentDate)->get();
+
+        foreach ($userVacation as $vacation) {
+            $list->add([
+                ['time' => date('H:i', strtotime($vacation->start)), 'label' => 'vs'],
+                ['time' => date('H:i', strtotime($vacation->end)), 'label' => 've'],
+            ]);
+        }
+
+        foreach ($userTimeSheet as $timeSheet) {
+            $list->add([
+                ['time' => date('H:i', strtotime($timeSheet->first()->finger_print_time)), 'label' => 'n'],
+                ['time' => date('H:i', strtotime($timeSheet->last()->finger_print_time)), 'label' => 'x'],
+            ]);
+        }
+        foreach ($workTimes as $time) {
+            $list->add([
+                ['time' => date('H:i', strtotime($time->work_start)), 'label' => 'ws'],
+                ['time' => date('H:i', strtotime($time->work_end)), 'label' => 'we'],
+            ]);
+        }
+        $list = array_values($list->flatten(1)->sortBy('time')->toArray());
+
+        $finalList = collect();
+
+        for ($counter = 1; $counter < count($list); $counter++) {
+            $firstItem = $list[$counter - 1];
+            $secondItem = $list[$counter];
+            $this->diff = Carbon::parse($firstItem['time'])->diffInMinutes($secondItem['time']);
+            $finalList->add([
+                ['item1' => $firstItem['time'], 'item2' => $secondItem['time'], 'value' => $this->diff, 'status' => $this->checkItems($firstItem, $secondItem)]
+            ]);
+
+        }
+
+        dump($finalList->flatten(1));
+        foreach ($finalList->flatten(1) as $list) {
+            if ($list['status'] == 'workingTime') {
+                $this->workingTime += $list['value'];
+            } elseif ($list['status'] == 'hurry') {
+                $this->hurryTime += $list['value'];
+            } elseif ($list['status'] == 'vacation') {
+                $this->vacationTime += $list['value'];
+            } elseif ($list['status'] == 'absence') {
+                $this->absenceTime += $list['value'];
+            }
+        }
+        dd(' کارکرد:' . $this->workingTime, ' تعجیل :' . $this->hurryTime, ' غیبت :' . $this->absenceTime, ' مرخصی :' . $this->vacationTime);
+
+
+    }
 
 }

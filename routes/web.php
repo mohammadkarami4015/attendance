@@ -38,6 +38,8 @@ Route::namespace('admin')->prefix('/admin')->group(function () {
 
     //**************Holiday Route**************
     Route::resource('holidays', 'HolidayController');
+    //**************Holiday Route**************
+    Route::resource('attendance', 'AttendanceController');
 
 
 });

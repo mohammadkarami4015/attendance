@@ -8,6 +8,7 @@ use App\Helpers\DateFormat;
 use App\Holiday;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\HolidayRequest;
+use App\User;
 use Illuminate\Http\Request;
 use test\Mockery\Adapter\Phpunit\BaseClassStub;
 
