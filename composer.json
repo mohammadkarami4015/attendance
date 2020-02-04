@@ -38,8 +38,8 @@
         },
         "file": [
             "app/Helpers/message.php",
-            "app/Helpers/DateFormat.php"
-
+            "app/Helpers/DateFormat.php",
+            "app/Helpers/Name.php"
         ],
 
         "classmap": [

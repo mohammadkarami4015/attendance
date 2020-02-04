@@ -26,7 +26,20 @@ class TimeSheet extends Model
         if ($timeSheet->count() % 2 == 1)
             dd('لطفا داده های حضور و غیاب را اصلاح کنید');
         else
-          return $timeSheet->chunk(2);
+            return $timeSheet->chunk(2);
     }
+
+
+    public function scopeSearch($query, $data)
+    {
+
+        $query->whereHas('user', function ($query) use ($data) {
+            $query->where('name', 'like', '%' . $data . '%')
+                ->orwhere('family', 'like', '%' . $data . '%');
+        });
+        return $query;
+
+    }
+
 
 }
