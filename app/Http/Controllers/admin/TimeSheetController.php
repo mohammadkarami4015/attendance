@@ -10,6 +10,7 @@ use App\Http\Requests\TimeSheeteRequest;
 use App\Http\Requests\TimeSheetRequest;
 use App\TimeSheet;
 use App\User;
+use Carbon\Carbon;
 use Cassandra\Time;
 use Illuminate\Http\Request;
 
@@ -24,10 +25,16 @@ class TimeSheetController extends Controller
 
     public function userSearch(Request $request)
     {
-
-        $timeSheets= TimeSheet::query()->search($request->get('userSearch'))->get();
+        $timeSheets= TimeSheet::query()->Search($request->get('userSearch'))->get();
         return view('admin.timeSheets.indexSearch',compact('timeSheets'));
+    }
 
+    public function filterDate(Request $request)
+    {
+        $fromDate = DateFormat::toMiladi($request->get('from'));
+        $toDate = Carbon::parse(DateFormat::toMiladi($request->get('to')))->addSeconds(86399);
+        $timeSheets = TimeSheet::FilterByDate($fromDate, $toDate)->latest()->paginate(20);
+        return view('admin.timeSheets.index', compact('timeSheets'));
     }
 
 

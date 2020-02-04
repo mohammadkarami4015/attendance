@@ -326,7 +326,7 @@ desired effect
             initialValue: false,
             format: 'YYYY/MM/DD',
         });
-        $('#startWorkDate').persianDatepicker({
+        $('.filter').persianDatepicker({
             autoClose: true,
             initialValue: false,
             format: 'YYYY/MM/DD',

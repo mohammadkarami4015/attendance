@@ -41,6 +41,7 @@ Route::namespace('admin')->prefix('/admin')->group(function () {
     //**************TimeSheet Route**************
     Route::resource('timeSheets', 'TimeSheetController');
     Route::get('timeSheetSearch','TimeSheetController@userSearch')->name('timeSheet.userSearch');
+    Route::get('timeSheetFilterDate','TimeSheetController@filterDate')->name('timeSheet.filterDate');
 
 
 

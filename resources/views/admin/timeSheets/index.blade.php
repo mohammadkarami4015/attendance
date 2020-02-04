@@ -13,9 +13,24 @@
 
         <a href="{{route('timeSheets.create')}}" class="btn btn-primary">ثبت اطلاعات جدید</a>
         <div class="box">
-            <input onkeyup="Search()" type="text" name="userSearch" id="userSearch" class="form-control col-md-3"
-                   style="margin:1% 74% 1% 1%; "
-                   placeholder="مشخصات کاربری ">
+
+            <form action="{{route('timeSheet.filterDate')}}" method="get"
+                  style="  padding: 10px;  justify-content: space-between; display: inline-flex; align-items: baseline;">
+                <label style="margin-left: 5px"> از </label>
+                <input type="text" readonly  name="from" class="form-control filter">
+                <label  style="margin-left: 5px ; margin-right: 5px" > تا </label>
+                <input  type="text" readonly name="to"  class="form-control filter">
+
+
+                <input type="submit" style="margin-right:1px; padding-right: 20px;" class="btn btn-primary btn-sm pr-1"
+                       value=" فیلتر ">
+
+            </form>
+            <input onkeyup="Search()" type="text" name="userSearch"  id="userSearch"
+                   style="justify-content: space-between; align-items: baseline; margin-right: 10% ; width: 35% "
+                   placeholder="جستجو">
+
+
             <div class="box table-responsive no-padding ">
                 <table class="table table-hover">
                     <thead>

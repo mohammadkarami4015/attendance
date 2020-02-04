@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class TimeSheet extends Model
@@ -39,6 +40,11 @@ class TimeSheet extends Model
         });
         return $query;
 
+    }
+
+    public function scopeFilterByDate(Builder $query, $from, $to)
+    {
+        $query->whereBetween('finger_print_time', [$from, $to]);
     }
 
 
