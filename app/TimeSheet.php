@@ -21,4 +21,12 @@ class TimeSheet extends Model
         return $this->belongsTo(OperationType::class);
     }
 
+    public static function isCouple($timeSheet)
+    {
+        if ($timeSheet->count() % 2 == 1)
+            dd('لطفا داده های حضور و غیاب را اصلاح کنید');
+        else
+          return $timeSheet->chunk(2);
+    }
+
 }

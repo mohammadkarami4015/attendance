@@ -4,6 +4,7 @@ namespace App;
 
 use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -85,14 +86,15 @@ class User extends Authenticatable
         return $this->vacationTypes()->find($vacationType->id)->pivot->amount;
     }
 
-    public function setSpecialVacation(VacationType $leaveKind, int $amount){
+    public function setSpecialVacation(VacationType $leaveKind, int $amount)
+    {
 
-        return $this->vacationTypes()->attach($leaveKind->id, ['amount'=>$amount]);
+        return $this->vacationTypes()->attach($leaveKind->id, ['amount' => $amount]);
     }
 
     public function getTotalLeave(VacationType $leaveKind)
     {
-        $monthsOfWorkingTime = Carbon::now()->diffInMonths(date('Y-m-d',strtotime($this->date_of_employment)));
+        $monthsOfWorkingTime = Carbon::now()->diffInMonths(date('Y-m-d', strtotime($this->date_of_employment)));
         return $monthsOfWorkingTime * $this->getSpecialVacation($leaveKind);
     }
 
@@ -100,5 +102,21 @@ class User extends Authenticatable
     {
         return '';
     }
+
+    public function getUserShift($currentDate)
+    {
+        return $this->unit->shifts()
+            ->where(function (Builder $query) use ($currentDate) {
+                $query->where([['from', '<=', $currentDate], ['to', '>=', $currentDate]])
+                    ->orWhere([['from', '<=', $currentDate], ['to', null]]);
+            })->first();
+    }
+
+    public function getTimeSheet($currentDate)
+    {
+        return $this->timeSheets()->whereDate('finger_print_time', $currentDate)->get();
+    }
+
+
 
 }

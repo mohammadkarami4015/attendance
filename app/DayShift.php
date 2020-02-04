@@ -23,4 +23,9 @@ class DayShift extends Model
     {
         return self::query()->whereIn('day_id', $days)->where('to', null)->where('shift_id', $shift->id)->get();
     }
+
+    public static function getWorkTimes($day)
+    {
+        return self::find($day->pivot->id)->workTimes;
+    }
 }

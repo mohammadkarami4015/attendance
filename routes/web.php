@@ -31,13 +31,18 @@ Route::namespace('admin')->prefix('/admin')->group(function () {
     Route::post('/shift/removeWorkTime', 'ShiftController@removeWorkTime')->name('shifts.removeWorkTime');
     Route::get('/shift/editDays/{shift}', 'ShiftController@editDays')->name('shifts.editDays');
     Route::patch('/shift/updateDays/{shift}', 'ShiftController@updateDays')->name('shifts.updateDays');
-
     //**************WorkTime Route**************
     Route::resource('workTime', 'WorkTimeController');
-
-
     //**************Holiday Route**************
     Route::resource('holidays', 'HolidayController');
+
+
+
+    //**************TimeSheet Route**************
+    Route::resource('timeSheets', 'TimeSheetController');
+
+
+
     //**************Holiday Route**************
     Route::resource('attendance', 'AttendanceController');
 

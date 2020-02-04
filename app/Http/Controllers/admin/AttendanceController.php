@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\admin;
 
+use App\Attendance;
 use App\DayShift;
+use App\Helper\message;
 use App\Holiday;
 use App\Http\Controllers\Controller;
+use App\TimeSheet;
 use App\Unit;
 use App\User;
 use App\WorkTime;
@@ -18,117 +21,107 @@ class AttendanceController extends Controller
     private $attendance = 0;
     private $vacation = 0;
     private $shift = 0;
-    private $holiday = 0 ;
-    private $diff = 0 ;
-    private $absenceTime = 0 ;
-    private $vacationTime = 0 ;
-    private $workingTime = 0 ;
-    private $overTime = 0 ;
-    private $holidayTime = 0 ;
+    private $holiday = 0;
+    private $diff = 0;
+    private $absenceTime = 0;
+    private $vacationTime = 0;
+    private $workingTime = 0;
+    private $overTime = 0;
+    private $holidayTime = 0;
 
     public function index()
     {
-        $list = collect();
+        $rawList = collect();
         $currentDate = Carbon::parse('2020-02-03');
         $selectedDay = $currentDate->dayOfWeek;
-
         $user = User::query()->find(1);
 
 //        DB::listen(function ($sql) {
 //            dump(vsprintf(str_replace('?', '%s', $sql->sql), $sql->bindings));
 //        });
 
-        $userShift = $user->unit->shifts()
-            ->where(function (Builder $query) use ($currentDate) {
-                $query->where([['from', '<=', $currentDate], ['to', '>=', $currentDate]])
-                    ->orWhere([['from', '<=', $currentDate], ['to', null]]);
-            })->first();
+        $userShift = $user->getUserShift($currentDate);
+
+        $day = Attendance::getDayOfShifts($userShift, $currentDate, $selectedDay);
+
+        $workTimes = DayShift::getWorkTimes($day);
+
+        $holidays = Attendance::getByCondition(new Holiday(), $currentDate);
+
+        $userVacation = Attendance::getByCondition($user->demandVacations(), $currentDate);
+
+        $userTimeSheet = $user->getTimeSheet($currentDate);
+
+        $userTimeSheet = TimeSheet::isCouple($userTimeSheet);
 
 
-        $days = $userShift->days()
-            ->where(function (Builder $query) use ($currentDate) {
-            $query->where([['from', '<=', $currentDate], ['to', '>=', $currentDate]])
-                ->orWhere([['from', '<=', $currentDate], ['to', null]]);
-        })->find($selectedDay);
+//        foreach ($workTimes as $time) {
+//            $rawList->add([
+//                ['time' => date('H:i', strtotime($time->start)), 'label' => 'شروع شیفت'],
+//                ['time' => date('H:i', strtotime($time->end)), 'label' => 'پایان شیفت'],
+//            ]);
+//        }
+//        foreach ($userVacation as $vacation) {
+//            $rawList->add([
+//                ['time' => date('H:i', strtotime($vacation->start)), 'label' => 'شروع مرخصی'],
+//                ['time' => date('H:i', strtotime($vacation->end)), 'label' => 'پایان مرخصی'],
+//            ]);
+//        }
+//        foreach ($holidays as $holiday) {
+//            $rawList->add([
+//                ['time' => date('H:i', strtotime($holiday->start)), 'label' => 'شروع تعطیلی'],
+//                ['time' => date('H:i', strtotime($holiday->end)), 'label' => 'پایان تعطیلی'],
+//            ]);
+//        }
+//        foreach ($userTimeSheet as $timeSheet) {
+//            $rawList->add([
+//                ['time' => date('H:i', strtotime($timeSheet->first()->finger_print_time)), 'label' => 'ورود'],
+//                ['time' => date('H:i', strtotime($timeSheet->last()->finger_print_time)), 'label' => 'خروج'],
+//            ]);
+//        }
+//        $rawList = array_values($rawList->flatten(1)->sortBy('time')->toArray());
 
-       $workTimes = DayShift::find($days->pivot->id)->workTimes;
-
-        $holidays = Holiday::query()
-            ->whereDate('start','<=',$currentDate)
-            ->whereDate('end','>=',$currentDate)
-            ->get();
-
-        $userTimeSheet = $user->timeSheets()->whereDate('finger_print_time', $currentDate)->get()->chunk(2);
-
-        $userVacation = $user->demandVacations()->whereDate('start', '<=', $currentDate)->whereDate('end', '>=', $currentDate)->get();
-
-        foreach ($workTimes as $time) {
-            $list->add([
-                ['time' => date('H:i', strtotime($time->start)), 'label' => 'شروع شیفت'],
-                ['time' => date('H:i', strtotime($time->end)), 'label' => 'پایان شیفت'],
-            ]);
-        }
-
-        foreach ($userVacation as $vacation) {
-            $list->add([
-                ['time' => date('H:i', strtotime($vacation->start)), 'label' => 'شروع مرخصی'],
-                ['time' => date('H:i', strtotime($vacation->end)), 'label' => 'پایان مرخصی'],
-            ]);
-        }
-
-        foreach ($holidays as $holiday) {
-            $list->add([
-                ['time' => date('H:i', strtotime($holiday->start)), 'label' => 'شروع تعطیلی'],
-                ['time' => date('H:i', strtotime($holiday->end)), 'label' => 'پایان تعطیلی'],
-            ]);
-        }
-
-        foreach ($userTimeSheet as $timeSheet) {
-            $list->add([
-                ['time' => date('H:i', strtotime($timeSheet->first()->finger_print_time)), 'label' => 'ورود'],
-                ['time' => date('H:i', strtotime($timeSheet->last()->finger_print_time)), 'label' => 'خروج'],
-            ]);
-        }
-
-
-        $list = array_values($list->flatten(1)->sortBy('time')->toArray());
-
-
-
-        $finalList = collect();
-
-        for ($counter = 1; $counter < count($list); $counter++) {
-            $firstItem = $list[$counter - 1];
-            $secondItem = $list[$counter];
-            $this->diff = Carbon::parse($firstItem['time'])->diffInMinutes($secondItem['time']);
-            $finalList->add([
-                ['item1' => $firstItem['time'], 'item2' => $secondItem['time'], 'value' => $this->diff, 'status' => $this->checkItems($firstItem, $secondItem)]
-            ]);
-
-        }
-
-        dump($finalList->flatten(1));
-        foreach ($finalList->flatten(1) as $list) {
-            if ($list['status'] == 'کارکرد') {
-                $this->workingTime += $list['value'];
-            } elseif ($list['status'] == 'تعطیلی') {
-                $this->holidayTime += $list['value'];
-            } elseif ($list['status'] == 'غیبت') {
-                $this->absenceTime += $list['value'];
-            }elseif ($list['status'] == 'اضافه کاری'){
-                $this->overTime += $list['value'];
-            }elseif ($list['status'] == 'مرخصی'){
-                $this->vacationTime += $list['value'];
-            }
-
-        }
-        dd(' کارکرد:' . $this->workingTime, ' غیبت :' . $this->absenceTime, ' مرخصی :' . $this->vacationTime, ' اضافه کاری :' . $this->overTime, '  تعطیلی :' . $this->holidayTime );
-
-
-
-
-
-
+//        for ($counter = 1; $counter < count($rawList); $counter++) {
+//            $firstItem = $rawList[$counter - 1];
+//            $secondItem = $rawList[$counter];
+//            $this->diff = Carbon::parse($firstItem['time'])->diffInMinutes($secondItem['time']);
+//            $finalList->add([
+//                ['item1' => $firstItem['time'],
+//                    'item2' => $secondItem['time'],
+//                    'value' => $this->diff,
+//                    'status' => $this->checkItems($firstItem, $secondItem)]
+//            ]);
+//
+//        }
+//        foreach ($finalList as $list) {
+//            if ($list['status'] == 'کارکرد') {
+//                $this->workingTime += $list['value'];
+//            } elseif ($list['status'] == 'تعطیلی') {
+//                $this->holidayTime += $list['value'];
+//            } elseif ($list['status'] == 'غیبت') {
+//                $this->absenceTime += $list['value'];
+//            } elseif ($list['status'] == 'اضافه کاری') {
+//                $this->overTime += $list['value'];
+//            } elseif ($list['status'] == 'مرخصی') {
+//                $this->vacationTime += $list['value'];
+//            }
+//
+//        }
+        //        $showCollect = collect([
+//            'کارکرد'=>$this->workingTime,
+//            'غیبت'=>$this->absenceTime,
+//            'اضافه کاری'=>$this->overTime,
+//            'تعطیلی' => $this->holidayTime,
+//            'مرخصی '=>$this->vacationTime
+//        ]);
+        Attendance::addToList($workTimes, $rawList, 'شروع شیفت', 'پایان شیفت');
+        Attendance::addToList($userVacation, $rawList, 'شروع مرخصی', 'پایان مرخصی');
+        Attendance::addToList($holidays, $rawList, 'شروع تعطیلی', 'پایان تعطیلی');
+        Attendance::addTimeSheetToList($userTimeSheet, $rawList);
+        $rawList = Attendance::sortList($rawList);
+        $reportList = Attendance::getReport($rawList);
+        $sumList = Attendance::sumOfStatus($reportList);
+        dd($sumList,$reportList);
 
 
     }
