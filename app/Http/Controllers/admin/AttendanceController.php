@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Attendance;
+use App\Day;
 use App\DayShift;
 use App\Helper\message;
 use App\Helpers\DateFormat;
@@ -61,6 +62,7 @@ class AttendanceController extends Controller
             return back()->withErrors('لطفا روزهای کاری مربوط به این کاربر را انتخاب کنید');
 
         $workTimes = DayShift::getWorkTime($shiftDays,$currentDate);
+
         $holidays = Attendance::getByCondition(new Holiday(), $currentDate);
         $userVacation = Attendance::getByCondition($user->demandVacations(), $currentDate);
         $userTimeSheet = $user->getTimeSheet($currentDate);
@@ -134,11 +136,13 @@ class AttendanceController extends Controller
         $reportList = Attendance::getReport($rawList);
 
         $sumList = Attendance::sumOfStatus($reportList);
+
         return view('admin.attendance.showReport', [
             'reportList'=>$reportList,
+            'sumList'=>$sumList,
             'date'=>$request->date,
             'user'=>$user,
-            'day'=>($givenDate)->englishDayOfWeek
+            'day'=>Day::find($selectedDay)->label
         ]);
 
     }

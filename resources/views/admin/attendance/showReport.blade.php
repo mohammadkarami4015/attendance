@@ -13,7 +13,7 @@
 
     <div class="col-md-12">
         <div class="input-group">
-            <b>  گزارش کارکرد  {{$day}} تاریخ {{$date}} {{\App\Helpers\Name::userFullName($user)}} </b>
+            <b>  گزارش کارکرد روز {{$day}} تاریخ {{$date}} {{\App\Helpers\Name::userFullName($user)}} </b>
 
         </div>
         <div class="box col-md-12">
@@ -41,6 +41,12 @@
 
                 </table>
                 <div style="margin-right: 40%">
+                     <p> مجموع کارکرد :    <b>{{$sumList['کارکرد']}}</b> دقیقه&nbsp;</p>
+                    <p>مجموع  غیبت :   <b>{{$sumList['غیبت']}}</b> دقیقه&nbsp;</p>
+                    <p>مجموع  اضافه کاری :   <b>{{$sumList['اضافه کاری']}}</b> دقیقه&nbsp;</p>
+                    <p>مجموع  تعطیلی  :   <b>{{$sumList['تعطیلی']}}</b> دقیقه&nbsp;</p>
+                    <p>مجموع  تعطیلی  :   <b>{{$sumList['مرخصی']}}</b> دقیقه&nbsp;</p>
+
 
                 </div>
             </div>

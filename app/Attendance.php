@@ -173,7 +173,7 @@ class Attendance extends Model
             'غیبت'=>self::$absenceTime,
             'اضافه کاری'=>self::$overTime,
             'تعطیلی' => self::$holidayTime,
-            'مرخصی '=>self::$vacationTime
+            'مرخصی'=>self::$vacationTime
         ]);
     }
 
