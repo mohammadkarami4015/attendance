@@ -105,10 +105,11 @@ class User extends Authenticatable
 
     public function getUserShift($currentDate)
     {
+
         return $this->unit->shifts()
             ->where(function (Builder $query) use ($currentDate) {
-                $query->where([['from', '<=', $currentDate], ['to', '>=', $currentDate]])
-                    ->orWhere([['from', '<=', $currentDate], ['to', null]]);
+                $query->whereRaw("DATE(shift_unit.from) <= '$currentDate' AND DATE(shift_unit.to) >= '$currentDate'")
+                    ->orWhereRaw("DATE(shift_unit.from) <= '$currentDate' AND shift_unit.to is null");
             })->first();
     }
 

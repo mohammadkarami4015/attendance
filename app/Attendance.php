@@ -25,8 +25,8 @@ class Attendance extends Model
     {
         return $shift->days()
             ->where(function (Builder $query) use ($currentDate) {
-                $query->where([['from', '<=', $currentDate], ['to', '>=', $currentDate]])
-                    ->orWhere([['from', '<=', $currentDate], ['to', null]]);
+                $query->whereRaw("DATE(day_shift.from) <= '$currentDate' AND DATE(day_shift.to) >= '$currentDate'")
+                    ->orWhereRaw("DATE(day_shift.from) <= '$currentDate' AND day_shift.to is null");
             })->find($selectedDay);
     }
 

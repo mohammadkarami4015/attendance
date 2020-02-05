@@ -20,8 +20,6 @@ class Day extends Model
         return $this->hasManyThrough(WorkTime::class, DayShift::class, 'day_id', 'day_shift_id');
     }
 
-
-
     public function getWorkTimes()
     {
        return DayShift::find($this->pivot->id)->workTimes()->where('to',null)->get();

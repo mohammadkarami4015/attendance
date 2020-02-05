@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use App\Attendance;
 use App\DayShift;
 use App\Helper\message;
+use App\Helpers\DateFormat;
 use App\Holiday;
 use App\Http\Controllers\Controller;
 use App\TimeSheet;
@@ -31,29 +32,39 @@ class AttendanceController extends Controller
 
     public function index()
     {
+        $users = User::all();
+        $reportList = [];
+        return view('admin.attendance.index',compact('users'));
+
+    }
+
+    public function getReport(Request $request)
+    {
+        $users = User::all();
         $rawList = collect();
-        $currentDate = Carbon::parse('2020-02-03');
-        $selectedDay = $currentDate->dayOfWeek;
-        $user = User::query()->find(1);
+        $givenDate = Carbon::parse(DateFormat::toMiladi($request->date));
+        $selectedDay = $givenDate->dayOfWeek;
+        $currentDate = $givenDate->format('Y-m-d');
+        $user = User::query()->find($request->user_id);
+
 
 //        DB::listen(function ($sql) {
 //            dump(vsprintf(str_replace('?', '%s', $sql->sql), $sql->bindings));
 //        });
 
         $userShift = $user->getUserShift($currentDate);
+        if (!$userShift)
+            return back()->withErrors('لطفا شیفت کاری مربوط به این کاربر را انتخاب کنید');
 
-        $day = Attendance::getDayOfShifts($userShift, $currentDate, $selectedDay);
+        $shiftDays = Attendance::getDayOfShifts($userShift, $currentDate, $selectedDay);
+        if (!$shiftDays)
+            return back()->withErrors('لطفا روزهای کاری مربوط به این کاربر را انتخاب کنید');
 
-        $workTimes = DayShift::getWorkTimes($day);
-
+        $workTimes = DayShift::getWorkTime($shiftDays,$currentDate);
         $holidays = Attendance::getByCondition(new Holiday(), $currentDate);
-
         $userVacation = Attendance::getByCondition($user->demandVacations(), $currentDate);
-
         $userTimeSheet = $user->getTimeSheet($currentDate);
-
         $userTimeSheet = TimeSheet::isCouple($userTimeSheet);
-
 
 //        foreach ($workTimes as $time) {
 //            $rawList->add([
@@ -119,18 +130,21 @@ class AttendanceController extends Controller
         Attendance::addToList($holidays, $rawList, 'شروع تعطیلی', 'پایان تعطیلی');
         Attendance::addTimeSheetToList($userTimeSheet, $rawList);
         $rawList = Attendance::sortList($rawList);
+
         $reportList = Attendance::getReport($rawList);
+
         $sumList = Attendance::sumOfStatus($reportList);
-        dd($sumList,$reportList);
-
+        return view('admin.attendance.showReport', [
+            'reportList'=>$reportList,
+            'date'=>$request->date,
+            'user'=>$user,
+            'day'=>($givenDate)->englishDayOfWeek
+        ]);
 
     }
 
 
-    public function create()
-    {
-        //
-    }
+
 
 
     public function store(Request $request)
@@ -141,7 +155,7 @@ class AttendanceController extends Controller
 
     public function show($id)
     {
-        //
+
     }
 
 
