@@ -21,7 +21,7 @@
                                     data-placeholder="انتخاب روز" style="width: 100%;" tabindex="-1"
                                     aria-hidden="true">
                                 @foreach($days as $day)
-                                    <option {{in_array($day->id,$currentDays->pluck('id')->toArray()) ? 'selected' : ''}} value="{{$day->id}}">{{$day->label}} </option>
+                                    <option {{in_array($day->id,$usageDays->pluck('id')->toArray()) ? 'selected' : ''}} value="{{$day->id}}">{{$day->label}} </option>
                                 @endforeach
                             </select>
                         </div>

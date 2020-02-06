@@ -4,6 +4,7 @@ namespace App;
 
 use App\Helper\message;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class Shift extends Model
@@ -40,60 +41,51 @@ class Shift extends Model
         return $this->hasManyThrough(WorkTime::class, DayShift::class, 'shift_id', 'day_shift_id');
     }
 
-    public static function addWorkTime($start, $end, $day)
+
+//    public function getPivotDay($days)
+//    {
+//        return $this->days()->wherePivotIn('day_id', $days)->get();
+//    }
+    public function dayShift($days)
     {
-        for ($counter = 1; $counter < sizeof($start) + 1; $counter++) {
-            $day->workTimes()->create([
-                'start' => $start[$counter],
-                'end' => $end[$counter]
-            ]);
-        }
-        message::show('زمان های مورد نظر با موفقیت ثبت شدند');
+       return $this->days()->whereIn('day_id', $days)->get()->pluck('pivot.id');
+
     }
 
-    public function getPivotDay($days)
-    {
-        return $this->days()->wherePivotIn('day_id', $days)->get();
-    }
-
-    public function getDay()
+    public function getUsageDay()
     {
         return $this->days()->wherePivot('to', null)->get();
     }
 
-
-//**************last method
-//    public static function removeDays($days)
-//    {
-//        foreach ($days as $day) {
-//            $day->pivot->to = Carbon::now();
-//            $day->pivot->save();
-//        }
-//        message::show(' روزهای  مورد نظر با موفقیت حذف شدند');
-//    }
-
     public function updateDays($days)
     {
-//        $removeDays = (($this->getDay())->diff(Day::find($days)))->pluck('id')->toArray();
-//        $value = DayShift::query()->whereIn('day_id', $removeDays)->where('to', null)->where('shift_id', $this->id)->get();
         $removeDays = $this->getRemoveDays($days);
         $value = DayShift::getNullDays($this, $removeDays);
+        dd($value);
         foreach ($value as $day) {
             $day->to = now();
             $day->save();
         }
 
-
     }
 
     public function getRemoveDays($days)
     {
-        return (($this->getDay())->diff(Day::find($days)))->pluck('id')->toArray();
+        return (($this->getUsageDay())->diff(Day::find($days)))->pluck('id')->toArray();
     }
 
     public function getAddedDays($days)
     {
-        return Day::find($days)->diff($this->getDay());
+        return Day::find($days)->diff($this->getUsageDay());
+    }
+
+    public function getDayOfShift($currentDate, $selectedDay)
+    {
+        return $this->days()
+            ->where(function (Builder $query) use ($currentDate) {
+                $query->whereRaw("DATE(day_shift.from) <= '$currentDate' AND DATE(day_shift.to) >= '$currentDate'")
+                    ->orWhereRaw("DATE(day_shift.from) <= '$currentDate' AND day_shift.to is null");
+            })->find($selectedDay);
     }
 
 

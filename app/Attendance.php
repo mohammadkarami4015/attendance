@@ -21,15 +21,6 @@ class Attendance extends Model
     static protected $holidayTime = 0;
 
 
-    public static function getDayOfShifts($shift, $currentDate, $selectedDay)
-    {
-        return $shift->days()
-            ->where(function (Builder $query) use ($currentDate) {
-                $query->whereRaw("DATE(day_shift.from) <= '$currentDate' AND DATE(day_shift.to) >= '$currentDate'")
-                    ->orWhereRaw("DATE(day_shift.from) <= '$currentDate' AND day_shift.to is null");
-            })->find($selectedDay);
-    }
-
     public static function getByCondition($var, $currentDate)
     {
         return $var->whereDate('start', '<=', $currentDate)

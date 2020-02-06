@@ -103,7 +103,7 @@ class User extends Authenticatable
         return '';
     }
 
-    public function getUserShift($currentDate)
+    public function getShift($currentDate)
     {
 
         return $this->unit->shifts()

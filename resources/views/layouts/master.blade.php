@@ -201,6 +201,20 @@ desired effect
                     </a>
                 </li>
 
+                <li class="treeview">
+                    <a href="#"><i class="fa fa-link"></i> <span> کارکرد</span>
+                        <span class="pull-left-container">
+                            <i class="fa fa-angle-right pull-left"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="{{ route('attendance.index')}} ">کارکرد روزانه</a></li>
+                        <li><a href="{{ route('vacationType.index') }}"> کارکرد ماهانه</a></li>
+
+                    </ul>
+                </li>
+
+
 
                 <li class="treeview">
                     <a href="#"><i class="fa fa-link"></i> <span>بخش مدیریت</span>

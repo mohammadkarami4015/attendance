@@ -23,13 +23,12 @@ class WorkTime extends Model
             ->get();
     }
 
-    public static function removeTime($time)
+    public  function removeTime()
     {
-        self::query()->find($time)->update([
+       $this->update([
             'to'=>now()
         ]);
         message::show('زمان های کاری با موفقیت حذف شدند');
-
     }
 
 

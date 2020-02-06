@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Helper\message;
 use Facade\FlareClient\Time\Time;
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,6 +16,11 @@ class Day extends Model
         return $this->belongsToMany(Shift::class, 'day_shift')->withPivot('id', 'from', 'to');
     }
 
+    public function dayShift()
+    {
+        return $this->hasMany(DayShift::class);
+    }
+
     public function workTimes()
     {
         return $this->hasManyThrough(WorkTime::class, DayShift::class, 'day_id', 'day_shift_id');
@@ -22,8 +28,9 @@ class Day extends Model
 
     public function getWorkTimes()
     {
-       return DayShift::find($this->pivot->id)->workTimes()->where('to',null)->get();
+       return DayShift::query()->find($this->pivot->id)->workTimes()->where('to',null)->get();
     }
+
 
 
 }
