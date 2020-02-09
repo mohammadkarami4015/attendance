@@ -4,6 +4,7 @@ namespace App;
 
 use App\Helpers\DateFormat;
 use Illuminate\Database\Eloquent\Model;
+use phpDocumentor\Reflection\Types\Self_;
 
 class Holiday extends Model
 {
@@ -32,4 +33,15 @@ class Holiday extends Model
         ];
 
     }
+
+
+    public static function getHoliday($currentDate)
+    {
+        return self::query()->whereDate('start', '<=', $currentDate)
+            ->whereDate('end', '>=', $currentDate)
+            ->get();
+    }
+
+
+
 }

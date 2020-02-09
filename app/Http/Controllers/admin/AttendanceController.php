@@ -21,83 +21,98 @@ use Illuminate\Support\Facades\DB;
 
 class AttendanceController extends Controller
 {
-//    private $attendance = 0;
-//    private $vacation = 0;
-//    private $shift = 0;
-//    private $holiday = 0;
-//    private $diff = 0;
-//    private $absenceTime = 0;
-//    private $vacationTime = 0;
-//    private $workingTime = 0;
-//    private $overTime = 0;
-//    private $holidayTime = 0;
+
 
     public function index()
     {
         $users = User::all();
-        return view('admin.attendance.index',compact('users'));
+        return view('admin.attendance.index', compact('users'));
 
     }
 
     public function getReport(Request $request)
     {
-        $rawList = collect();
-        $givenDate = Carbon::parse(DateFormat::toMiladi($request->date));
-        $selectedDay = $givenDate->dayOfWeek;
-        $currentDate = $givenDate->format('Y-m-d');
         $user = User::query()->find($request->user_id);
+        $collectList = collect();
+        $startDate = Carbon::parse(DateFormat::toMiladi($request->start_date));
+        $endDate = $date = Carbon::parse(DateFormat::toMiladi($request->end_date));
+
+        while ($startDate <= $endDate) {
+            $collectList->add($user->getReport($startDate));
+            $startDate->addDay();
+        }
 
 
-//        DB::listen(function ($sql) {
-//            dump(vsprintf(str_replace('?', '%s', $sql->sql), $sql->bindings));
-//        });
-
-        /** @var Shift $userShift */
-        $userShift = $user->getShift($currentDate);
-
-        if (!$userShift)
-            return back()->withErrors('لطفا شیفت کاری مربوط به این کاربر را انتخاب کنید');
-
-        /** @var Day $dayOfShift */
-        $dayOfShift = $userShift->getDayOfShift($currentDate, $selectedDay);
-        dd($dayOfShift);
-        if (!$dayOfShift)
-            return back()->withErrors('لطفا روزهای کاری مربوط به این کاربر را انتخاب کنید');
-
-//        dd($dayOfShift->toArray());
-        dd($dayOfShift->dayShift);
-
-        $workTimes = DayShift::query()->find($dayOfShift->pivot->id)->getWorkTimes($currentDate);
-
-
-        $holidays = Attendance::getByCondition(new Holiday(), $currentDate);
-        $userVacation = Attendance::getByCondition($user->demandVacations(), $currentDate);
-        $userTimeSheet = $user->getTimeSheet($currentDate);
-        $userTimeSheet = TimeSheet::isCouple($userTimeSheet);
-
-        Attendance::addToList($workTimes, $rawList, 'شروع شیفت', 'پایان شیفت');
-        Attendance::addToList($userVacation, $rawList, 'شروع مرخصی', 'پایان مرخصی');
-        Attendance::addToList($holidays, $rawList, 'شروع تعطیلی', 'پایان تعطیلی');
-        Attendance::addTimeSheetToList($userTimeSheet, $rawList);
-        $rawList = Attendance::sortList($rawList);
-
-        $reportList = Attendance::getReport($rawList);
-
-
-        $sumList = Attendance::sumOfStatus($reportList);
 
         return view('admin.attendance.showReport', [
-            'reportList'=>$reportList,
-            'sumList'=>$sumList,
-            'date'=>$request->date,
-            'user'=>$user,
-            'day'=>Day::find($selectedDay)->label
+            'collectList' => $collectList,
+            'user' => User::find($request->user_id),
         ]);
+
 
     }
 
-
-
+//    public function getReport(Request $request)
+//    {
+//        $user = User::query()->find($request->user_id);
+//        $date = Carbon::parse(DateFormat::toMiladi($request->date));
+////        $report = Attendance::getReportt($date, $request->user_id);
+//        $reportList = $user->getReport($date);
+//
+//
+//
+////        $rawList = collect();
+////        $givenDate = Carbon::parse(DateFormat::toMiladi($request->date));
+////        $selectedDay = $givenDate->dayOfWeek;
+////        $currentDate = $givenDate->format('Y-m-d');
+////        $user = User::query()->find($request->user_id);
+////
+////        /** @var Shift $userShift */
+////        $userShift = $user->getShift($currentDate);
+////
+////        if (!$userShift)
+////            return back()->withErrors('لطفا شیفت کاری مربوط به این کاربر را انتخاب کنید');
+////
+////        /** @var Day $dayOfShift */
+////        $dayOfShift = $userShift->getDayOfShift($currentDate, $selectedDay);
+////
+////
+////        if (!$dayOfShift)
+////            return back()->withErrors('لطفا روزهای کاری مربوط به این کاربر را انتخاب کنید');
+////
+////        $workTimes = DayShift::query()->find($dayOfShift->pivot->id)->getWorkTimes($currentDate);
+////
+////        $holidays = Attendance::getByCondition(new Holiday(), $currentDate);
+////        $userVacation = Attendance::getByCondition($user->demandVacations(), $currentDate);
+////        $userTimeSheet = $user->getTimeSheet($currentDate);
+////        $userTimeSheet = TimeSheet::isCouple($userTimeSheet);
+////
+////        Attendance::addToList($workTimes, $rawList, 'شروع شیفت', 'پایان شیفت');
+////        Attendance::addToList($userVacation, $rawList, 'شروع مرخصی', 'پایان مرخصی');
+////        Attendance::addToList($holidays, $rawList, 'شروع تعطیلی', 'پایان تعطیلی');
+////        Attendance::addTimeSheetToList($userTimeSheet, $rawList);
+////
+////        $rawList = Attendance::sortList($rawList);
+////
+////        $reportList = Attendance::getReport($rawList);
+////
+////        $sumList = Attendance::sumOfStatus($reportList);
+//
+////        return view('admin.attendance.showReport', [
+////            'reportList' => $report['reportList'],
+////            'sumList' => $report['sumList'],
+////            'date' => $request->date,
+////            'user' => User::find($request->user_id),
+////            'day' => $report['day']
+////        ]);
+//
+//
+//        return view('admin.attendance.showReport', [
+//            'reportList' => $reportList,
+//            'user' => User::find($request->user_id),
+//        ]);
+//
+//    }
 
 
     public function store(Request $request)

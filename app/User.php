@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Helpers\DateFormat;
+use App\Helpers\ManageList;
 use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
@@ -103,10 +105,56 @@ class User extends Authenticatable
         return '';
     }
 
+
+    public function getReport($date)
+    {
+        $rawList = collect();
+        $list = new ManageList();
+        $givenDate = $date;
+        $selectedDay = $givenDate->dayOfWeek;
+        $currentDate = $givenDate->format('Y-m-d');
+
+        $userShift = $this->getShift($currentDate);
+
+
+        if (!$userShift)
+            return redirect(route('attendance.index'))->withErrors('لطفا شیفت کاری مربوط به این کاربر را انتخاب کنید');
+
+
+        $dayOfShift = $userShift->getDayOfShift($currentDate, $selectedDay);
+
+
+        if (!$dayOfShift)
+            return redirect(route('attendance.index'));
+
+        $workTimes = DayShift::query()->find($dayOfShift->pivot->id)->getWorkTimes($currentDate);
+        $holidays = Holiday::getHoliday($currentDate);
+        $userVacation = $this->getVacation($currentDate);
+        $userTimeSheet = $this->getTimeSheet($currentDate);
+        $userTimeSheet = TimeSheet::isCouple($userTimeSheet);
+
+        $list->addTimeToList($workTimes, $rawList, 'start_shift', 'end_shift');
+        $list->addTimeToList($userVacation, $rawList, 'start_vacation', 'end_vacation');
+        $list->addTimeToList($holidays, $rawList, 'start_holiday', 'end_holiday');
+        $list->addTimeSheetToList($userTimeSheet, $rawList);
+        $sortedList = $list->sortList($rawList);
+
+        $reportList = $list->getReport($sortedList);
+        $sumList = $list->sumOfStatus($reportList);
+
+
+        return [
+            'report' => $reportList,
+            'sum' => $sumList,
+            'day' => Day::find($selectedDay)->label,
+            'date'=>clone $date
+        ];
+
+    }
+
     public function getShift($currentDate)
     {
-
-        return $this->unit->shifts()
+        return  $this->unit->shifts()
             ->where(function (Builder $query) use ($currentDate) {
                 $query->whereRaw("DATE(shift_unit.from) <= '$currentDate' AND DATE(shift_unit.to) >= '$currentDate'")
                     ->orWhereRaw("DATE(shift_unit.from) <= '$currentDate' AND shift_unit.to is null");
@@ -117,6 +165,15 @@ class User extends Authenticatable
     {
         return $this->timeSheets()->whereDate('finger_print_time', $currentDate)->get();
     }
+
+    public function getVacation( $currentDate)
+    {
+        return $this->demandVacations()->whereDate('start', '<=', $currentDate)
+            ->whereDate('end', '>=', $currentDate)
+            ->get();
+    }
+
+
 
 
 

@@ -209,7 +209,7 @@ desired effect
                     </a>
                     <ul class="treeview-menu">
                         <li><a href="{{ route('attendance.index')}} ">کارکرد روزانه</a></li>
-                        <li><a href="{{ route('vacationType.index') }}"> کارکرد ماهانه</a></li>
+{{--                        <li><a href="{{ route('attendance.collectIndex') }}"> کارکرد ماهانه</a></li>--}}
 
                     </ul>
                 </li>

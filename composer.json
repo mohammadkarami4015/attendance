@@ -39,7 +39,8 @@
         "file": [
             "app/Helpers/message.php",
             "app/Helpers/DateFormat.php",
-            "app/Helpers/Name.php"
+            "app/Helpers/Name.php",
+            "app/Helpers/ManageList.php"
         ],
 
         "classmap": [
