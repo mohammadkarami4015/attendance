@@ -61,7 +61,6 @@ class Shift extends Model
     {
         $removeDays = $this->getRemoveDays($days);
         $value = DayShift::getNullDays($this, $removeDays);
-        dd($value);
         foreach ($value as $day) {
             $day->to = now();
             $day->save();

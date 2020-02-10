@@ -113,19 +113,14 @@ class User extends Authenticatable
         $givenDate = $date;
         $selectedDay = $givenDate->dayOfWeek;
         $currentDate = $givenDate->format('Y-m-d');
-
         $userShift = $this->getShift($currentDate);
 
-
         if (!$userShift)
-            return redirect(route('attendance.index'))->withErrors('لطفا شیفت کاری مربوط به این کاربر را انتخاب کنید');
-
-
+            return 0;
         $dayOfShift = $userShift->getDayOfShift($currentDate, $selectedDay);
 
-
         if (!$dayOfShift)
-            return redirect(route('attendance.index'));
+            return 1;
 
         $workTimes = DayShift::query()->find($dayOfShift->pivot->id)->getWorkTimes($currentDate);
         $holidays = Holiday::getHoliday($currentDate);
@@ -145,7 +140,7 @@ class User extends Authenticatable
 
         return [
             'report' => $reportList,
-            'sum' => $sumList,
+            'sumOfStatus' => $sumList,
             'day' => Day::find($selectedDay)->label,
             'date'=>clone $date
         ];

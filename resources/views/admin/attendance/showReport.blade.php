@@ -9,97 +9,141 @@
 @endsection
 
 @section('content')
-
-
-    {{--    <div class="col-md-12">--}}
-    {{--        <div class="input-group">--}}
-    {{--            <b>  گزارش کارکرد روز {{$day}} تاریخ {{$date}} {{\App\Helpers\Name::userFullName($user)}} </b>--}}
-
-    {{--        </div>--}}
-    {{--        <div class="box col-md-12">--}}
-    {{--            --}}{{--        <input onkeyup="Search()" type="text" name="search" id="text" class="form-control col-md-8"--}}
-    {{--            --}}{{--               style="margin:1% 79% 1% 1%; width: 20%"--}}
-    {{--            --}}{{--               placeholder="جستجو ">--}}
-    {{--            <div class="box table-responsive no-padding ">--}}
-    {{--                <table class="table table-hover">--}}
-
-    {{--                    <tr>--}}
-
-    {{--                        @foreach($reportList as $list)--}}
-    {{--                            <th class="text-danger">  {{$list['item1'] }} تا {{$list['item2']}}--}}
-    {{--                            </th>--}}
-    {{--                        @endforeach--}}
-    {{--                    </tr>--}}
-    {{--                    <tr>--}}
-
-    {{--                        @foreach($reportList as $list)--}}
-    {{--                            <td>  {{$list['value'] }} دقیقه {{$list['status']}}--}}
-    {{--                            </td>--}}
-    {{--                        @endforeach--}}
-    {{--                    </tr>--}}
-
-
-    {{--                </table>--}}
-    {{--                <div style="margin-right: 40%">--}}
-    {{--                     <p> مجموع کارکرد :    <b>{{$sumList['کارکرد']}}</b> دقیقه&nbsp;</p>--}}
-    {{--                    <p>مجموع  غیبت :   <b>{{$sumList['غیبت']}}</b> دقیقه&nbsp;</p>--}}
-    {{--                    <p>مجموع  اضافه کاری :   <b>{{$sumList['اضافه کاری']}}</b> دقیقه&nbsp;</p>--}}
-    {{--                    <p>مجموع  تعطیلی  :   <b>{{$sumList['تعطیلی']}}</b> دقیقه&nbsp;</p>--}}
-    {{--                    <p>مجموع  مرخصی  :   <b>{{$sumList['مرخصی']}}</b> دقیقه&nbsp;</p>--}}
-
-
-    {{--                </div>--}}
-    {{--            </div>--}}
-
-
-    {{--        </div>--}}
-    {{--    </div>--}}
-    {{\App\Helpers\Name::userFullName($user)}}
+    <?php
+    $sumAttendance = 0;$sumAbsence = 0;$sumOverTime = 0;$sumVacation = 0;
+    ?>
     @foreach($collectList as $List )
-        <div class="col-md-12">
-            <div class="input-group">
-                <b> گزارش کارکرد روز {{$List['day']}}
+        <div class="box">
+            <div class="box-header">
+                <h3 class="box-title"> گزارش کارکرد {{\App\Helpers\Name::userFullName($user)}} در روز {{$List['day']}}
                     تاریخ {{\App\Helpers\DateFormat::convertToJalali($List['date'])->formatJalaliDate()}}
-
-
+                </h3>
             </div>
-            <div class="box col-md-12">
-                {{--        <input onkeyup="Search()" type="text" name="search" id="text" class="form-control col-md-8"--}}
-                {{--               style="margin:1% 79% 1% 1%; width: 20%"--}}
-                {{--               placeholder="جستجو ">--}}
-                <div class="box table-responsive no-padding ">
-                    <table class="table table-hover">
+            <!-- /.box-header -->
+            <div class="box-body">
+                <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table id="example1" class="table table-bordered table-striped dataTable" role="grid"
+                                   aria-describedby="example1_info">
+                                <thead>
 
-                        <tr>
+                                <tr role="row">
+                                    @foreach($List['report'] as $list)
+                                        <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1"
+                                            colspan="1"
+                                            aria-sort="ascending"
+                                            style="width: 172.548px;">{{$list['item1'] }} تا {{$list['item2']}}
+                                        </th>
+                                    @endforeach
+                                </tr>
 
-                            @foreach($List['report'] as $list)
-                                <th class="text-danger">  {{$list['item1'] }} تا {{$list['item2']}}
-                                </th>
-                            @endforeach
-                        </tr>
-                        <tr>
-
-                            @foreach($List['report'] as $list)
-                                <td>  {{$list['value'] }} دقیقه {{$list['status']}}
-                                </td>
-                            @endforeach
-                        </tr>
+                                </thead>
+                                <tbody>
+                                <tr role="row" class="odd">
+                                    @foreach($List['report'] as $list)
+                                        <td class="sorting_1">  {{$list['value'] }} دقیقه {{$list['status']}}
+                                        </td>
+                                    @endforeach
+                                </tr>
 
 
-                    </table>
-                    <div>
+                                </tbody>
 
-                        <b> مجموع کارکرد : <i class="text-danger">{{$List['sum']['کارکرد']}}</i> دقیقه&nbsp;</b>
-                        <b>مجموع غیبت : <i class="text-danger">{{$List['sum']['غیبت']}}</i> دقیقه&nbsp;</b>
-                        <b>مجموع اضافه کاری : <i class="text-danger">{{$List['sum']['اضافه کاری']}}</i> دقیقه&nbsp;</b>
-                        <b>مجموع تعطیلی : <i class="text-danger">{{$List['sum']['تعطیلی']}}</i> دقیقه&nbsp;</b>
-                        <b>مجموع مرخصی : <i class="text-danger">{{$List['sum']['مرخصی']}}</i> دقیقه&nbsp;</b>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-7">
+                            <div class="dataTables_info" id="example1_info" role="status" aria-live="polite"> کارکرد
+                                    : <i class="text-danger">{{$List['sumOfStatus']['کارکرد']}}</i> دقیقه&nbsp;
+                                 غیبت : <i class="text-danger">{{$List['sumOfStatus']['غیبت']}}</i> دقیقه&nbsp;
+                                 اضافه کاری : <i class="text-danger">{{$List['sumOfStatus']['اضافه کاری']}}</i>
+                                    دقیقه&nbsp;
+                                 تعطیلی : <i class="text-danger">{{$List['sumOfStatus']['تعطیلی']}}</i>
+                                    دقیقه&nbsp;
+                                 مرخصی : <i class="text-danger">{{$List['sumOfStatus']['مرخصی']}}</i> دقیقه&nbsp;
+                            </div>
+                        </div>
 
                     </div>
-
-
                 </div>
+                <?php
+                $sumAttendance += $List['sumOfStatus']['کارکرد'];
+                $sumAbsence += $List['sumOfStatus']['غیبت'];
+                $sumOverTime += $List['sumOfStatus']['اضافه کاری'];
+                $sumVacation += $List['sumOfStatus']['مرخصی'];
+                ?>
             </div>
+            <!-- /.box-body -->
+        </div>
     @endforeach
+
+    <div class="box">
+        <div class="box-header">
+            <h3 class="box-title">مجموع</h3>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+            <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <table id="example1" class="table table-bordered table-striped dataTable" role="grid"
+                               aria-describedby="example1_info">
+                            <thead>
+
+                            <tr role="row">
+                                <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
+                                    aria-sort="ascending" aria-label="موتور رندر: activate to sort column descending"
+                                    style="width: 172.548px;">جمع کارکرد
+                                </th>
+                                <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
+                                    aria-sort="ascending" aria-label="موتور رندر: activate to sort column descending"
+                                    style="width: 172.548px;">جمع غیبت
+                                </th>
+                                <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
+                                    aria-sort="ascending" aria-label="موتور رندر: activate to sort column descending"
+                                    style="width: 172.548px;">جمع مرخصی
+                                </th>
+                                <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
+                                    aria-sort="ascending" aria-label="موتور رندر: activate to sort column descending"
+                                    style="width: 172.548px;">جمع اضافه کاری
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr role="row" class="odd">
+                                <td class="sorting_1">
+                                    {{date('H:i', mktime(0,$sumAttendance))}}
+                                </td>
+                                <td class="sorting_1">
+                                    {{date('H:i', mktime(0,$sumAbsence))}}
+                                </td>
+                                <td class="sorting_1">
+                                    {{date('H:i', mktime(0,$sumVacation))}}
+                                </td>
+                                <td class="sorting_1">
+                                    {{date('H:i', mktime(0,$sumOverTime))}}
+                                </td>
+                            </tr>
+
+
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- /.box-body -->
+    </div>
+
+
+
+
+
+
+
 
 @endsection
