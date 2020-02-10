@@ -25,9 +25,8 @@ class TimeSheet extends Model
     public static function isCouple($timeSheet)
     {
         if ($timeSheet->count() % 2 == 1)
-            abort('لطفا داده های حضور و غیاب را اصلاح کنید');
-        else
-            return $timeSheet->chunk(2);
+            return 1;
+
     }
 
 

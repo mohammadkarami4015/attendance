@@ -22,7 +22,6 @@ use Illuminate\Support\Facades\DB;
 class AttendanceController extends Controller
 {
 
-
     public function index()
     {
         $users = User::all();
@@ -39,14 +38,19 @@ class AttendanceController extends Controller
 
         while ($startDate <= $endDate) {
             if ($user->getReport($startDate) == 0)
-                return view('admin.attendance.index', ['users' => User::all()])->withErrors(['لطفا شیفت کاری کاربر را در این روزها مشخص کنید']);
+                return view('admin.attendance.index', [
+                    'users' => User::all()])
+                    ->withErrors(['لطفا شیفت کاری کاربر را مشخص کنید']);
             elseif ($user->getReport($startDate) == 1)
-                return view('admin.attendance.index', ['users' => User::all()])->withErrors(['لطفا روزهای کاری را مشخص کنید']);
+                return view('admin.attendance.index', [
+                    'users' => User::all()])
+                    ->withErrors(['لطفا داده های ورود و خروج را اصلاح کنید']);
             else {
                 $collectList->add($user->getReport($startDate));
                 $startDate->addDay();
             }
         }
+
 
         return view('admin.attendance.showReport', [
             'collectList' => $collectList,

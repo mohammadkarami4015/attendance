@@ -13,17 +13,17 @@
     $sumAttendance = 0;$sumAbsence = 0;$sumOverTime = 0;$sumVacation = 0;
     ?>
 
-    <div class="box-header">
-       <h4> <b class="box">
-            گزارش کارکرد {{\App\Helpers\Name::userFullName($user)}}
-        </b>
-       </h4>
+    <div class="box-header" style="text-align: center">
+        <h4><b class="">
+                گزارش کارکرد {{\App\Helpers\Name::userFullName($user)}}
+            </b>
+        </h4>
     </div>
     @foreach($collectList as $List )
         <div class="box">
             <div class="box-header">
                 <b class="box">{{$List['day']}}
-                     {{\App\Helpers\DateFormat::convertToJalali($List['date'])->formatJalaliDate()}}
+                    {{\App\Helpers\DateFormat::convertToJalali($List['date'])->formatJalaliDate()}}
                 </b>
             </div>
             <!-- /.box-header -->
@@ -53,8 +53,6 @@
                                         </td>
                                     @endforeach
                                 </tr>
-
-
                                 </tbody>
 
                             </table>
@@ -62,23 +60,35 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-7">
-                            <div class="dataTables_info" id="example1_info" role="status" aria-live="polite"> کارکرد
-                                    : <i class="text-danger">{{date('H:i', mktime(0,$List['sumOfStatus']['کارکرد'] ))}}</i> &nbsp;
-                                 غیبت : <i class="text-danger">{{date('H:i', mktime(0,$List['sumOfStatus']['غیبت'] ))}} </i> &nbsp;
-                                 اضافه کاری : <i class="text-danger">{{date('H:i', mktime(0,$List['sumOfStatus']['اضافه کاری'] ))}} </i>&nbsp;
-                                 تعطیلی : <i class="text-danger">{{date('H:i', mktime(0,$List['sumOfStatus']['تعطیلی'] ))}}</i>
-                                 مرخصی : <i class="text-danger">{{date('H:i', mktime(0,$List['sumOfStatus']['مرخصی'] ))}}</i> &nbsp;
-                            </div>
+                            @if($List['report'] != [])
+                                <div class="dataTables_info" id="example1_info" role="status" aria-live="polite"> کارکرد
+                                    : <i
+                                        class="text-danger">{{date('H:i', mktime(0,$List['sumOfStatus']['کارکرد'] ))}}</i>
+                                    &nbsp;
+                                    غیبت : <i
+                                        class="text-danger">{{date('H:i', mktime(0,$List['sumOfStatus']['غیبت'] ))}} </i>
+                                    &nbsp;
+                                    اضافه کاری : <i
+                                        class="text-danger">{{date('H:i', mktime(0,$List['sumOfStatus']['اضافه کاری'] ))}} </i>&nbsp;
+                                    تعطیلی : <i
+                                        class="text-danger">{{date('H:i', mktime(0,$List['sumOfStatus']['تعطیلی'] ))}}</i>
+                                    مرخصی : <i
+                                        class="text-danger">{{date('H:i', mktime(0,$List['sumOfStatus']['مرخصی'] ))}}</i>
+                                </div>
+
+                                <?php
+                                $sumAttendance += $List['sumOfStatus']['کارکرد'];
+                                $sumAbsence += $List['sumOfStatus']['غیبت'];
+                                $sumOverTime += $List['sumOfStatus']['اضافه کاری'];
+                                $sumVacation += $List['sumOfStatus']['مرخصی'];
+                                ?>
+                            @endif
+
                         </div>
 
                     </div>
                 </div>
-                <?php
-                $sumAttendance += $List['sumOfStatus']['کارکرد'];
-                $sumAbsence += $List['sumOfStatus']['غیبت'];
-                $sumOverTime += $List['sumOfStatus']['اضافه کاری'];
-                $sumVacation += $List['sumOfStatus']['مرخصی'];
-                ?>
+
             </div>
             <!-- /.box-body -->
         </div>

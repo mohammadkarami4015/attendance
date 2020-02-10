@@ -115,18 +115,29 @@ class User extends Authenticatable
         $currentDate = $givenDate->format('Y-m-d');
         $userShift = $this->getShift($currentDate);
 
+
         if (!$userShift)
             return 0;
         $dayOfShift = $userShift->getDayOfShift($currentDate, $selectedDay);
 
         if (!$dayOfShift)
-            return 1;
+            return [
+                'report' => [],
+                'sumOfStatus' => [],
+                'day' => Day::find($selectedDay)->label,
+                'date' => clone $date
+            ];
 
         $workTimes = DayShift::query()->find($dayOfShift->pivot->id)->getWorkTimes($currentDate);
         $holidays = Holiday::getHoliday($currentDate);
         $userVacation = $this->getVacation($currentDate);
         $userTimeSheet = $this->getTimeSheet($currentDate);
-        $userTimeSheet = TimeSheet::isCouple($userTimeSheet);
+
+        if (TimeSheet::isCouple($userTimeSheet) == 1)
+            return 1;
+       else
+           $userTimeSheet = $userTimeSheet->chunk(2);
+
 
         $list->addTimeToList($workTimes, $rawList, 'start_shift', 'end_shift');
         $list->addTimeToList($userVacation, $rawList, 'start_vacation', 'end_vacation');
@@ -142,14 +153,14 @@ class User extends Authenticatable
             'report' => $reportList,
             'sumOfStatus' => $sumList,
             'day' => Day::find($selectedDay)->label,
-            'date'=>clone $date
+            'date' => clone $date
         ];
 
     }
 
     public function getShift($currentDate)
     {
-        return  $this->unit->shifts()
+        return $this->unit->shifts()
             ->where(function (Builder $query) use ($currentDate) {
                 $query->whereRaw("DATE(shift_unit.from) <= '$currentDate' AND DATE(shift_unit.to) >= '$currentDate'")
                     ->orWhereRaw("DATE(shift_unit.from) <= '$currentDate' AND shift_unit.to is null");
@@ -161,15 +172,12 @@ class User extends Authenticatable
         return $this->timeSheets()->whereDate('finger_print_time', $currentDate)->get();
     }
 
-    public function getVacation( $currentDate)
+    public function getVacation($currentDate)
     {
         return $this->demandVacations()->whereDate('start', '<=', $currentDate)
             ->whereDate('end', '>=', $currentDate)
             ->get();
     }
-
-
-
 
 
 }
