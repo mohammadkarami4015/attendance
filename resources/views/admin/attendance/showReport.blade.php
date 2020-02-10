@@ -12,12 +12,19 @@
     <?php
     $sumAttendance = 0;$sumAbsence = 0;$sumOverTime = 0;$sumVacation = 0;
     ?>
+
+    <div class="box-header">
+       <h4> <b class="box">
+            گزارش کارکرد {{\App\Helpers\Name::userFullName($user)}}
+        </b>
+       </h4>
+    </div>
     @foreach($collectList as $List )
         <div class="box">
             <div class="box-header">
-                <h3 class="box-title"> گزارش کارکرد {{\App\Helpers\Name::userFullName($user)}} در روز {{$List['day']}}
-                    تاریخ {{\App\Helpers\DateFormat::convertToJalali($List['date'])->formatJalaliDate()}}
-                </h3>
+                <b class="box">{{$List['day']}}
+                     {{\App\Helpers\DateFormat::convertToJalali($List['date'])->formatJalaliDate()}}
+                </b>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
@@ -42,7 +49,7 @@
                                 <tbody>
                                 <tr role="row" class="odd">
                                     @foreach($List['report'] as $list)
-                                        <td class="sorting_1">  {{$list['value'] }} دقیقه {{$list['status']}}
+                                        <td class="sorting_1">  {{date('H:i', mktime(0,$list['value'] ))}}   {{$list['status']}}
                                         </td>
                                     @endforeach
                                 </tr>
@@ -56,13 +63,11 @@
                     <div class="row">
                         <div class="col-sm-7">
                             <div class="dataTables_info" id="example1_info" role="status" aria-live="polite"> کارکرد
-                                    : <i class="text-danger">{{$List['sumOfStatus']['کارکرد']}}</i> دقیقه&nbsp;
-                                 غیبت : <i class="text-danger">{{$List['sumOfStatus']['غیبت']}}</i> دقیقه&nbsp;
-                                 اضافه کاری : <i class="text-danger">{{$List['sumOfStatus']['اضافه کاری']}}</i>
-                                    دقیقه&nbsp;
-                                 تعطیلی : <i class="text-danger">{{$List['sumOfStatus']['تعطیلی']}}</i>
-                                    دقیقه&nbsp;
-                                 مرخصی : <i class="text-danger">{{$List['sumOfStatus']['مرخصی']}}</i> دقیقه&nbsp;
+                                    : <i class="text-danger">{{date('H:i', mktime(0,$List['sumOfStatus']['کارکرد'] ))}}</i> &nbsp;
+                                 غیبت : <i class="text-danger">{{date('H:i', mktime(0,$List['sumOfStatus']['غیبت'] ))}} </i> &nbsp;
+                                 اضافه کاری : <i class="text-danger">{{date('H:i', mktime(0,$List['sumOfStatus']['اضافه کاری'] ))}} </i>&nbsp;
+                                 تعطیلی : <i class="text-danger">{{date('H:i', mktime(0,$List['sumOfStatus']['تعطیلی'] ))}}</i>
+                                 مرخصی : <i class="text-danger">{{date('H:i', mktime(0,$List['sumOfStatus']['مرخصی'] ))}}</i> &nbsp;
                             </div>
                         </div>
 
@@ -81,7 +86,7 @@
 
     <div class="box">
         <div class="box-header">
-            <h3 class="box-title">مجموع</h3>
+            <h4><b class="box">مجموع</b></h4>
         </div>
         <!-- /.box-header -->
         <div class="box-body">
