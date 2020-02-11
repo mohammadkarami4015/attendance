@@ -16,6 +16,7 @@ use Cassandra\Time;
 use Illuminate\Http\Request;
 
 use Maatwebsite\Excel\Facades\Excel;
+use Matrix\Builder;
 use PhpOffice\PhpSpreadsheet\Writer\Csv;
 
 class TimeSheetController extends Controller
@@ -23,8 +24,9 @@ class TimeSheetController extends Controller
 
     public function index()
     {
+        $users = User::all();
         $timeSheets = TimeSheet::query()->latest()->paginate(20);
-        return view('admin/timeSheets/index', compact('timeSheets'));
+        return view('admin/timeSheets/index', compact('timeSheets','users'));
     }
 
     public function userSearch(Request $request)
@@ -33,24 +35,20 @@ class TimeSheetController extends Controller
         return view('admin.timeSheets.indexSearch', compact('timeSheets'));
     }
 
-    public function filterDate(Request $request)
+    public function filter(Request $request)
     {
-        $fromDate = DateFormat::toMiladi($request->get('from'));
+        $fromDate =Carbon::parse(DateFormat::toMiladi($request->get('from')));
         $toDate = Carbon::parse(DateFormat::toMiladi($request->get('to')))->addSeconds(86399);
-        $timeSheets = TimeSheet::FilterByDate($fromDate, $toDate)->latest()->paginate(20);
-        return view('admin.timeSheets.index', compact('timeSheets'));
+        $timeSheets = TimeSheet::FilterByDate($fromDate, $toDate,$request->user_id)->latest()->paginate(20);
+        return view('admin.timeSheets.indexFilter', compact('timeSheets'));
     }
 
     public function upload(UploadRequest $request)
     {
         Excel::import(new CsvImport(), request()->file('file'));
-
         message::show('فایل مورد نظر با موفقیت آپلود شد');
         return back();
     }
-
-
-
 
 
     public function create()
@@ -68,6 +66,13 @@ class TimeSheetController extends Controller
         ]);
         message::show('اطلاعات مورد نظر با موفقیت ثبت شدند');
         return redirect(route('timeSheets.index'));
+    }
+
+    public function checkDouble()
+    {
+        $singleTimeSheet = TimeSheet::checkDouble();
+        return view('admin/timeSheets/singleCheck', compact('singleTimeSheet'));
+
     }
 
 

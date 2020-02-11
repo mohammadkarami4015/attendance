@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
@@ -32,7 +33,6 @@ class TimeSheet extends Model
 
     public function scopeSearch($query, $data)
     {
-
         $query->whereHas('user', function ($query) use ($data) {
             $query->where('name', 'like', '%' . $data . '%')
                 ->orwhere('family', 'like', '%' . $data . '%');
@@ -41,9 +41,21 @@ class TimeSheet extends Model
 
     }
 
-    public function scopeFilterByDate(Builder $query, $from, $to)
+    public function scopeFilterByDate(Builder $query, $from, $to, $user_id)
     {
-        $query->whereBetween('finger_print_time', [$from, $to]);
+
+        $query->where('user_id', $user_id)->whereBetween('finger_print_time', [$from, $to]);
+    }
+
+    public static function checkDouble()
+    {
+        return self::all()->groupBy(function ($query) {
+            return Carbon::parse($query->finger_print_time)->format('Y-m-d');
+        })->map->groupBy('user_id')->map->filter(function ($timeSheets) {
+            return (count($timeSheets) % 2) != 0;
+        })->filter(function ($item) {
+            return count($item) > 0;
+        })->sort();
     }
 
 
