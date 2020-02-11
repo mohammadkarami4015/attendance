@@ -13,6 +13,7 @@
 
 
 Route::get('/', function () {
+    $date = '2020-10-02 ';
     return view('welcome');
 });
 
@@ -40,6 +41,8 @@ Route::namespace('admin')->prefix('/admin')->group(function () {
 
     //**************TimeSheet Route**************
     Route::resource('timeSheets', 'TimeSheetController');
+    Route::get('timeSheet/uploadFile','TimeSheetController@uploadForm')->name('timeSheet.uploadForm');
+    Route::post('timeSheet/uploadFile','TimeSheetController@upload')->name('timeSheet.upload');
     Route::get('timeSheetSearch','TimeSheetController@userSearch')->name('timeSheet.userSearch');
     Route::get('timeSheetFilterDate','TimeSheetController@filterDate')->name('timeSheet.filterDate');
 

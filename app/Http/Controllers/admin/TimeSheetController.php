@@ -6,13 +6,17 @@ use App\Helper\message;
 use App\Helpers\DateFormat;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TimeRequest;
-use App\Http\Requests\TimeSheeteRequest;
 use App\Http\Requests\TimeSheetRequest;
+use App\Http\Requests\UploadRequest;
+use App\Imports\CsvImport;
 use App\TimeSheet;
 use App\User;
 use Carbon\Carbon;
 use Cassandra\Time;
 use Illuminate\Http\Request;
+
+use Maatwebsite\Excel\Facades\Excel;
+use PhpOffice\PhpSpreadsheet\Writer\Csv;
 
 class TimeSheetController extends Controller
 {
@@ -25,8 +29,8 @@ class TimeSheetController extends Controller
 
     public function userSearch(Request $request)
     {
-        $timeSheets= TimeSheet::query()->Search($request->get('userSearch'))->get();
-        return view('admin.timeSheets.indexSearch',compact('timeSheets'));
+        $timeSheets = TimeSheet::query()->Search($request->get('userSearch'))->get();
+        return view('admin.timeSheets.indexSearch', compact('timeSheets'));
     }
 
     public function filterDate(Request $request)
@@ -36,6 +40,17 @@ class TimeSheetController extends Controller
         $timeSheets = TimeSheet::FilterByDate($fromDate, $toDate)->latest()->paginate(20);
         return view('admin.timeSheets.index', compact('timeSheets'));
     }
+
+    public function upload(UploadRequest $request)
+    {
+        Excel::import(new CsvImport(), request()->file('file'));
+
+        message::show('فایل مورد نظر با موفقیت آپلود شد');
+        return back();
+    }
+
+
+
 
 
     public function create()

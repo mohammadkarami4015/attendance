@@ -9,25 +9,44 @@
 @endsection
 
 @section('content')
-    <div class="col-md-10">
 
-        <a href="{{route('timeSheets.create')}}" class="btn btn-primary">ثبت اطلاعات جدید</a>
-        <div class="box">
 
+
+        <div class="box box-primary col-md-8">
+            <div class="box-header with-border">
+                <h3 class="box-title">ثبت اطلاعات حضور و غیاب</h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form role="form" action="{{route('timeSheet.upload')}}" method="post" enctype="multipart/form-data">
+                @csrf
+                <div class="box-body">
+                    <div class="form-group">
+                        <label for="exampleInputFile">انتخاب فایل</label>
+                        <input required type="file" name="file" accept=".csv" id="exampleInputFile">
+                    </div>
+
+                </div>
+
+                <div class="box-footer">
+                    <button type="submit" class="btn btn-primary">آپلود فایل</button>
+                    <a href="{{route('timeSheets.create')}}"  class="btn btn-primary">ثبت دستی اطلاعات</a>
+                </div>
+            </form>
             <form action="{{route('timeSheet.filterDate')}}" method="get"
                   style="  padding: 10px;  justify-content: space-between; display: inline-flex; align-items: baseline;">
                 <label style="margin-left: 5px"> از </label>
-                <input type="text" readonly  name="from" class="form-control filter">
-                <label  style="margin-left: 5px ; margin-right: 5px" > تا </label>
-                <input  type="text" readonly name="to"  class="form-control filter">
+                <input type="text" readonly name="from" class="form-control filter">
+                <label style="margin-left: 5px ; margin-right: 5px"> تا </label>
+                <input type="text" readonly name="to" class="form-control filter">
 
 
                 <input type="submit" style="margin-right:1px; padding-right: 20px;" class="btn btn-primary btn-sm pr-1"
                        value=" فیلتر ">
 
             </form>
-            <input onkeyup="Search()" type="text" name="userSearch"  id="userSearch"
-                   style="justify-content: space-between; align-items: baseline; margin-right: 10% ; width: 35% "
+            <input onkeyup="Search()" type="text" name="userSearch" id="userSearch"
+                   style="justify-content: space-between; align-items: baseline; margin-right: 20% ; width: 35% "
                    placeholder="جستجو">
 
 
@@ -78,7 +97,7 @@
 
 
         </div>
-    </div>
+
 
     <script>
         function Search() {
