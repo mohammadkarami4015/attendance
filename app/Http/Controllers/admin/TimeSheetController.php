@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\admin;
 
+use App\Exceptions\UploadException;
 use App\Helper\message;
 use App\Helpers\DateFormat;
 use App\Http\Controllers\Controller;
@@ -26,22 +27,28 @@ class TimeSheetController extends Controller
     {
         $users = User::all();
         $timeSheets = TimeSheet::query()->orderByDesc('finger_print_time')->paginate(20);
-        return view('admin/timeSheets/index', compact('timeSheets','users'));
+        return view('admin/timeSheets/index', compact('timeSheets', 'users'));
     }
 
 
     public function filter(Request $request)
     {
-        $fromDate =Carbon::parse(DateFormat::toMiladi($request->get('from')));
+        $fromDate = Carbon::parse(DateFormat::toMiladi($request->get('from')));
         $toDate = Carbon::parse(DateFormat::toMiladi($request->get('to')))->addSeconds(86399);
-        $timeSheets = TimeSheet::FilterByDate($fromDate, $toDate,$request->user_id)->latest()->get();
+        $timeSheets = TimeSheet::FilterByDate($fromDate, $toDate, $request->user_id)->latest()->get();
         return view('admin.timeSheets.indexFilter', compact('timeSheets'));
     }
 
     public function upload(UploadRequest $request)
     {
-        Excel::import(new CsvImport(), request()->file('file'));
-        message::show('فایل مورد نظر با موفقیت آپلود شد');
+        try {
+            Excel::import(new CsvImport(), request()->file('file'));
+            message::show('فایل مورد نظر با موفقیت آپلود شد');
+
+        } catch (\Exception $exception) {
+
+            throw new UploadException($exception->getMessage());
+        }
         return back();
     }
 
