@@ -25,15 +25,10 @@ class TimeSheetController extends Controller
     public function index()
     {
         $users = User::all();
-        $timeSheets = TimeSheet::query()->latest()->paginate(20);
+        $timeSheets = TimeSheet::query()->orderByDesc('finger_print_time')->paginate(20);
         return view('admin/timeSheets/index', compact('timeSheets','users'));
     }
 
-//    public function userSearch(Request $request)
-//    {
-//        $timeSheets = TimeSheet::query()->Search($request->get('userSearch'))->get();
-//        return view('admin.timeSheets.indexSearch', compact('timeSheets'));
-//    }
 
     public function filter(Request $request)
     {

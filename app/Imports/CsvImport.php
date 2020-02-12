@@ -19,7 +19,7 @@ class CsvImport implements ToModel
 
         return new TimeSheet([
             'user_id' =>$row[0],
-            'finger_print_time'=>DateFormat::toMiladi($row[1].$row[2])
+            'finger_print_time'=>DateFormat::toMiladi($row[1])
         ]);
     }
 }

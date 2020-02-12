@@ -11,7 +11,7 @@
 @section('content')
     <div class="col-md-6">
 
-        <a href="{{route('units.create')}}"  class="btn btn-facebook">افزودن گروه کاری</a>
+        <a href="{{route('units.create')}}"  class="btn btn-primary">افزودن گروه کاری</a>
         <div class="box">
             {{--        <input onkeyup="Search()" type="text" name="search" id="text" class="form-control col-md-8"--}}
             {{--               style="margin:1% 79% 1% 1%; width: 20%"--}}
