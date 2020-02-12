@@ -10,7 +10,7 @@
 
 @section('content')
     <?php
-    $sumAttendance = 0;$sumAbsence = 0;$sumOverTime = 0;$sumVacation = 0;
+    $sumAbsenceTime = 0;$sumAttendance = 0;$sumOverTime = 0;$sumVacation = 0;
     ?>
 
     <div class="box-header" style="text-align: center">
@@ -60,7 +60,7 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-7">
-                            @if($List['report'] != [])
+                            @if($List['sumOfStatus'] != [])
                                 <div class="dataTables_info" id="example1_info" role="status" aria-live="polite"> کارکرد
                                     : <i
                                         class="text-danger">{{date('H:i', mktime(0,$List['sumOfStatus']['کارکرد'] ))}}</i>
@@ -76,12 +76,12 @@
                                         class="text-danger">{{date('H:i', mktime(0,$List['sumOfStatus']['مرخصی'] ))}}</i>
                                 </div>
 
-                                <?php
-                                $sumAttendance += $List['sumOfStatus']['کارکرد'];
-                                $sumAbsence += $List['sumOfStatus']['غیبت'];
-                                $sumOverTime += $List['sumOfStatus']['اضافه کاری'];
-                                $sumVacation += $List['sumOfStatus']['مرخصی'];
-                                ?>
+                                @php
+                                    $sumAttendance += $List['sumOfStatus']['کارکرد'];
+                                    $sumOverTime += $List['sumOfStatus']['اضافه کاری'];
+                                    $sumAbsenceTime += $List['sumOfStatus']['غیبت'];
+                                    $sumVacation += $List['sumOfStatus']['مرخصی'];
+                                @endphp
                             @endif
 
                         </div>
@@ -129,16 +129,16 @@
                             <tbody>
                             <tr role="row" class="odd">
                                 <td class="sorting_1">
-                                    {{date('H:i', mktime(0,$sumAttendance))}}
+                                    {{\Carbon\CarbonInterval::minute($sumAttendance)->cascade()->forHumans()}}
                                 </td>
                                 <td class="sorting_1">
-                                    {{date('H:i', mktime(0,$sumAbsence))}}
+                                    {{\Carbon\CarbonInterval::minute($sumAbsenceTime)->cascade()->forHumans()}}
                                 </td>
                                 <td class="sorting_1">
-                                    {{date('H:i', mktime(0,$sumVacation))}}
+                                    {{\Carbon\CarbonInterval::minute($sumVacation)->cascade()->forHumans()}}
                                 </td>
                                 <td class="sorting_1">
-                                    {{date('H:i', mktime(0,$sumOverTime))}}
+                                    {{\Carbon\CarbonInterval::minute($sumOverTime)->cascade()->forHumans()}}
                                 </td>
                             </tr>
 

@@ -15,6 +15,7 @@ use App\Unit;
 use App\User;
 use App\WorkTime;
 use Carbon\Carbon;
+use Carbon\CarbonInterval;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -31,6 +32,10 @@ class AttendanceController extends Controller
 
     public function getReport(Request $request)
     {
+        $sumAbsence = 0;
+        $sumAttendance = 0;
+        $sumOverTime = 0;
+        $sumVacation = 0;
         $user = User::query()->find($request->user_id);
         $collectList = collect();
         $startDate = Carbon::parse(DateFormat::toMiladi($request->start_date));
@@ -50,6 +55,7 @@ class AttendanceController extends Controller
                 $startDate->addDay();
             }
         }
+
 
 
         return view('admin.attendance.showReport', [
