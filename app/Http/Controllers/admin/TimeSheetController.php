@@ -29,17 +29,17 @@ class TimeSheetController extends Controller
         return view('admin/timeSheets/index', compact('timeSheets','users'));
     }
 
-    public function userSearch(Request $request)
-    {
-        $timeSheets = TimeSheet::query()->Search($request->get('userSearch'))->get();
-        return view('admin.timeSheets.indexSearch', compact('timeSheets'));
-    }
+//    public function userSearch(Request $request)
+//    {
+//        $timeSheets = TimeSheet::query()->Search($request->get('userSearch'))->get();
+//        return view('admin.timeSheets.indexSearch', compact('timeSheets'));
+//    }
 
     public function filter(Request $request)
     {
         $fromDate =Carbon::parse(DateFormat::toMiladi($request->get('from')));
         $toDate = Carbon::parse(DateFormat::toMiladi($request->get('to')))->addSeconds(86399);
-        $timeSheets = TimeSheet::FilterByDate($fromDate, $toDate,$request->user_id)->latest()->paginate(20);
+        $timeSheets = TimeSheet::FilterByDate($fromDate, $toDate,$request->user_id)->latest()->get();
         return view('admin.timeSheets.indexFilter', compact('timeSheets'));
     }
 

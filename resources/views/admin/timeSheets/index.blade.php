@@ -9,74 +9,77 @@
 @endsection
 
 @section('content')
-    <div class="box box-primary">
-        <div class="box box-pane-right " style="float: left; width: 39%;">
-            <div class="box-header with-border" style=" text-align: center">
-                <label class="box-title">ثبت اطلاعات ورود و خروج</label>
-            </div>
-            <form role="form" action="{{route('timeSheet.upload')}}" method="post" enctype="multipart/form-data">
-                @csrf
-                <div class="box-body">
-                    <div class="form-group">
-                        <label for="exampleInputFile">انتخاب فایل</label>
-                        <input required type="file" name="file" accept=".csv" id="exampleInputFile">
-                    </div>
-                </div>
 
-                <div class="box-footer">
-                    <button type="submit" class="btn btn-primary">آپلود فایل</button>
-                    <a href="{{route('timeSheets.create')}}" class="btn btn-primary">ثبت دستی اطلاعات</a>
-
-                </div>
-            </form>
+    <div class="box box-pane-right " style=" ">
+        <div class="box-header with-border" style=" text-align: center">
+            <label class="box-title">ثبت اطلاعات ورود و خروج</label>
         </div>
-
-        <div class="box box-pane-left" style="width: 60%;">
-            <div style="text-align: center">
-                <label class="box-title">بررسی اطلاعات ورود و حروج</label>
+        <form role="form" action="{{route('timeSheet.upload')}}" method="post" enctype="multipart/form-data">
+            @csrf
+            <div class="box-body">
+                <div class="">
+                    <label for="exampleInputFile">انتخاب فایل</label>
+                    <input required type="file" name="file" accept=".csv" id="exampleInputFile">
+                </div>
             </div>
-            <div class="box table-responsive no-padding ">
-                <table class="table table-hover">
-                    <thead>
-                    <tr>
-                        <th>تاریخ</th>
-                        <th>مشخصات کاربران</th>
-                    </tr>
-                    </thead>
 
-                    <tbody id="checkDouble">
-
-
-                    </tbody>
-                </table>
+            <div class="box-footer">
+                <button type="submit" class="btn btn-primary">آپلود فایل</button>
+                <a href="{{route('timeSheets.create')}}" class="btn btn-primary">ثبت دستی اطلاعات</a>
 
             </div>
+        </form>
+    </div>
+
+    <div class="box box-pane-left" style="">
+        <div style="text-align: center">
+            <label class="box-title">بررسی اطلاعات ورود و حروج</label>
+        </div>
+        <div class="box table-responsive no-padding ">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>تاریخ</th>
+                    <th>مشخصات کاربران</th>
+                </tr>
+                </thead>
+
+                <tbody id="checkDouble">
+
+
+                </tbody>
+            </table>
+
+        </div>
+        <div class="box-footer">
             <button onclick="CheckDouble()" class="btn btn-primary">بررسی اطلاعات</button>
-
         </div>
+
     </div>
 
 
-    <div class="box box-primary col-md-5">
 
-        <label class="label label-default">انتخاب کاربر </label>
-        <select required id="user_id" name="user_id" class="input-group select2 select2-hidden-accessible"
-                data-placeholder="انتخاب کاربر" style="width: 80%;" tabindex="-1"
-                aria-hidden="true">
-            @foreach($users as $user)
-                <option value="{{$user->id}}">{{\App\Helpers\Name::userFullName($user)}} </option>
-            @endforeach
-        </select>
-        <label style="margin-left: 5px;margin-right: 10%"> از </label>
-        <input id="from" type="text" readonly name="from" class="input-group filter">
-        <label style="margin-left: 5px ; margin-right: 5px"> تا </label>
-        <input id="to" type="text" readonly name="to" class="input-group filter">
+    <div class="box box-primary ">
+
+        <div class="box box-body">
+            <label class="">انتخاب کاربر </label>
+            <select required id="user_id" name="user_id" class="input-group select2 select2-hidden-accessible"
+                    data-placeholder="انتخاب کاربر" style="width: 30%" tabindex="-1"
+                    aria-hidden="true">
+                @foreach($users as $user)
+                    <option value="{{$user->id}}">{{\App\Helpers\Name::userFullName($user)}} </option>
+                @endforeach
+            </select>
+            <label class="control-label"> از </label>
+            <input id="from" type="text" readonly name="from" class="filter">
+            <label style="margin-left: 5px ; margin-right: 5px"> تا </label>
+            <input id="to" type="text" readonly name="to" class=" filter">
 
 
-        <input onclick="filter()" style="margin-right:1px; padding-right: 20px;"
-               class="btn btn-primary btn-sm pr-1"
-               value=" فیلتر ">
-
+            <input onclick="filter()" style="margin-right:1px; padding-right: 20px;"
+                   class="btn btn-primary btn-sm pr-1"
+                   value=" فیلتر ">
+        </div>
 
         <div class="box table-responsive no-padding ">
             <table class="table table-hover">

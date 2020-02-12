@@ -30,16 +30,16 @@ class TimeSheet extends Model
 
     }
 
-
-    public function scopeSearch($query, $data)
-    {
-        $query->whereHas('user', function ($query) use ($data) {
-            $query->where('name', 'like', '%' . $data . '%')
-                ->orwhere('family', 'like', '%' . $data . '%');
-        });
-        return $query;
-
-    }
+//
+//    public function scopeSearch($query, $data)
+//    {
+//        $query->whereHas('user', function ($query) use ($data) {
+//            $query->where('name', 'like', '%' . $data . '%')
+//                ->orwhere('family', 'like', '%' . $data . '%');
+//        });
+//        return $query;
+//
+//    }
 
     public function scopeFilterByDate(Builder $query, $from, $to, $user_id)
     {

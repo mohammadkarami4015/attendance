@@ -43,7 +43,7 @@ Route::namespace('admin')->prefix('/admin')->group(function () {
     Route::resource('timeSheets', 'TimeSheetController');
     Route::get('timeSheet/uploadFile','TimeSheetController@uploadForm')->name('timeSheet.uploadForm');
     Route::post('timeSheet/uploadFile','TimeSheetController@upload')->name('timeSheet.upload');
-    Route::get('timeSheetSearch','TimeSheetController@userSearch')->name('timeSheet.userSearch');
+//    Route::get('timeSheetSearch','TimeSheetController@userSearch')->name('timeSheet.userSearch');
     Route::get('timeSheetFilter','TimeSheetController@filter')->name('timeSheet.filter');
     Route::get('timeSheet/checkDouble','TimeSheetController@checkDouble')->name('timeSheet.checkDouble');
 
