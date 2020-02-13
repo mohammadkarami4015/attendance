@@ -30,16 +30,6 @@ class TimeSheet extends Model
 
     }
 
-//
-//    public function scopeSearch($query, $data)
-//    {
-//        $query->whereHas('user', function ($query) use ($data) {
-//            $query->where('name', 'like', '%' . $data . '%')
-//                ->orwhere('family', 'like', '%' . $data . '%');
-//        });
-//        return $query;
-//
-//    }
 
     public function scopeFilterByDate(Builder $query, $from, $to, $user_id)
     {
@@ -56,6 +46,14 @@ class TimeSheet extends Model
         })->filter(function ($item) {
             return count($item) > 0;
         })->sort();
+    }
+
+    public static function getFingerTime()
+    {
+        return self::all()->groupBy(function ($test) {
+            return Carbon::parse($test->finger_print_time)->format('Y-m-d');
+        })->keys();
+
     }
 
 
