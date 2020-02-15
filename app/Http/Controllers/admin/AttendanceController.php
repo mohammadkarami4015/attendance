@@ -46,7 +46,7 @@ class AttendanceController extends Controller
                 return '<h3 align="center" class="text-danger">شیفت کاری در این تاریخ تعریف نشده </h3>';
 
             elseif ($user->getReport($startDate) == 1)
-                return '<p class="text-danger">لطفا داده های ورود و خروج را بررسی کنید <p class="text-danger">';
+                return '<h3 align="center" class="text-danger">لطفا داده های ورود و خروج را بررسی کنید </h3>';
 
             else {
                 $collectList->add($user->getReport($startDate));

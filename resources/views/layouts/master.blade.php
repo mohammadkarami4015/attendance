@@ -100,30 +100,18 @@ desired effect
 
 
                     <li class="dropdown notifications-menu">
-                        {{--                        <a href="{{route('demand.child')}}" class="dropdown-toggle">--}}
-                        {{--                            <i id="test" class="fa fa-envelope"></i>--}}
-                        {{--                            <span class="label label-success">{{$newDemand}}</span>--}}
-                        {{--                        </a>--}}
+
                     </li>
 
 
                     <!-- Tasks: style can be found in dropdown.less -->
 
                     <li class="dropdown tasks-menu">
-                        {{--                        <a href="{{route('demand.referDemand')}}" class="dropdown-toggle">--}}
-                        {{--                            <i class="fa fa-envelope"></i>--}}
-                        {{--                            <span class="label label-danger">{{$referDemand}}</span>--}}
-                        {{--                        </a>--}}
+
                     </li>
 
                     <li class="dropdown tasks-menu">
-                    {{--                        <a href="{{route('demand.allFinalConfirm')}}" class="dropdown-toggle">--}}
-                    {{--                            <i class="fa fa-envelope"></i>--}}
-                    {{--                            <span class="label label-info">@if($finalConfirm > 0)--}}
-                    {{--                                    جدید--}}
-                    {{--                                @endif</span></a>
-                    {{--</li>--}}
-                    <!-- User Account: style can be found in dropdown.less -->
+
 
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -201,18 +189,27 @@ desired effect
                     </a>
                 </li>
 
-                <li class="treeview">
-                    <a href="#"><i class="fa fa-link"></i> <span> کارکرد</span>
-                        <span class="pull-left-container">
-                            <i class="fa fa-angle-right pull-left"></i>
-                        </span>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="{{ route('attendance.index')}} ">کارکرد روزانه</a></li>
-{{--                        <li><a href="{{ route('attendance.collectIndex') }}"> کارکرد ماهانه</a></li>--}}
+                <li>
+                    <a href="{{route('timeSheets.index')}}"><i class="fa fa-link"></i> <span>داده های ورود و خروج</span>
 
-                    </ul>
+                    </a>
                 </li>
+                <li>
+                    <a href="{{route('workTimes.index')}}"><i class="fa fa-link"></i> <span>زمان های کاری</span>
+
+                    </a>
+                </li>
+                <li>
+                    <a href="{{route('holidays.index')}}"><i class="fa fa-link"></i> <span>روزهای تعطیلی</span>
+
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('attendance.index')}}"><i class="fa fa-link"></i> <span>گزارشات</span>
+
+                    </a>
+                </li>
+
 
 
 
