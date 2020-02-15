@@ -33,11 +33,9 @@ Route::namespace('admin')->prefix('/admin')->group(function () {
     Route::get('/shift/editDays/{shift}', 'ShiftController@editDays')->name('shifts.editDays');
     Route::patch('/shift/updateDays/{shift}', 'ShiftController@updateDays')->name('shifts.updateDays');
     //**************WorkTime Route**************
-    Route::resource('workTime', 'WorkTimeController');
+    Route::resource('workTimes', 'WorkTimesController');
     //**************Holiday Route**************
     Route::resource('holidays', 'HolidayController');
-
-
 
     //**************TimeSheet Route**************
     Route::resource('timeSheets', 'TimeSheetController');

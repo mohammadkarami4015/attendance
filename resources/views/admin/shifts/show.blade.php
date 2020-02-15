@@ -8,8 +8,8 @@
         <div class="col-md-6">
             <div class="box box-primary">
                 <div style="direction: ltr" class="box-header">
-                    <a style="padding: 1% 14% 1% 14%" href="{{route('shifts.editTime',$shift->id)}}" class="btn btn-default">ویرایش زمان های کاری</a>
-                    <a style="padding: 1% 14% 1% 14%" href="{{route('shifts.editDays',$shift->id)}}" class="btn btn-default">ویرایش روز های کاری</a>
+                    <a style="padding: 1% 14% 1% 14%" href="{{route('shifts.editTime',$shift->id)}}" class="btn btn-default">تغییر زمان های کاری</a>
+                    <a style="padding: 1% 14% 1% 14%" href="{{route('shifts.editDays',$shift->id)}}" class="btn btn-default">تغییر روز های کاری</a>
                 </div>
                 <div class="box-body">
                     <div class="form-group">

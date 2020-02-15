@@ -31,6 +31,11 @@ class WorkTime extends Model
         message::show('زمان های کاری با موفقیت حذف شدند');
     }
 
+    public function days()
+    {
+        return $this->hasOneThrough(Day::class,DayShift::class, 'id', 'id');
+
+    }
 
 
 

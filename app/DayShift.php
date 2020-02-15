@@ -18,10 +18,17 @@ class DayShift extends Model
         return $this->hasMany(WorkTime::class, 'day_shift_id');
     }
 
-//    public static function getDays($shift, $days)
-//    {
-//        return self::query()->where('shift_id', $shift->id)->whereIn('day_id', $days)->get();
-//    }
+    public function day()
+    {
+        return $this->belongsTo(Day::class, 'day_id');
+    }
+
+    public function shift()
+    {
+        return $this->belongsTo(Shift::class, 'shift_id');
+    }
+
+
 
     public static function getNullDays($shift, $days)
     {
