@@ -41,15 +41,15 @@ Route::namespace('admin')->prefix('/admin')->group(function () {
     Route::resource('timeSheets', 'TimeSheetController');
     Route::get('timeSheet/uploadFile','TimeSheetController@uploadForm')->name('timeSheet.uploadForm');
     Route::post('timeSheet/uploadFile','TimeSheetController@upload')->name('timeSheet.upload');
-//    Route::get('timeSheetSearch','TimeSheetController@userSearch')->name('timeSheet.userSearch');
     Route::get('timeSheetFilter','TimeSheetController@filter')->name('timeSheet.filter');
     Route::get('timeSheet/checkDouble','TimeSheetController@checkDouble')->name('timeSheet.checkDouble');
 
 
 
-    //**************Holiday Route**************
+    //**************Attendance Route**************
     Route::resource('attendance', 'AttendanceController');
-    Route::post('attendance/Report','AttendanceController@getReport')->name('attendance.getReport');
+//    Route::post('attendance/Report','AttendanceController@getReport')->name('attendance.getReport');
+    Route::get('attendanceReport','AttendanceController@getReport');
 
 
 });

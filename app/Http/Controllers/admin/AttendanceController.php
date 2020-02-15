@@ -37,19 +37,17 @@ class AttendanceController extends Controller
         $sumOverTime = 0;
         $sumVacation = 0;
         $user = User::query()->find($request->user_id);
-        $collectList = collect();
         $startDate = Carbon::parse(DateFormat::toMiladi($request->start_date));
         $endDate = Carbon::parse(DateFormat::toMiladi($request->end_date));
+        $collectList = collect();
 
         while ($startDate <= $endDate) {
             if ($user->getReport($startDate) == 0)
-                return view('admin.attendance.index', [
-                    'users' => User::all()])
-                    ->withErrors(['لطفا شیفت کاری کاربر را مشخص کنید']);
+                return '<h3 align="center" class="text-danger">شیفت کاری در این تاریخ تعریف نشده </h3>';
+
             elseif ($user->getReport($startDate) == 1)
-                return view('admin.attendance.index', [
-                    'users' => User::all()])
-                    ->withErrors(['لطفا داده های ورود و خروج را اصلاح کنید']);
+                return '<p class="text-danger">لطفا داده های ورود و خروج را بررسی کنید <p class="text-danger">';
+
             else {
                 $collectList->add($user->getReport($startDate));
                 $startDate->addDay();
@@ -57,8 +55,7 @@ class AttendanceController extends Controller
         }
 
 
-
-        return view('admin.attendance.showReport', [
+        return view('admin.attendance.showReportAjax', [
             'collectList' => $collectList,
             'user' => User::find($request->user_id),
         ]);
