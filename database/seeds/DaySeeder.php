@@ -14,26 +14,40 @@ class DaySeeder extends Seeder
         DB::table('days')->insert([
 
             [
+                'id'=>1,
                 'title' => 'Monday',
+                'label'=>'دوشنبه'
             ],
             [
+                'id'=>2,
                 'title' => 'Tuesday',
+                'label'=>'سه شنبه'
             ],
             [
+                'id'=>3,
                 'title' => 'Wednesday',
+                'label'=>'چهارشنبه'
             ],
             [
+                'id'=>4,
                 'title' => 'Thursday',
+                'label'=>'پنجشنبه'
             ],
 
             [
+                'id'=>5,
                 'title' => 'Friday',
+                'label'=>'جمعه'
             ],
             [
+                'id'=>6,
                 'title' => 'Saturday',
+                'label'=>'شنبه'
             ],
             [
+                'id'=>0,
                 'title' => 'Sunday',
+                'label'=>'یکشنبه'
             ],
             ]);
     }

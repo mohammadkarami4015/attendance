@@ -14,19 +14,18 @@ class CreateDaysTable extends Migration
     public function up()
     {
         Schema::create('days', function (Blueprint $table) {
-            $table->bigIncrements('id');
-//            $table->unsignedBigInteger('shift_id');
+            $table->integer('id')->unsigned()->primary();
+//            $table->bigInteger('id');
             $table->string('title');
-//            $table->timestamp('form')->default(now());
-//            $table->timestamp('to')->nullable();
-//            $table->foreign('shift_id')
-//                ->references('id')->on('shifts')
-//                ->onDelete('cascade');
+            $table->string('label');
+            $table->index('id');
+
         });
+
         Schema::create('day_shift', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('shift_id');
-            $table->unsignedBigInteger('day_id');
+            $table->unsignedInteger('day_id');
             $table->timestamp('from')->default(now());
             $table->timestamp('to')->nullable();
             $table->foreign('shift_id')
