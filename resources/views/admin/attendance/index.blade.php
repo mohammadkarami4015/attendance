@@ -17,7 +17,7 @@
                 @csrf
                 <div class="box-body">
                     <div class="form-group">
-                        <label style="margin-left: 5px;width: 100px"> انتخاب کاربر </label>
+                        <label style="margin-left: 5px;width: 100px">  کاربر </label>
                         <select required id="user_id" name="user_id" class=" select2 select2-hidden-accessible"
 
                                 data-placeholder="انتخاب کاربر" style="width: 30%;" tabindex="-1"
@@ -31,12 +31,12 @@
 
                 <div class="box-body">
                     <div class="form-group">
-                        <label style="width: 150px"> انتخاب تاریخ شروع </label>
+                        <label style="width: 150px">  تاریخ شروع </label>
                         <input type="text" id="from" readonly name="start_date" class=" filter">
                         <br>
                         <br>
 
-                        <label style="width: 150px"> انتخاب تاریخ پایان </label>
+                        <label style="width: 150px">  تاریخ پایان </label>
                         <input type="text" id="to" readonly name="end_date" class="filter">
                         <br>
                         <br>

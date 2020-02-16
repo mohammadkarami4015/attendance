@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Shift extends Model
 {
+
     protected $casts = [
         'work_start' => 'time',
         'work_end' => 'time',
@@ -48,7 +49,7 @@ class Shift extends Model
 //    }
     public function dayShift($days)
     {
-       return $this->days()->whereIn('day_id', $days)->get()->pluck('pivot.id');
+        return $this->days()->whereIn('day_id', $days)->get()->pluck('pivot.id');
 
     }
 
@@ -86,6 +87,8 @@ class Shift extends Model
                     ->orWhereRaw("DATE(day_shift.from) <= '$currentDate' AND day_shift.to is null");
             })->find($selectedDay);
     }
+
+
 
 
 }

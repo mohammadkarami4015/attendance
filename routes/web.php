@@ -13,7 +13,7 @@
 
 
 Route::get('/', function () {
-    $date = '2020-10-02 ';
+
     return view('welcome');
 });
 

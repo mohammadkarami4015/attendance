@@ -12,6 +12,11 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
+    public $sumAbsenceTime = 0;
+    public $sumAttendance = 0;
+    public $sumOverTime = 0;
+    public $sumVacation = 0;
+
     use Notifiable;
 
     /**
@@ -135,8 +140,8 @@ class User extends Authenticatable
 
         if (TimeSheet::isCouple($userTimeSheet) == 1)
             return 1;
-       else
-           $userTimeSheet = $userTimeSheet->chunk(2);
+        else
+            $userTimeSheet = $userTimeSheet->chunk(2);
 
 
         $list->addTimeToList($workTimes, $rawList, 'start_shift', 'end_shift');
@@ -177,6 +182,26 @@ class User extends Authenticatable
         return $this->demandVacations()->whereDate('start', '<=', $currentDate)
             ->whereDate('end', '>=', $currentDate)
             ->get();
+    }
+
+    public function setSum($list)
+    {
+        $this->sumAttendance += $list['کارکرد'];
+        $this->sumAbsenceTime += $list['غیبت'];
+        $this->sumOverTime += $list['اضافه کاری'];
+        $this->sumVacation += $list['مرخصی'];
+
+    }
+
+    public function getSum()
+    {
+        return [
+            'کارکرد' => $this->sumAttendance,
+            'غیبت' => $this->sumAbsenceTime,
+            'اضافه کاری' => $this->sumOverTime,
+            'مرخصی' => $this->sumVacation,
+        ];
+
     }
 
 

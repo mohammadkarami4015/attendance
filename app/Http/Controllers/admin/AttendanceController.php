@@ -32,10 +32,6 @@ class AttendanceController extends Controller
 
     public function getReport(Request $request)
     {
-        $sumAbsence = 0;
-        $sumAttendance = 0;
-        $sumOverTime = 0;
-        $sumVacation = 0;
         $user = User::query()->find($request->user_id);
         $startDate = Carbon::parse(DateFormat::toMiladi($request->start_date));
         $endDate = Carbon::parse(DateFormat::toMiladi($request->end_date));
@@ -53,6 +49,7 @@ class AttendanceController extends Controller
                 $startDate->addDay();
             }
         }
+
 
 
         return view('admin.attendance.showReportAjax', [

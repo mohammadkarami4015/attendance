@@ -23,6 +23,7 @@ use function foo\func;
 class ShiftController extends Controller
 {
 
+
     public function index()
     {
         $shifts = Shift::query()->latest()->paginate(20);

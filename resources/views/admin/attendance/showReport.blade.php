@@ -9,9 +9,7 @@
 @endsection
 
 @section('content')
-    <?php
-    $sumAbsenceTime = 0;$sumAttendance = 0;$sumOverTime = 0;$sumVacation = 0;
-    ?>
+
 
     <div class="box-header" style="text-align: center">
         <h4><b class="">
@@ -75,13 +73,8 @@
                                     مرخصی : <i
                                         class="text-danger">{{date('H:i', mktime(0,$List['sumOfStatus']['مرخصی'] ))}}</i>
                                 </div>
+                                {{$user->setSum($List['sumOfStatus'])}}
 
-                                @php
-                                    $sumAttendance += $List['sumOfStatus']['کارکرد'];
-                                    $sumOverTime += $List['sumOfStatus']['اضافه کاری'];
-                                    $sumAbsenceTime += $List['sumOfStatus']['غیبت'];
-                                    $sumVacation += $List['sumOfStatus']['مرخصی'];
-                                @endphp
                             @endif
 
                         </div>
@@ -98,6 +91,7 @@
         <div class="box-header">
             <h4><b class="box">مجموع</b></h4>
         </div>
+
         <!-- /.box-header -->
         <div class="box-body">
             <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
@@ -129,16 +123,16 @@
                             <tbody>
                             <tr role="row" class="odd">
                                 <td class="sorting_1">
-                                    {{\Carbon\CarbonInterval::minute($sumAttendance)->cascade()->forHumans()}}
+                                    {{\Carbon\CarbonInterval::minute($user->getSum()['کارکرد'])->cascade()->forHumans()}}
                                 </td>
                                 <td class="sorting_1">
-                                    {{\Carbon\CarbonInterval::minute($sumAbsenceTime)->cascade()->forHumans()}}
+                                    {{\Carbon\CarbonInterval::minute($user->getSum()['غیبت'])->cascade()->forHumans()}}
                                 </td>
                                 <td class="sorting_1">
-                                    {{\Carbon\CarbonInterval::minute($sumVacation)->cascade()->forHumans()}}
+                                    {{\Carbon\CarbonInterval::minute($user->getSum()['مرخصی'])->cascade()->forHumans()}}
                                 </td>
                                 <td class="sorting_1">
-                                    {{\Carbon\CarbonInterval::minute($sumOverTime)->cascade()->forHumans()}}
+                                    {{\Carbon\CarbonInterval::minute($user->getSum()['اضافه کاری'])->cascade()->forHumans()}}
                                 </td>
                             </tr>
 
