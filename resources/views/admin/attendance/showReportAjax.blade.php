@@ -5,7 +5,7 @@
             </b>
         </h4>
     </div>
-    @foreach($collectList as $List )
+    @foreach($reportList as $List )
         <div class="box">
             <div class="box-header">
                 <b class="box">{{$List['day']}}

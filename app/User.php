@@ -154,6 +154,7 @@ class User extends Authenticatable
         $sumList = $list->sumOfStatus($reportList);
 
 
+
         return [
             'report' => $reportList,
             'sumOfStatus' => $sumList,
