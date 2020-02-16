@@ -1,4 +1,6 @@
-
+@php
+    $helper = new \App\Helper\general();
+@endphp
     <div class="box-header" style="text-align: center">
         <h4><b class="">
                 گزارش کارکرد {{\App\Helpers\Name::userFullName($user)}}
@@ -62,7 +64,7 @@
                                         class="text-danger">{{date('H:i', mktime(0,$List['sumOfStatus']['مرخصی'] ))}}</i>
                                 </div>
 
-                                {{$user->setSum($List['sumOfStatus'])}}
+                                {{$helper->setSum($List['sumOfStatus'])}}
                             @endif
 
                         </div>
@@ -106,20 +108,21 @@
                                     style="width: 172.548px;">جمع اضافه کاری
                                 </th>
                             </tr>
+
                             </thead>
                             <tbody>
                             <tr role="row" class="odd">
                                 <td class="sorting_1">
-                                    {{\Carbon\CarbonInterval::minute($user->getSum()['کارکرد'])->cascade()->forHumans()}}
+                                    {{\Carbon\CarbonInterval::minute($helper->getSum()['کارکرد'])->cascade()->forHumans()}}
                                 </td>
                                 <td class="sorting_1">
-                                    {{\Carbon\CarbonInterval::minute($user->getSum()['غیبت'])->cascade()->forHumans()}}
+                                    {{\Carbon\CarbonInterval::minute($helper->getSum()['غیبت'])->cascade()->forHumans()}}
                                 </td>
                                 <td class="sorting_1">
-                                    {{\Carbon\CarbonInterval::minute($user->getSum()['مرخصی'])->cascade()->forHumans()}}
+                                    {{\Carbon\CarbonInterval::minute($helper->getSum()['مرخصی'])->cascade()->forHumans()}}
                                 </td>
                                 <td class="sorting_1">
-                                    {{\Carbon\CarbonInterval::minute($user->getSum()['اضافه کاری'])->cascade()->forHumans()}}
+                                    {{\Carbon\CarbonInterval::minute($helper->getSum()['اضافه کاری'])->cascade()->forHumans()}}
                                 </td>
                             </tr>
 

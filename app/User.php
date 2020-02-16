@@ -12,10 +12,6 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    public $sumAbsenceTime = 0;
-    public $sumAttendance = 0;
-    public $sumOverTime = 0;
-    public $sumVacation = 0;
 
     use Notifiable;
 
@@ -154,7 +150,6 @@ class User extends Authenticatable
         $sumList = $list->sumOfStatus($reportList);
 
 
-
         return [
             'report' => $reportList,
             'sumOfStatus' => $sumList,
@@ -183,26 +178,6 @@ class User extends Authenticatable
         return $this->demandVacations()->whereDate('start', '<=', $currentDate)
             ->whereDate('end', '>=', $currentDate)
             ->get();
-    }
-
-    public function setSum($list)
-    {
-        $this->sumAttendance += $list['کارکرد'];
-        $this->sumAbsenceTime += $list['غیبت'];
-        $this->sumOverTime += $list['اضافه کاری'];
-        $this->sumVacation += $list['مرخصی'];
-
-    }
-
-    public function getSum()
-    {
-        return [
-            'کارکرد' => $this->sumAttendance,
-            'غیبت' => $this->sumAbsenceTime,
-            'اضافه کاری' => $this->sumOverTime,
-            'مرخصی' => $this->sumVacation,
-        ];
-
     }
 
 

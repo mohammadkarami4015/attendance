@@ -123,16 +123,16 @@
                             <tbody>
                             <tr role="row" class="odd">
                                 <td class="sorting_1">
-                                    {{\Carbon\CarbonInterval::minute($user->getSum()['کارکرد'])->cascade()->forHumans()}}
+                                    {{\Carbon\CarbonInterval::minute($helper->getSum()['کارکرد'])->cascade()->forHumans()}}
                                 </td>
                                 <td class="sorting_1">
-                                    {{\Carbon\CarbonInterval::minute($user->getSum()['غیبت'])->cascade()->forHumans()}}
+                                    {{\Carbon\CarbonInterval::minute($helper->getSum()['غیبت'])->cascade()->forHumans()}}
                                 </td>
                                 <td class="sorting_1">
-                                    {{\Carbon\CarbonInterval::minute($user->getSum()['مرخصی'])->cascade()->forHumans()}}
+                                    {{\Carbon\CarbonInterval::minute($helper->getSum()['مرخصی'])->cascade()->forHumans()}}
                                 </td>
                                 <td class="sorting_1">
-                                    {{\Carbon\CarbonInterval::minute($user->getSum()['اضافه کاری'])->cascade()->forHumans()}}
+                                    {{\Carbon\CarbonInterval::minute($helper->getSum()['اضافه کاری'])->cascade()->forHumans()}}
                                 </td>
                             </tr>
 

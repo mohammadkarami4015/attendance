@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\admin;
 
+use App\Helper\general;
 use App\Helpers\DateFormat;
 use App\Http\Controllers\Controller;
 use App\User;
@@ -55,17 +56,17 @@ class AttendanceController extends Controller
 
     public function getCollectReport(Request $request)
     {
-
         $users = $request->get('user_id');
-        $collectList = collect();
 
+        $helper = new general();
+        $collectList = collect();
 
         foreach ($users as $value) {
             $user = User::query()->find($value);
             $reportList = collect();
 
-            $startDate = Carbon::parse(DateFormat::toMiladi($request->start_date));
-            $endDate = Carbon::parse(DateFormat::toMiladi($request->end_date));
+            $startDate = Carbon::parse(DateFormat::toMiladi($request->get('start_date')));
+            $endDate = Carbon::parse(DateFormat::toMiladi($request->get('end_date')));
 
             while ($startDate <= $endDate) {
                 $data = $user->getReport($startDate);
@@ -80,13 +81,23 @@ class AttendanceController extends Controller
 
             }
 
-            $collectList->add([$reportList->toArray(),$user]);
+            $collectList->add([$reportList->toArray(), $user]);
         }
-        dd($collectList);
 
-        return view('admin.attendance.showReportAjax', [
-            'collectList' => $collectList,
-            'user' => User::find($request->user_id),
+        $finalList = collect();
+
+        foreach ($collectList as $collect) {
+            foreach ($collect[0] as $value) {
+                $helper->setSum($value);
+            }
+            $finalList->add(['finalList' => $helper->getSum(), 'user' => $collect[1]]);
+            $helper->refreshList();
+        }
+
+        return view('admin.attendance.showCollectReport', [
+            'collectList' => $finalList,
+            'start_date' => $request->get('start_date'),
+            'end_date' => $request->get('end_date')
         ]);
 
     }
