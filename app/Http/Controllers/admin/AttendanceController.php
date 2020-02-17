@@ -27,7 +27,6 @@ class AttendanceController extends Controller
         $startDate = Carbon::parse(DateFormat::toMiladi($request->start_date));
         $endDate = Carbon::parse(DateFormat::toMiladi($request->end_date));
         $reportList = $user->getReportBetweenDays($startDate, $endDate);
-
         return view('admin.attendance.showReportAjax', [
             'reportList' => $reportList,
             'user' => User::find($request->user_id),
@@ -43,35 +42,16 @@ class AttendanceController extends Controller
 
     public function getCollectReport(Request $request)
     {
-        $users = $request->get('user_id');
         $helper = new general();
-        $collectList = collect();
-
-        foreach ($users as $value) {
-            $user = User::query()->find($value);
-            $reportList = collect();
-
-            $startDate = Carbon::parse(DateFormat::toMiladi($request->get('start_date')));
-            $endDate = Carbon::parse(DateFormat::toMiladi($request->get('end_date')));
-
-            while ($startDate <= $endDate) {
-                $data = $user->getReport($startDate);
-                if ($data == 0) {
-                    return '<h3 align="center" class="text-danger">شیفت کاری در این تاریخ تعریف نشده </h3>';
-                } elseif ($data == 1) {
-                    return '<h3 align="center" class="text-danger">لطفا داده های ورود و خروج را بررسی کنید </h3>';
-                } else {
-                    $reportList->add($data['sumOfStatus']);
-                    $startDate->addDay();
-                }
-            }
-            $collectList->add([$reportList->toArray(), $user]);
-        }
-
-        $finalList = $helper->getSumCollect($collectList);
+        $list = $helper->getSumOfCollect(
+            User::getReportForAnyUser(
+            $request->get('user_id'),
+            $request->get('start_date'),
+            $request->get('end_date'))
+        );
 
         return view('admin.attendance.showCollectReport', [
-            'collectList' => $finalList,
+            'collectList' => $list,
             'start_date' => $request->get('start_date'),
             'end_date' => $request->get('end_date')
         ]);

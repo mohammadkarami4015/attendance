@@ -55,7 +55,7 @@ class general
         $this->sumVacation = 0;
     }
 
-    public function getSumCollect($collectList)
+    public function getSumOfCollect($collectList)
     {
         $finalList = collect();
         foreach ($collectList as $collect) {

@@ -106,12 +106,15 @@ class User extends Authenticatable
 //        return '';
 //    }
 
-    public function getReportBetweenDays(Carbon $startDate, Carbon $endDate)
+    public function getReportBetweenDays(Carbon $startDate, Carbon $endDate, bool $isCollect = false)
     {
         $reportList = collect();
         while ($startDate <= $endDate) {
             $data = $this->getReport($startDate);
-            $reportList->add($data);
+            if (!$isCollect) {
+                $reportList->add($data);
+            } else
+                $reportList->add($data['sumOfStatus']);
             $startDate->addDay();
         }
         return $reportList;
@@ -192,6 +195,19 @@ class User extends Authenticatable
         return $this->demandVacations()->whereDate('start', '<=', $currentDate)
             ->whereDate('end', '>=', $currentDate)
             ->get();
+    }
+
+    public static function getReportForAnyUser($users,$start,$end)
+    {
+        $collectList=collect();
+        foreach ($users as $value) {
+            $user = User::query()->find($value);
+            $startDate = Carbon::parse(DateFormat::toMiladi($start));
+            $endDate = Carbon::parse(DateFormat::toMiladi($end));
+            $reportList = $user->getReportBetweenDays($startDate,$endDate,true);
+            $collectList->add([$reportList->toArray(), $user]);
+        }
+        return $collectList;
     }
 
 
