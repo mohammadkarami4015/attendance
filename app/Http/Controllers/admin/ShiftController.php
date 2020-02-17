@@ -56,7 +56,8 @@ class ShiftController extends Controller
     public function editTime(Shift $shift)
     {
         $days = $shift->getUsageDay();
-        return view('admin.shifts.editTime', compact('days', 'shift'));
+        $dayIndex = implode(',', $days->pluck('id')->toArray());
+        return view('admin.shifts.editTime', compact('days', 'shift','dayIndex'));
     }
 
     public function getWorkTimeAjax(Request $request, Shift $shift)
@@ -67,10 +68,10 @@ class ShiftController extends Controller
 
     public function addWorkTime(WorkTimeRequest $request, Shift $shift)
     {
-        $dayShifts = $shift->dayShift($request->days);
 
+        $dayShifts = $shift->dayShift($request->get('days'));
         foreach ($dayShifts as $dayShift) {
-            $dayShift->addWorkTime($request->ws, $request->we);
+            DayShift::query()->find($dayShift)->addWorkTime($request->get('start'), $request->get('end'));
         }
         return back();
     }

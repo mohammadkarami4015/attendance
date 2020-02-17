@@ -24,6 +24,8 @@
                                     <option {{in_array($day->id,$usageDays->pluck('id')->toArray()) ? 'selected' : ''}} value="{{$day->id}}">{{$day->label}} </option>
                                 @endforeach
                             </select>
+                            <a onclick="selectAll()" class="selectAll btn-sm btn-primary ">انتخاب همه</a>
+                            <a onclick="Clear()" class="clear btn-sm btn-primary">حذف همه</a>
                         </div>
                     </div>
 
@@ -37,7 +39,19 @@
         </div>
     </div>
 
+    <script >
+        function selectAll() {
+            $exampleMulti = $(".select2").select2();
+            $exampleMulti.val([0,1,2,3,4,5,6]).trigger("change");
 
+        }
+
+        function Clear() {
+            $exampleMulti = $(".select2").select2();
+            $exampleMulti.val(null).trigger("change");
+        }
+
+    </script>
 
 @endsection
 

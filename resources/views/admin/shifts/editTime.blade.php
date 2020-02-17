@@ -23,6 +23,8 @@
                                     <option value="{{$day->id}}">{{$day->label}} </option>
                                 @endforeach
                             </select>
+                            <a onclick="selectAll()" class="selectAll btn-sm btn-primary ">انتخاب همه</a>
+                            <a onclick="Clear()" class="clear btn-sm btn-primary">حذف همه</a>
                         </div>
                     </div>
 
@@ -97,6 +99,18 @@
 
     <script>
 
+        function selectAll() {
+            $exampleMulti = $(".select2").select2();
+            $exampleMulti.val([{{$dayIndex}}]).trigger("change");
+
+        }
+
+        function Clear() {
+            $exampleMulti = $(".select2").select2();
+            $exampleMulti.val(null).trigger("change");
+        }
+
+
         function getWorkTimes(id) {
             var url = '{{URL::asset('admin/shift/getWorkTime')}}';
             var shift = '{{$shift->id}}';
@@ -116,8 +130,8 @@
         function add() {
             var count = document.getElementsByClassName('count').length + 1;
             var txt = '  <div class="count input-group date" style="margin-bottom:5px;margin-top: 10%;">\n' +
-                ' <input type="time" required  name="ws[' + count + ']"  placeholder=" زمان شروع ">\n' +
-                ' <input type="time" required  name="we[' + count + ']"  placeholder="زمان پایان"  >\n' +
+                ' <input type="time" required  name="start[' + count + ']"  placeholder=" زمان شروع ">\n' +
+                ' <input type="time" required  name="end[' + count + ']"  placeholder="زمان پایان"  >\n' +
                 ' </div> '
             $("#workTime_add").append(txt);
         }
