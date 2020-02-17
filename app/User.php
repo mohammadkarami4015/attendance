@@ -201,7 +201,7 @@ class User extends Authenticatable
     {
         $collectList=collect();
         foreach ($users as $value) {
-            $user = User::query()->find($value);
+            $user = User::query()->find((int)$value);
             $startDate = Carbon::parse(DateFormat::toMiladi($start));
             $endDate = Carbon::parse(DateFormat::toMiladi($end));
             $reportList = $user->getReportBetweenDays($startDate,$endDate,true);

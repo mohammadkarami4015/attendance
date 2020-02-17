@@ -36,21 +36,23 @@ class AttendanceController extends Controller
     public function collectIndex()
     {
         $users = User::all();
-        return view('admin.attendance.collectIndex', compact('users'));
+        $userIndex = implode(',', $users->pluck('id')->toArray());
+        return view('admin.attendance.collectIndex', compact('users', 'userIndex'));
 
     }
 
     public function getCollectReport(Request $request)
     {
+        $users = explode(',', $request->get('user_id'));
         $helper = new general();
         $list = $helper->getSumOfCollect(
             User::getReportForAnyUser(
-            $request->get('user_id'),
-            $request->get('start_date'),
-            $request->get('end_date'))
+                $users,
+                $request->get('start_date'),
+                $request->get('end_date'))
         );
 
-        return view('admin.attendance.showCollectReport', [
+        return view('admin.attendance.showCollectReportAjax', [
             'collectList' => $list,
             'start_date' => $request->get('start_date'),
             'end_date' => $request->get('end_date')
@@ -87,8 +89,6 @@ class AttendanceController extends Controller
     {
         //
     }
-
-
 
 
 }

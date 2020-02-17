@@ -22,6 +22,7 @@
 
                                 data-placeholder="انتخاب کاربر" style="width: 30%;" tabindex="-1"
                                 aria-hidden="true">
+
                             @foreach($users as $user)
                                 <option value="{{$user->id}}">{{\App\Helpers\Name::userFullName($user)}} </option>
                             @endforeach
@@ -42,7 +43,7 @@
                         <br>
 
                         <div class="footer-a">
-                        <input onclick="getReport()" type="submit" style=" "
+                        <input onclick="getReport()"  style=" "
                                class="btn btn-primary btn-sm pr-1"
                                value=" فیلتر ">
                         </div>
@@ -58,6 +59,7 @@
 
 
         <script>
+
             function getReport() {
 
                 var user_id = document.getElementById('user_id').value;

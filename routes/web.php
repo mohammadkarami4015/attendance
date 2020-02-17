@@ -48,10 +48,11 @@ Route::namespace('admin')->prefix('/admin')->group(function () {
 
     //**************Attendance Route**************
     Route::resource('attendance', 'AttendanceController');
-    Route::get('attendanceCollectIndex', 'AttendanceController@collectIndex')->name('attendance.collectIndex');
-    Route::post('attendance/CollectReport', 'AttendanceController@getCollectReport')->name('attendance.collectReport');
-//    Route::post('attendance/Report','AttendanceController@getReport')->name('attendance.getReport');
     Route::get('attendanceReport','AttendanceController@getReport');
+    Route::get('attendanceCollectIndex', 'AttendanceController@collectIndex')->name('attendance.collectIndex');
+    Route::get('attendanceCollectReport','AttendanceController@getCollectReport');
+//    Route::post('attendance/CollectReport', 'AttendanceController@getCollectReport')->name('attendance.collectReport');
+//    Route::post('attendance/Report','AttendanceController@getReport')->name('attendance.getReport');
 
 
 });
