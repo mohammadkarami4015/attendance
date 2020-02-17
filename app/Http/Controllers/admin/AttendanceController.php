@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use phpDocumentor\Reflection\Types\Collection;
 
 class AttendanceController extends Controller
 {
@@ -25,26 +26,12 @@ class AttendanceController extends Controller
         $user = User::query()->find($request->user_id);
         $startDate = Carbon::parse(DateFormat::toMiladi($request->start_date));
         $endDate = Carbon::parse(DateFormat::toMiladi($request->end_date));
-        $reportList = collect();
-
-        while ($startDate <= $endDate) {
-            if ($user->getReport($startDate) == 0)
-                return '<h3 align="center" class="text-danger">شیفت کاری در این تاریخ تعریف نشده </h3>';
-
-            elseif ($user->getReport($startDate) == 1)
-                return '<h3 align="center" class="text-danger">لطفا داده های ورود و خروج را بررسی کنید </h3>';
-
-            else {
-                $reportList->add($user->getReport($startDate));
-                $startDate->addDay();
-            }
-        }
+        $reportList = $user->getReportBetweenDays($startDate, $endDate);
 
         return view('admin.attendance.showReportAjax', [
             'reportList' => $reportList,
             'user' => User::find($request->user_id),
         ]);
-
     }
 
     public function collectIndex()
@@ -57,7 +44,6 @@ class AttendanceController extends Controller
     public function getCollectReport(Request $request)
     {
         $users = $request->get('user_id');
-
         $helper = new general();
         $collectList = collect();
 
@@ -78,21 +64,11 @@ class AttendanceController extends Controller
                     $reportList->add($data['sumOfStatus']);
                     $startDate->addDay();
                 }
-
             }
-
             $collectList->add([$reportList->toArray(), $user]);
         }
 
-        $finalList = collect();
-
-        foreach ($collectList as $collect) {
-            foreach ($collect[0] as $value) {
-                $helper->setSum($value);
-            }
-            $finalList->add(['finalList' => $helper->getSum(), 'user' => $collect[1]]);
-            $helper->refreshList();
-        }
+        $finalList = $helper->getSumCollect($collectList);
 
         return view('admin.attendance.showCollectReport', [
             'collectList' => $finalList,
@@ -131,6 +107,8 @@ class AttendanceController extends Controller
     {
         //
     }
+
+
 
 
 }

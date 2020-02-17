@@ -20,8 +20,8 @@ class general
 
     public static function fileToCollect($file)
     {
-       $file = Excel::toCollection(new CsvImport, $file);
-      return  $collectOfFile = $file->flatten(1)->groupBy(0)->map->groupBy(function (Collection $item) {
+        $file = Excel::toCollection(new CsvImport, $file);
+        return $collectOfFile = $file->flatten(1)->groupBy(0)->map->groupBy(function (Collection $item) {
             return Carbon::parse(DateFormat::toMiladi($item->get(1)))->format('Y-m-d');
         });
     }
@@ -46,12 +46,27 @@ class general
         ];
 
     }
+
     public function refreshList()
     {
         $this->sumAbsenceTime = 0;
         $this->sumAttendance = 0;
         $this->sumOverTime = 0;
         $this->sumVacation = 0;
+    }
+
+    public function getSumCollect($collectList)
+    {
+        $finalList = collect();
+        foreach ($collectList as $collect) {
+            foreach ($collect[0] as $value) {
+                $this->setSum($value);
+            }
+            $finalList->add(['finalList' => $this->getSum(), 'user' => $collect[1]]);
+            $this->refreshList();
+        }
+        return $finalList;
+
     }
 
 

@@ -15,8 +15,8 @@
     @endphp
 
     <div class="box">
-        <div class="box-header">
-            <label for="">  مجموع کارکرد از تاریخ {{$start_date}} تا تاریخ {{$end_date}}</label>
+        <div style="text-align: center" class="box-header">
+            <label for="">  مجموع کارکرد از تاریخ {{$start_date}} تا  {{$end_date}}</label>
         </div>
         <!-- /.box-header -->
         <div class="box-body">
@@ -34,7 +34,7 @@
                                 <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1"
                                     colspan="1"
                                     aria-sort="ascending"
-                                    aria-label="شهر راننده: activate to sort column descending">
+                                    aria-label=" activate to sort column descending">
                                     نام کاربری
                                 </th>
                                 <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
@@ -58,7 +58,7 @@
 
 
                             <tr role="row" class="odd">
-                                <td class="sorting_1">{{\App\Helpers\Name::userFullName($list['user'])}}</td>
+                                <td class="sorting_1"><b>{{\App\Helpers\Name::userFullName($list['user'])}}</b></td>
                                 <td>{{\Carbon\CarbonInterval::minute($list['finalList']['کارکرد'])->cascade()->forHumans()}}</td>
                                 <td>{{\Carbon\CarbonInterval::minute($list['finalList']['غیبت'])->cascade()->forHumans()}}</td>
                                 <td>{{\Carbon\CarbonInterval::minute($list['finalList']['مرخصی'])->cascade()->forHumans()}}</td>

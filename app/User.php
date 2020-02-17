@@ -84,28 +84,39 @@ class User extends Authenticatable
         return $this->belongsTo(Unit::class, 'unit_id');
     }
 
-    public function getSpecialVacation(VacationType $vacationType)
+//    public function getSpecialVacation(VacationType $vacationType)
+//    {
+//        return $this->vacationTypes()->find($vacationType->id)->pivot->amount;
+//    }
+//
+//    public function setSpecialVacation(VacationType $leaveKind, int $amount)
+//    {
+//
+//        return $this->vacationTypes()->attach($leaveKind->id, ['amount' => $amount]);
+//    }
+//
+//    public function getTotalLeave(VacationType $leaveKind)
+//    {
+//        $monthsOfWorkingTime = Carbon::now()->diffInMonths(date('Y-m-d', strtotime($this->date_of_employment)));
+//        return $monthsOfWorkingTime * $this->getSpecialVacation($leaveKind);
+//    }
+//
+//    public function getLeaveBalance(VacationType $leaveKind)
+//    {
+//        return '';
+//    }
+
+    public function getReportBetweenDays(Carbon $startDate, Carbon $endDate)
     {
-        return $this->vacationTypes()->find($vacationType->id)->pivot->amount;
+        $reportList = collect();
+        while ($startDate <= $endDate) {
+            $data = $this->getReport($startDate);
+            $reportList->add($data);
+            $startDate->addDay();
+        }
+        return $reportList;
+
     }
-
-    public function setSpecialVacation(VacationType $leaveKind, int $amount)
-    {
-
-        return $this->vacationTypes()->attach($leaveKind->id, ['amount' => $amount]);
-    }
-
-    public function getTotalLeave(VacationType $leaveKind)
-    {
-        $monthsOfWorkingTime = Carbon::now()->diffInMonths(date('Y-m-d', strtotime($this->date_of_employment)));
-        return $monthsOfWorkingTime * $this->getSpecialVacation($leaveKind);
-    }
-
-    public function getLeaveBalance(VacationType $leaveKind)
-    {
-        return '';
-    }
-
 
     public function getReport($date)
     {
@@ -113,30 +124,32 @@ class User extends Authenticatable
         $list = new ManageList();
         $givenDate = $date;
         $selectedDay = $givenDate->dayOfWeek;
+        $emptyValue = [
+            'report' => [],
+            'sumOfStatus' => [],
+            'day' => Day::find($selectedDay)->label,
+            'date' => clone $date,
+        ];
         $currentDate = $givenDate->format('Y-m-d');
         $userShift = $this->getShift($currentDate);
 
 
         if (!$userShift)
-            return 0;
+            return array_merge(['message' => 'شیفت کاری در این تاریخ تعریف نشده'], $emptyValue);
+
         $dayOfShift = $userShift->getDayOfShift($currentDate, $selectedDay);
 
         if (!$dayOfShift)
-            return [
-                'report' => [],
-                'sumOfStatus' => [],
-                'day' => Day::find($selectedDay)->label,
-                'date' => clone $date
-            ];
+            return array_merge(['message' => 'جزء روز کاری نمی باشد'], $emptyValue);
 
         $workTimes = DayShift::query()->find($dayOfShift->pivot->id)->getWorkTimes($currentDate);
         $holidays = Holiday::getHoliday($currentDate);
         $userVacation = $this->getVacation($currentDate);
         $userTimeSheet = $this->getTimeSheet($currentDate);
 
-        if (TimeSheet::isCouple($userTimeSheet) == 1)
-            return 1;
-        else
+        if (TimeSheet::isCouple($userTimeSheet) == 1) {
+            return array_merge(['message' => 'داده های ورود و خروج را بررسی کنید'], $emptyValue);
+        } else
             $userTimeSheet = $userTimeSheet->chunk(2);
 
 
@@ -154,7 +167,8 @@ class User extends Authenticatable
             'report' => $reportList,
             'sumOfStatus' => $sumList,
             'day' => Day::find($selectedDay)->label,
-            'date' => clone $date
+            'date' => clone $date,
+            'message' => ''
         ];
 
     }
