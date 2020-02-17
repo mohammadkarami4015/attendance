@@ -31,7 +31,6 @@
                         @endforeach
                     </select>
 
-
                         <button onclick="selectAll()" class="selectAll btn-sm btn-primary">انتخاب همه</button>
                         <button onclick="Clear()" class="clear btn-sm btn-primary">حذف همه</button>
 

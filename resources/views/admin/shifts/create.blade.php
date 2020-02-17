@@ -23,18 +23,22 @@
                             <h4 class="box-title">انتخاب روزهای کاری</h4>
                         </div>
                     </div>
-                    <div class="flex-checkbox">
-                        @foreach($days as $day)
-                            <div class="form-group">
-                                <div class="checkbox">
-                                    <label>
-                                        <input name="days[]" value="{{$day->id}}" type="checkbox"
-                                               id="day">
-                                        {{$day->label}}
-                                    </label>
-                                </div>
-                            </div>
-                        @endforeach
+
+                    <div class="box-body">
+                        <div class="form-group">
+
+                            <select required name="days[]" class="test select2 select2-hidden-accessible"
+                                    multiple=""
+                                    data-placeholder="انتخاب روز" style="width: 100%;" tabindex="-1"
+                                    aria-hidden="true">
+                                @foreach($days as $day)
+                                    <option  value="{{$day->id}}">{{$day->label}} </option>
+                                @endforeach
+                            </select>
+                            <a onclick="selectAll()" class="selectAll btn-sm btn-primary ">انتخاب همه</a>
+                            <a onclick="Clear()" class="clear btn-sm btn-primary">حذف همه</a>
+
+                        </div>
                     </div>
 
                     <div class="box-footer">
@@ -46,5 +50,20 @@
             </div>
         </div>
     </div>
+
+
+    <script >
+        function selectAll() {
+            $exampleMulti = $(".select2").select2();
+            $exampleMulti.val([0,1,2,3,4,5,6]).trigger("change");
+
+        }
+
+        function Clear() {
+            $exampleMulti = $(".select2").select2();
+            $exampleMulti.val(null).trigger("change");
+        }
+
+    </script>
 @endsection
 
