@@ -22,9 +22,8 @@
                     <tr>
                         <th>عنوان تعطیلی</th>
                         <th>توضیحات</th>
-                        <th>تاریخ شروع</th>
+                        <th>تاریخ </th>
                         <th>زمان شروع</th>
-                        <th>تاریخ پایان</th>
                         <th>زمان پایان</th>
                         <th>نوع تعطیلی</th>
                         <th style="text-align: center"> تنظیمات</th>
@@ -43,9 +42,6 @@
                             </td>
                             <td>
                                 {{\App\Helpers\DateFormat::toJalali($holiday->start)->formatTime()}}
-                            </td>
-                            <td>
-                                {{\App\Helpers\DateFormat::toJalali($holiday->end)->formatJalaliDate()}}
                             </td>
                             <td>
                                 {{\App\Helpers\DateFormat::toJalali($holiday->end)->formatTime()}}

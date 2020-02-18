@@ -21,9 +21,9 @@ class CreateUsersTable extends Migration
             $table->string('family');
             $table->string('national_code');
             $table->string('personal_code')->unique();
-            $table->string('date_of_employment');
+            $table->string('date_of_employment')->default(null);
             $table->string('email')->unique();
-            $table->unsignedBigInteger('unit_id')->nullable();;
+            $table->unsignedBigInteger('unit_id');;
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
@@ -32,55 +32,6 @@ class CreateUsersTable extends Migration
                 ->references('id')->on('units');
         });
 
-        DB::table('users')->insert([
-            'name' => 'محمد',
-            'family' => 'فتحی',
-            'national_code' => '3732111111',
-            'personal_code' => '10100',
-            'date_of_employment' => Carbon::now(),
-            'email' => 'fathi@admin.com',
-            'password' => '$2y$10$cz449UJOuDzyyXPM2ECSYOVBCc5s2yRE8stdpf6vDKfYUpC1/9kW6',
-        ]);
-
-        DB::table('users')->insert([
-            'name' => 'پرویز',
-            'family' => 'کاظمی',
-            'national_code' => '3732111111',
-            'personal_code' => '10101',
-            'date_of_employment' => Carbon::now(),
-            'email' => 'kazemi@admin.com',
-            'password' => '$2y$10$cz449UJOuDzyyXPM2ECSYOVBCc5s2yRE8stdpf6vDKfYUpC1/9kW6',
-        ]);
-
-        DB::table('users')->insert([
-            'name' => 'پیام',
-            'family' => 'کریمیان',
-            'national_code' => '3732111111',
-            'personal_code' => '10102',
-            'date_of_employment' => Carbon::now(),
-            'email' => 'karimian@admin.com',
-            'password' => '$2y$10$cz449UJOuDzyyXPM2ECSYOVBCc5s2yRE8stdpf6vDKfYUpC1/9kW6',
-        ]);
-
-        DB::table('users')->insert([
-            'name' => 'دیاکو',
-            'family' => 'محمودی',
-            'national_code' => '3732111111',
-            'personal_code' => '10103',
-            'date_of_employment' => Carbon::now(),
-            'email' => 'admin@admin.com',
-            'password' => '$2y$10$cz449UJOuDzyyXPM2ECSYOVBCc5s2yRE8stdpf6vDKfYUpC1/9kW6',
-        ]);
-
-        DB::table('users')->insert([
-            'name' => 'کاربر',
-            'family' => 'عادی',
-            'national_code' => '3732111111',
-            'personal_code' => '10126',
-            'date_of_employment' => Carbon::now(),
-            'email' => 'ordinary@gmail.com',
-            'password' => '$2y$10$cz449UJOuDzyyXPM2ECSYOVBCc5s2yRE8stdpf6vDKfYUpC1/9kW6',
-        ]);
     }
 
     /**

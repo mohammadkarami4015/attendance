@@ -218,11 +218,6 @@ desired effect
                 </li>
 
 
-
-
-
-
-
                 <li class="treeview">
                     <a href="#"><i class="fa fa-link"></i> <span>بخش مدیریت</span>
                         <span class="pull-left-container">
@@ -360,15 +355,22 @@ desired effect
             timePicker: {
                 enabled: true
             },
+        });
 
+        $('.timeOnly').persianDatepicker({
 
-    })
-        ;
+            initialValue: false,
+            format: 'HH:mm',
+            onlyTimePicker: true,
+            timePicker: {
+                enabled: true
+            },
+        });
 
         $(function () {
             //Initialize Select2 Elements
             $('.select2').select2({
-                dir:"rtl"
+                dir: "rtl"
             });
             $('.Select2').val(null).trigger('change');
 

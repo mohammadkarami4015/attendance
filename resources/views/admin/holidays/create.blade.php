@@ -26,22 +26,22 @@
                     <div class="form-group">
                         <label for="nationalCode">نوع تعطیلی </label>
 
-                        <input readonly onchange="hourlyDaily(this.value)" name="is_daily" type="radio"
+                        <input readonly  name="is_daily" type="radio"
                                value="1"> روزانه
 
-                        <input readonly onchange="hourlyDaily(this.value)" name="is_daily" type="radio"
+                        <input checked readonly  name="is_daily" type="radio"
                                value="0"> ساعتی
                         <br>
 
                     </div>
                     <div class="">
                         <label for="family"> تاریخ شروع</label>
-                        <input type="text" class="form-control tarikh" id="start" name="start">
+                        <input required   style="width: 60%"type="text" readonly class="form-control tarikh" id="start" name="start">
 
                     </div>
                     <div class="">
-                        <label for="family"> تاریخ پایان</label>
-                        <input type="text" class="form-control tarikh" id="end" name="end">
+                        <label for="family"> زمان پایان</label>
+                        <input style="width: 40%"  type="time"  class="form-control timeOnly" id="end" name="end">
                         <hr>
                     </div>
 

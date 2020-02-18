@@ -27,22 +27,22 @@
                     <div class="form-group">
                         <label for="nationalCode">نوع تعطیلی </label>
 
-                        <input @if($holiday->is_daily == 1 ) checked @endif readonly onchange="hourlyDaily(this.value)" name="is_daily" type="radio"
+                        <input @if($holiday->is_daily == 1 ) checked @endif readonly  name="is_daily" type="radio"
                                value="1"> روزانه
 
-                        <input @if($holiday->is_daily == 0 ) checked @endif readonly onchange="hourlyDaily(this.value)" name="is_daily" type="radio"
+                        <input @if($holiday->is_daily == 0 ) checked @endif name="is_daily" type="radio"
                                value="0"> ساعتی
                         <br>
 
                     </div>
                     <div class="">
                         <label for="family"> تاریخ شروع</label>
-                        <input type="text" class="form-control tarikh"  value="{{$holiday->start}}" id="start" name="start">
+                        <input required type="text" readonly class="form-control tarikh"  value="{{$holiday->start}}" id="start" name="start">
 
                     </div>
                     <div class="">
-                        <label for="family"> تاریخ پایان</label>
-                        <input disabled type="text" class="form-control tarikh" id="end" value="{{$holiday->start}}" name="end">
+                        <label for="family"> زمان پایان</label>
+                        <input style="width: 30%"  required type="time" class="form-control " id="end" value="{{$holiday->end}}" name="end">
                         <hr>
                     </div>
 

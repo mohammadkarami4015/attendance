@@ -26,8 +26,7 @@ class HolidayRequest extends FormRequest
         return [
             'title' => 'required|min:4|max:20',
             'start' => 'required',
-            'is_daily' => 'required',
-            'end' => 'required_if:is_daily,==,0',
+            'end' => 'required',
         ];
     }
 
@@ -38,8 +37,8 @@ class HolidayRequest extends FormRequest
             'title.min' => 'عنوان وارد شده باید بیشتر از 4 کاراکتر باشد',
             'title.max' => 'عنوان وارد شده باید کمتر از 20 کاراکتر باشد',
             'start.required' => 'تاریخ شروع را انتخاب کنید',
-            'end.required_if' => '  تاریخ پایان را انتخاب کنید',
-            'is_daily.required' => 'نوع تعطیلی را انتخاب کنید',
+            'end.required' => '  زمان پایان را انتخاب کنید',
+
 
         ];
     }

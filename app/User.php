@@ -137,10 +137,12 @@ class User extends Authenticatable
         $userShift = $this->getShift($currentDate);
 
 
+
         if (!$userShift)
             return array_merge(['message' => 'شیفت کاری در این تاریخ تعریف نشده'], $emptyValue);
 
         $dayOfShift = $userShift->getDayOfShift($currentDate, $selectedDay);
+
 
         if (!$dayOfShift)
             return array_merge(['message' => 'جزء روز کاری نمی باشد'], $emptyValue);

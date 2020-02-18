@@ -4,6 +4,7 @@ namespace App;
 
 use App\Helpers\DateFormat;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 use phpDocumentor\Reflection\Types\Self_;
 
 class Holiday extends Model
@@ -22,24 +23,28 @@ class Holiday extends Model
             return 0;
     }
 
-    public static function data($request)
+    public static function data(Request $request)
     {
         return [
             'title' => $request->get('title'),
             'description' => $request->get('description'),
-            'is_daily' => $request->get('is_daily'),
+            'is_daily'=>$request->get('is_daily'),
             'start' => DateFormat::toMiladi($request->get('start')),
-            'end' => DateFormat::toMiladi($request->get('end')),
+            'end' => $request->get('end'),
         ];
 
     }
 
 
+//    public static function getHoliday($currentDate)
+//    {
+//        return self::query()->whereDate('start', '<=', $currentDate)
+//            ->whereDate('end', '>=', $currentDate)
+//            ->get();
+//    }
     public static function getHoliday($currentDate)
     {
-        return self::query()->whereDate('start', '<=', $currentDate)
-            ->whereDate('end', '>=', $currentDate)
-            ->get();
+        return self::query()->whereDate('start', $currentDate)->get();
     }
 
 
