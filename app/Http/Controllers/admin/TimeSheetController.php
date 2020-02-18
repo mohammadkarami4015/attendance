@@ -108,9 +108,10 @@ class TimeSheetController extends Controller
         $collectOfFile = general::fileToCollect($request->file('file'));
         $timeSheets = TimeSheet::getFingerTime();
 
-        if ($this->isDuplicate($collectOfFile,$timeSheets))
-            return back()->withErrors('فایل وارد شده شامل دیتای تکراری است لطفا آنرا اصلاح کنید');
 
+        if ($this->isDuplicate($collectOfFile,$timeSheets)) {
+            return back()->withErrors('فایل وارد شده شامل دیتای تکراری است لطفا آنرا اصلاح کنید');
+        }
         try {
             Excel::import(new CsvImport(), request()->file('file'));
             message::show('فایل مورد نظر با موفقیت آپلود شد');
@@ -124,6 +125,7 @@ class TimeSheetController extends Controller
 
     public function isDuplicate($file,$timeSheets)
     {
-       return $file->values()->map->keys()->map->intersect($timeSheets)->map->isNotEmpty()->contains('true') ;
+
+       return $file->values()->map->keys()->map->intersect($timeSheets)->map->isNotEmpty()->contains('true');
     }
 }

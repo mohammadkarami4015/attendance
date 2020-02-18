@@ -37,16 +37,21 @@
                                 {{$workTime->dayShift->day->label}}
                             </td>
                             <td>
-                              {{$workTime->start}}
+                                {{$workTime->start}}
                             </td>
                             <td>
                                 {{$workTime->end}}
                             </td>
                             <td>
-                                {{$workTime->from}}
+                                {{\App\Helpers\DateFormat::toJalali($workTime->from)->formatJalaliDate()}}
                             </td>
                             <td>
-                                {{$workTime->to}}
+                                @if($workTime->to != null)
+                                    {{\App\Helpers\DateFormat::toJalali($workTime->to)->formatJalaliDate()}}
+                                @else
+                                    تعیین نشده
+                                @endif
+
                             </td>
 
                             <td>
@@ -66,7 +71,7 @@
 
                 </table>
                 <div style="margin-right: 40%">
-{{--                    {{$workTimes->appends(request()->all())->links()}}--}}
+                    {{--                    {{$workTimes->appends(request()->all())->links()}}--}}
                 </div>
             </div>
 

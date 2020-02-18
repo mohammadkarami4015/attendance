@@ -36,12 +36,7 @@ class Holiday extends Model
     }
 
 
-//    public static function getHoliday($currentDate)
-//    {
-//        return self::query()->whereDate('start', '<=', $currentDate)
-//            ->whereDate('end', '>=', $currentDate)
-//            ->get();
-//    }
+
     public static function getHoliday($currentDate)
     {
         return self::query()->whereDate('start', $currentDate)->get();

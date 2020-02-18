@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Excel;
 use phpDocumentor\Reflection\Types\Collection;
 
 class AttendanceController extends Controller
