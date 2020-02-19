@@ -6,10 +6,12 @@ use App\Helper\message;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 
 class DayShift extends Model
 {
+
     protected $guarded = [];
     protected $table = 'day_shift';
 

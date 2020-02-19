@@ -26,10 +26,9 @@ $factory->define(User::class, function (Faker $faker) {
         'national_code' =>  Str::random(10),
         'personal_code' =>  Str::random(5),
         'unit_id'=>random_int(1,4),
-        'email' => $faker->unique()->safeEmail,
         'email_verified_at' => now(),
         'password' => '$2y$10$Q5IoW9MDi2jKslAtyCaV/Ot3qbLRBtjSWsacuKN76fLOQo0az0QOO', // password
         'remember_token' => Str::random(10),
-        'date_of_employment' => date("Y-m-d", strtotime("2019-09-25")),
+
     ];
 });

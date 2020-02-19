@@ -10,10 +10,10 @@ use Hekmatinasser\Verta\Verta;
 class Name
 {
 
-    public static function userFullName(User $user)
+    public static function userFullName($user)
     {
-
-        return $user->name . " " . $user->family;
+        if ($user)
+            return $user->name . " " . $user->family;
     }
 
 }

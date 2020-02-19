@@ -175,7 +175,7 @@ desired effect
                     <ul class="treeview-menu">
                         <li><a href="{{ route('users.index')}} ">لیست کاربران</a></li>
                         <li><a href="{{ route('users.create') }}">ثبت کاربر جدید</a></li>
-                        <li><a href="">تغییر رمز عبور کاربران </a></li>
+                        <li><a href="{{route('users.changePasswordForm')}}">تغییر رمز عبور کاربران </a></li>
                     </ul>
                 </li>
                 <li>

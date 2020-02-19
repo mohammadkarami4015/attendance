@@ -21,6 +21,7 @@ class CreateHolidaysTable extends Migration
             $table->boolean('is_daily')->default(false);
             $table->string('description')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

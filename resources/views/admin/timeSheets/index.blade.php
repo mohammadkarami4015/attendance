@@ -95,7 +95,8 @@
                 @foreach($timeSheets as $timeSheet)
                     <tr>
                         <td>
-                            {{\App\Helpers\Name::userFullName($timeSheet->user)}}
+                                {{\App\Helpers\Name::userFullName($timeSheet->user)}}
+
                         </td>
                         <td>
                             {{\App\Helpers\DateFormat::toJalali($timeSheet->finger_print_time)->formatJalaliDate()}}

@@ -21,6 +21,8 @@ Route::namespace('admin')->prefix('/admin')->group(function () {
 
     //**************User Route**************
     Route::resource('users', 'UsersController');
+    Route::get('/usersChangePassword','UsersController@changePasswordForm')->name('users.changePasswordForm');
+    Route::patch('usersChangePassword','UsersController@changePassword')->name('users.changePassword');
 
     //**************Unit Route**************
     Route::resource('units', 'UnitController');

@@ -25,6 +25,7 @@ class CreateVacationTypesTable extends Migration
                 ->references('id')->on('vacation_period_time');
             $table->foreign('vacation_measurement_id')
                 ->references('id')->on('vacation_measurement');
+            $table->softDeletes();
         });
 
 

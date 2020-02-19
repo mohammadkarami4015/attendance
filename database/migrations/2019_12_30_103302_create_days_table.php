@@ -19,6 +19,7 @@ class CreateDaysTable extends Migration
             $table->string('title');
             $table->string('label');
             $table->index('id');
+            $table->softDeletes();
 
         });
 

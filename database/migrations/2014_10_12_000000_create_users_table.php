@@ -28,6 +28,7 @@ class CreateUsersTable extends Migration
             $table->timestamps();
             $table->foreign('unit_id')
                 ->references('id')->on('units');
+            $table->softDeletes();
         });
 
     }

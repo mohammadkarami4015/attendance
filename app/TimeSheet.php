@@ -5,9 +5,11 @@ namespace App;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class TimeSheet extends Model
 {
+    use SoftDeletes;
     /*protected $casts = [
         'finger_print_time' => 'datetime',
     ];*/

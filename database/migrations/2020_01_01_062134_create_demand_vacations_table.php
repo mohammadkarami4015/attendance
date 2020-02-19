@@ -24,6 +24,7 @@ class CreateDemandVacationsTable extends Migration
             $table->unsignedBigInteger('confirmation_type_id');
             $table->text('description')->nullable();
             $table->timestamps();
+            $table->softDeletes();
             $table->foreign('user_id')
                 ->references('id')->on('users')
                 ->onDelete('cascade');

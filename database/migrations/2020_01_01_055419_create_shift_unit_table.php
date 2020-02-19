@@ -25,6 +25,7 @@ class CreateShiftUnitTable extends Migration
             $table->foreign('shift_id')
                 ->references('id')->on('shifts')
                 ->onDelete('cascade');
+            $table->softDeletes();
           //  $table->primary(['user_id','shift_id']);
         });
     }

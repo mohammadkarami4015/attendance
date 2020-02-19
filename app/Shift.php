@@ -6,10 +6,11 @@ use App\Helper\message;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Shift extends Model
 {
-
+    use SoftDeletes;
     protected $casts = [
         'work_start' => 'time',
         'work_end' => 'time',

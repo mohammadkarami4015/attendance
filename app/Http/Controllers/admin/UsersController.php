@@ -4,12 +4,14 @@ namespace App\Http\Controllers\admin;
 
 use App\Helper\message;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PasswordRequest;
 use App\Http\Requests\UserRequest;
 use App\Unit;
 use App\User;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use someNamespaceA\NamespacedClass;
 
 class UsersController extends Controller
 {
@@ -67,6 +69,21 @@ class UsersController extends Controller
 
         $user->delete();
         message:: show('کاربر مورد نظر حذف شد');
+        return back();
+    }
+
+    public function changePasswordForm()
+    {
+        return view('admin.users.changePassword', ['users' => User::all()]);
+    }
+
+    public function changePassword(PasswordRequest $request)
+    {
+
+
+        $user = User::query()->findOrFail($request->get('user_id'));
+        $user->update(['password'=>bcrypt($request->get('password'))]);
+        message::show('رمز عبور باموفقیت ثبت شد');
         return back();
     }
 

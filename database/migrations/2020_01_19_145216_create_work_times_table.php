@@ -24,6 +24,7 @@ class CreateWorkTimesTable extends Migration
             $table->foreign('day_shift_id')
                 ->references('id')->on('day_shift')
                 ->onDelete('cascade');
+            $table->softDeletes();
         });
     }
 

@@ -4,9 +4,11 @@ namespace App;
 
 use App\Helper\message;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class WorkTime extends Model
 {
+    use SoftDeletes;
     protected $guarded = [];
 
     public function dayShift()
