@@ -63,6 +63,12 @@ class User extends Authenticatable
             ->withPivot('from', 'to');
     }
 
+    public function addDefaultRole()
+    {
+        $this->roles()->attach(1);
+
+    }
+
 
     public function timeSheets()
     {

@@ -19,6 +19,9 @@ Route::get('/', function () {
 
 Route::namespace('admin')->prefix('/admin')->group(function () {
 
+    //**************User Route**************
+    Route::resource('users', 'UsersController');
+
     //**************Unit Route**************
     Route::resource('units', 'UnitController');
     Route::get('/units/addShiftForm/{unit}', 'UnitController@addShiftForm')->name('units.addShiftForm');
@@ -55,9 +58,11 @@ Route::namespace('admin')->prefix('/admin')->group(function () {
 //    Route::post('attendance/Report','AttendanceController@getReport')->name('attendance.getReport');
 
 
+//**************Attendance Route**************
+
+
 });
 
-Route::resource('users', 'admin\UsersController');
 Route::resource('vacationType', 'admin\VacationTypeController');
 Route::resource('specialVacation', 'admin\SpecialVacationController');
 Route::resource('demandVacation', 'DemandVacationController');

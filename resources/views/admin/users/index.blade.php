@@ -35,48 +35,46 @@
             <table id="example2" class="table table-bordered table-hover">
                 <tbody>
                 <tr>
-                    <th class="text-danger">ردیف</th>
-                    <th class="text-danger">نام</th>
-                    <th class="text-danger">نام خانوادگی</th>
+                    <th class="text-danger"> نام و نام خانوادگی</th>
                     <th class="text-danger">کد پرسنلی</th>
                     <th class="text-danger">کد ملی</th>
-                    <th class="text-danger">پست سازمانی</th>
-                    <th class="text-danger">ایمیل</th>
-                    <th class="text-danger">نقش</th>
-                    <th class="text-danger">  ویرایش | حذف</th>
+                    <th class="text-danger">گروه کاری</th>
+                    <th class="text-danger">شیفت مربوطه</th>
+                    <th class="text-danger">نقش </th>
+                    <th class="text-danger">تنظیمات</th>
                 </tr>
                 </tbody>
                 <tbody id="users">
                 @foreach($users as $user)
                     <tr>
-                        <td>{{$index}}</td>
                         <td>
-                            <a href="/users/{{$user->id}}">{{$user->name}}</a>
+                           <a title="نمایش جزيیات" href="{{route('users.show',$user->id)}}"> {{\App\Helpers\Name::userFullName($user)}}</a>
                         </td>
-                        <td>{{$user->family}}</td>
                         <td>{{$user->personal_code}}</td>
-                        <td>{{$user->namtional_code}}</td>
-                        <td></td>
-                        <td>{{$user->email}}</td>
-                        <td></td>
+                        <td>{{$user->national_code}}</td>
+                        <td>{{$user->unit->title}}</td>
+                        <td> {{($user->unit->getCurrentShift()->title)}}</td>
+                        <td> {{($user->unit->getCurrentShift()->title)}}</td>
                         <td>
                             <form onsubmit="return confirm('آیا مایل به حذف این کاربر هستید؟');"
-                                  method="POST" action="/users/{{$user->id}}">
+                                  method="POST" action="{{route('users.destroy',$user->id)}}">
                                 {{csrf_field()}}
                                 {{method_field('delete')}}
 
-                                <a href="/users/edit/{{$user->id}}" class="btn btn-primary">ویرایش</a>
+                                <a href="{{route('users.edit',$user->id)}}" class="btn btn-primary">ویرایش</a>
                                 <button type="submit" class="btn btn-danger btn-sm">حذف</button>
                             </form>
                         </td>
                     </tr>
-                    <input type="hidden" {{$index+=1}}>
                 @endforeach
                 </tbody>
                 <tfoot>
 
                 </tfoot>
             </table>
+        </div>
+        <div style="margin-right: 40%">
+            {{$users->appends(request()->all())->links()}}
         </div>
     </div>
 
