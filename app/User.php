@@ -220,10 +220,13 @@ class User extends Authenticatable
         return $collectList;
     }
 
-    public static function scopeSearch(Builder $query, $code)
+    public static function scopeSearch(Builder $query, $data)
     {
-        return $query->where('personal_code', 'like', '%' . $code . '%')
-            ->orWhere('national_code','like', '%' . $code . '%');
+        return $query->where('personal_code', 'like', '%' . $data . '%')
+            ->orWhere('national_code','like', '%' . $data . '%')
+            ->orwhere('name','like','%'.$data.'%')
+            ->orwhere('family','like','%'.$data.'%');
+
     }
 
 

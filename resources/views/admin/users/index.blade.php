@@ -6,13 +6,14 @@
             <div class="row">
                 <div class="col-sm-3">
                     <div class="form-group">
-                        <label for="personal_code">کد پرسنلی یا کد ملی:</label>
-                        <input type="text" name="personal_code" id="personal_code" class="form-control"
-                               onkeyup="search()">
+                        <label for="personal_code">جستجو  </label>
+                        <input type="text" name="personal_code" id="code" class="form-control"
+                               onkeyup="search()" placeholder="نام،نام خانوادگی،کدملی،کدپرسنلی">
                     </div>
                 </div>
                 <div class="col-sm-3">
                     <div class="form-group">
+
                         <label for="section_id">بخش</label>
                         <select type="text" name="section_id" id="section_id" class="form-control" onchange="">
                             <option value="" selected>همه بخش ها</option>
@@ -80,9 +81,7 @@
     </div>
     <script>
         function search() {
-
-            var personal_code = document.getElementById('personal_code').value;
-
+            var data = document.getElementById('code').value;
             var url = '{{URL::asset('admin/usersSearch')}}' + '?';
             var xhttp = new XMLHttpRequest();
 
@@ -91,7 +90,20 @@
                     document.getElementById('users').innerHTML = this.responseText;
                 }
             };
-            xhttp.open("GET", url + 'personal_code=' + personal_code, true);
+            xhttp.open("GET", url + 'data=' + data, true);
+            xhttp.send();
+        }
+        function searchByName() {
+            var text = document.getElementById('text').value;
+            var url = '{{URL::asset('admin/usersSearchText')}}' + '?';
+            var xhttp = new XMLHttpRequest();
+
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById('users').innerHTML = this.responseText;
+                }
+            };
+            xhttp.open("GET", url + 'text' + text, true);
             xhttp.send();
         }
     </script>

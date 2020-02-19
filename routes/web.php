@@ -22,7 +22,7 @@ Route::namespace('admin')->prefix('/admin')->group(function () {
     //**************User Route**************
     Route::resource('users', 'UsersController');
     Route::get('/usersChangePassword','UsersController@changePasswordForm')->name('users.changePasswordForm');
-    Route::get('usersSearch','UsersController@search')->name('users.search');
+    Route::get('usersSearch','UsersController@searchCode')->name('users.search');
     Route::patch('usersChangePassword','UsersController@changePassword')->name('users.changePassword');
 
     //**************Unit Route**************

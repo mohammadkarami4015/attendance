@@ -87,12 +87,10 @@ class UsersController extends Controller
         return back();
     }
 
-    public function search(Request $request)
+    public function searchCode(Request $request)
     {
-
-        $users = User::Search($request->get('personal_code'))->get();
+        $users = User::Search($request->get('data'))->get();
         return view('admin.users.searchAjax', compact('users'));
-
     }
 
 }
