@@ -6,6 +6,7 @@ use App\Helper\message;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PasswordRequest;
 use App\Http\Requests\UserRequest;
+use App\Shift;
 use App\Unit;
 use App\User;
 
@@ -18,8 +19,11 @@ class UsersController extends Controller
 
     public function index()
     {
+
         return view('admin.users.index', [
             'users' => User::query()->latest()->paginate(20),
+            'units' => Unit::all(),
+            'shifts' => Shift::all()
         ]);
     }
 
@@ -79,8 +83,6 @@ class UsersController extends Controller
 
     public function changePassword(PasswordRequest $request)
     {
-
-
         $user = User::query()->findOrFail($request->get('user_id'));
         $user->update(['password' => bcrypt($request->get('password'))]);
         message::show('رمز عبور باموفقیت ثبت شد');
@@ -90,7 +92,20 @@ class UsersController extends Controller
     public function searchCode(Request $request)
     {
         $users = User::Search($request->get('data'))->get();
-        return view('admin.users.searchAjax', compact('users'));
+        return view('admin.users.Ajax', compact('users'));
+    }
+
+    public function filterByUnit(Request $request)
+    {
+
+        if ($request->get('unit_id') != 0) {
+            $users = User::filterByUnit($request->get('unit_id'))->latest()->get();
+        } else {
+            $users = User::query()->latest()->paginate(20);
+        }
+
+        return view('admin.users.Ajax', compact('users'));
+
     }
 
 }

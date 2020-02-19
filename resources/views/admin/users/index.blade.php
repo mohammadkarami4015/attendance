@@ -13,20 +13,25 @@
                 </div>
                 <div class="col-sm-3">
                     <div class="form-group">
-
-                        <label for="section_id">بخش</label>
-                        <select type="text" name="section_id" id="section_id" class="form-control" onchange="">
-                            <option value="" selected>همه بخش ها</option>
+                        <label for="section_id">گروه کاری</label>
+                        <select  type="text" name="section_id" id="section_id"  class="form-control select2 select2-container"
+                                 onchange="filterByUnit(this.value)">
+                            <option value="0"> همه گروه ها</option>
+                            @foreach($units as $unit)
+                                <option  value="{{$unit->id}}" >{{$unit->title}}</option>
+                            @endforeach
 
                         </select>
                     </div>
                 </div>
                 <div class="col-sm-3">
                     <div class="form-group">
-                        <label for="orderBy">مرتب سازی بر اساس</label>
-                        <select name="orderBy" id="orderBy" class="form-control" onchange="">
-                            <option value="personal_code">کد پرسنلی</option>
-                            <option value="family">نام خانوادگی</option>
+                        <label for="section_id">شیفت کاری</label>
+                        <select type="text" name="section_id" id="section_id" multiple class="form-control select2 select2-container" onchange="">
+                            @foreach($shifts as $shift)
+                                <option value="{{$shift->id}}" >{{$shift->title}}</option>
+                            @endforeach
+
                         </select>
                     </div>
                 </div>
@@ -93,9 +98,11 @@
             xhttp.open("GET", url + 'data=' + data, true);
             xhttp.send();
         }
-        function searchByName() {
-            var text = document.getElementById('text').value;
-            var url = '{{URL::asset('admin/usersSearchText')}}' + '?';
+
+
+        function filterByUnit(unit_id) {
+
+            var url = '{{URL::asset('admin/usersFilterByUnit')}}' + '?';
             var xhttp = new XMLHttpRequest();
 
             xhttp.onreadystatechange = function () {
@@ -103,7 +110,8 @@
                     document.getElementById('users').innerHTML = this.responseText;
                 }
             };
-            xhttp.open("GET", url + 'text' + text, true);
+
+            xhttp.open("GET", url + 'unit_id=' + unit_id, true);
             xhttp.send();
         }
     </script>

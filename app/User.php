@@ -229,5 +229,10 @@ class User extends Authenticatable
 
     }
 
+    public  static function filterByUnit($data)
+    {
+        return self::query()->where('unit_id',$data);
+    }
+
 
 }
