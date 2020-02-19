@@ -82,9 +82,17 @@ class UsersController extends Controller
 
 
         $user = User::query()->findOrFail($request->get('user_id'));
-        $user->update(['password'=>bcrypt($request->get('password'))]);
+        $user->update(['password' => bcrypt($request->get('password'))]);
         message::show('رمز عبور باموفقیت ثبت شد');
         return back();
+    }
+
+    public function search(Request $request)
+    {
+
+        $users = User::Search($request->get('personal_code'))->get();
+        return view('admin.users.searchAjax', compact('users'));
+
     }
 
 }

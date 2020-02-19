@@ -5,6 +5,7 @@ namespace App;
 use App\Helpers\DateFormat;
 use App\Helpers\ManageList;
 use Carbon\Carbon;
+use http\QueryString;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -145,7 +146,6 @@ class User extends Authenticatable
         $userShift = $this->getShift($currentDate);
 
 
-
         if (!$userShift)
             return array_merge(['message' => 'شیفت کاری در این تاریخ تعریف نشده'], $emptyValue);
 
@@ -207,17 +207,23 @@ class User extends Authenticatable
             ->get();
     }
 
-    public static function getReportForAnyUser($users,$start,$end)
+    public static function getReportForAnyUser($users, $start, $end)
     {
-        $collectList=collect();
+        $collectList = collect();
         foreach ($users as $value) {
             $user = User::query()->find((int)$value);
             $startDate = Carbon::parse(DateFormat::toMiladi($start));
             $endDate = Carbon::parse(DateFormat::toMiladi($end));
-            $reportList = $user->getReportBetweenDays($startDate,$endDate,true);
+            $reportList = $user->getReportBetweenDays($startDate, $endDate, true);
             $collectList->add([$reportList->toArray(), $user]);
         }
         return $collectList;
+    }
+
+    public static function scopeSearch(Builder $query, $code)
+    {
+        return $query->where('personal_code', 'like', '%' . $code . '%')
+            ->orWhere('national_code','like', '%' . $code . '%');
     }
 
 

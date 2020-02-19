@@ -35,7 +35,6 @@ class TimeSheet extends Model
 
     public function scopeFilterByDate(Builder $query, $from, $to, $user_id)
     {
-
         $query->where('user_id', $user_id)->whereBetween('finger_print_time', [$from, $to]);
     }
 

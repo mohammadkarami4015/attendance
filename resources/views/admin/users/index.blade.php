@@ -6,9 +6,9 @@
             <div class="row">
                 <div class="col-sm-3">
                     <div class="form-group">
-                        <label for="personal_code">کد پرسنلی:</label>
+                        <label for="personal_code">کد پرسنلی یا کد ملی:</label>
                         <input type="text" name="personal_code" id="personal_code" class="form-control"
-                               onkeyup="">
+                               onkeyup="search()">
                     </div>
                 </div>
                 <div class="col-sm-3">
@@ -40,15 +40,16 @@
                     <th class="text-danger">کد ملی</th>
                     <th class="text-danger">گروه کاری</th>
                     <th class="text-danger">شیفت مربوطه</th>
-                    <th class="text-danger">نقش </th>
+                    <th class="text-danger">نقش</th>
                     <th class="text-danger">تنظیمات</th>
                 </tr>
                 </tbody>
                 <tbody id="users">
-                @foreach($users as $user)
+                     @foreach($users as $user)
                     <tr>
                         <td>
-                           <a title="نمایش جزيیات" href="{{route('users.show',$user->id)}}"> {{\App\Helpers\Name::userFullName($user)}}</a>
+                            <a title="نمایش جزيیات"
+                               href="{{route('users.show',$user->id)}}"> {{\App\Helpers\Name::userFullName($user)}}</a>
                         </td>
                         <td>{{$user->personal_code}}</td>
                         <td>{{$user->national_code}}</td>
@@ -77,5 +78,22 @@
             {{$users->appends(request()->all())->links()}}
         </div>
     </div>
+    <script>
+        function search() {
+
+            var personal_code = document.getElementById('personal_code').value;
+
+            var url = '{{URL::asset('admin/usersSearch')}}' + '?';
+            var xhttp = new XMLHttpRequest();
+
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById('users').innerHTML = this.responseText;
+                }
+            };
+            xhttp.open("GET", url + 'personal_code=' + personal_code, true);
+            xhttp.send();
+        }
+    </script>
 
 @endsection
