@@ -88,7 +88,7 @@
                 let user_id = Array.from(selectElement.selectedOptions)
                     .map(option => option.value);
 
-                var url = '{{URL::asset('admin/attendanceCollectReport')}}' + '?';
+                var url = '{{route('attendance.collectReport')}}' + '?';
                 var xhttp = new XMLHttpRequest();
 
                 xhttp.onreadystatechange = function () {

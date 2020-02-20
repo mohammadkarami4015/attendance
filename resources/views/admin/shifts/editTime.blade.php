@@ -112,8 +112,8 @@
 
 
         function getWorkTimes(id) {
-            var url = '{{URL::asset('admin/shift/getWorkTime')}}';
-            var shift = '{{$shift->id}}';
+            var url = '{{route('shifts.getWorkTime', $shift)}}';
+            {{--var shift = '{{$shift->id}}';--}}
             // alert(sub_url);
             var xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function () {
@@ -123,7 +123,7 @@
                 }
             };
             // xhttp.open("GET", url + 'day=' + id, true);
-            xhttp.open("GET", url + '/' + shift + '?day=' + id, true);
+            xhttp.open("GET", url + '?day=' + id, true);
             xhttp.send();
         }
 

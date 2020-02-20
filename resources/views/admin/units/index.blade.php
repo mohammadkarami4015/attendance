@@ -38,12 +38,12 @@
                             <td>
                                 <form onsubmit="return confirm('آیا مایل به حذف این گروه کاری می باشید؟');"
                                       method="post"
-                                      action="{{route('units.destroy',$unit->id)}}">
+                                      action="{{route('units.destroy',$unit)}}">
                                     {{csrf_field()}}
                                     {{method_field('delete')}}
                                     <div class="btn-group btn-group-xs">
                                         <button type="submit" class="btn btn-danger">حذف</button>
-                                        <a href="{{route('units.edit',$unit->id)}}" class="btn btn-primary">ویرایش</a>
+                                        <a href="{{route('units.edit',$unit)}}" class="btn btn-primary">ویرایش</a>
                                     </div>
                                 </form>
                             </td>

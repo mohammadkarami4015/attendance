@@ -89,7 +89,7 @@ class UsersController extends Controller
         return back();
     }
 
-    public function searchCode(Request $request)
+    public function searchByCode(Request $request)
     {
         $users = User::Search($request->get('data'))->get();
         return view('admin.users.Ajax', compact('users'));
@@ -99,7 +99,7 @@ class UsersController extends Controller
     {
 
         if ($request->get('unit_id') != 0) {
-            $users = User::filterByUnit($request->get('unit_id'))->latest()->get();
+            $users = User::filterByUnit(explode(',',$request->unit_id))->latest()->get();
         } else {
             $users = User::query()->latest()->paginate(20);
         }

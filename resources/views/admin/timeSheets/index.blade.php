@@ -14,7 +14,7 @@
         <div class="box-header with-border" style=" text-align: center">
             <label class="box-title">ثبت اطلاعات ورود و خروج</label>
         </div>
-        <form role="form" action="{{route('timeSheet.upload')}}" method="post" enctype="multipart/form-data">
+        <form role="form" action="{{route('timeSheets.upload')}}" method="post" enctype="multipart/form-data">
             @csrf
             <div class="box-body">
                 <div class="">
@@ -139,7 +139,7 @@
             var From = document.getElementById('from').value;
             var to = document.getElementById('to').value;
 
-            var url = '{{URL::asset('admin/timeSheetFilter')}}' + '?';
+            var url = '{{route('timeSheets.filter')}}' + '?';
             var xhttp = new XMLHttpRequest();
 
             xhttp.onreadystatechange = function () {
@@ -153,7 +153,7 @@
 
 
         function CheckDouble() {
-            var url = '{{URL::asset('admin/timeSheet/checkDouble')}}';
+            var url = '{{route('timeSheets.checkDouble')}}';
             var xhttp = new XMLHttpRequest();
 
             xhttp.onreadystatechange = function () {

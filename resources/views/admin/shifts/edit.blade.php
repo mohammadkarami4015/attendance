@@ -8,7 +8,7 @@
         <div class="col-md-6">
             <div class="box box-primary">
                 <form method="post"
-                      action="{{route('shifts.update',$shift->id)}}">
+                      action="{{route('shifts.update',$shift)}}">
                     {{csrf_field()}}
                     {{method_field('patch')}}
                     <div class="box-body">

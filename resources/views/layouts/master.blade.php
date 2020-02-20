@@ -175,7 +175,7 @@ desired effect
                     <ul class="treeview-menu">
                         <li><a href="{{ route('users.index')}} ">لیست کاربران</a></li>
                         <li><a href="{{ route('users.create') }}">ثبت کاربر جدید</a></li>
-                        <li><a href="{{route('users.changePasswordForm')}}">تغییر رمز عبور کاربران </a></li>
+                        <li><a href="{{ route('users.changePasswordForm') }}">تغییر رمز عبور کاربران </a></li>
                     </ul>
                 </li>
                 <li>
@@ -218,34 +218,34 @@ desired effect
                 </li>
 
 
-                <li class="treeview">
-                    <a href="#"><i class="fa fa-link"></i> <span>بخش مدیریت</span>
-                        <span class="pull-left-container">
-                            <i class="fa fa-angle-right pull-left"></i>
-                        </span>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="{{ route('userVacation.index')}} ">درخواست های مرخصی</a></li>
-
-                        <li><a href="{{ route('vacationType.index') }}"> تعریف انواع مرخصی</a></li>
-                        <li><a href="{{ route('specialVacation.index') }}"> مرخصی های خاص</a></li>
-                        <li><a href="{{ route('attendanceFiles.index') }}"> حضور و غیاب</a></li>
-                        <li><a href="{{ route('roles.index') }}">تعریف نقش ها</a></li>
-                        <li><a href="{{ route('userRoles.index') }}">اختصاص نقش به کاربر</a></li>
-                    </ul>
-                </li>
-
-                <li class="treeview">
-                    <a href="#"><i class="fa fa-link"></i> <span> درخواست مرخصی/ ماموریت</span>
-                        <span class="pull-left-container">
-                            <i class="fa fa-angle-right pull-left"></i>
-                        </span>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="{{ route('demandVacation.index')}} ">لیست درخواست های من</a></li>
-                        <li><a href="{{ route('demandVacation.create') }}">ثبت درخواست جدید</a></li>
-                    </ul>
-                </li>
+{{--                <li class="treeview">--}}
+{{--                    <a href="#"><i class="fa fa-link"></i> <span>بخش مدیریت</span>--}}
+{{--                        <span class="pull-left-container">--}}
+{{--                            <i class="fa fa-angle-right pull-left"></i>--}}
+{{--                        </span>--}}
+{{--                    </a>--}}
+{{--                    <ul class="treeview-menu">--}}
+{{--                        <li><a href="{{ route('userVacation.index')}} ">درخواست های مرخصی</a></li>--}}
+{{----}}
+{{--                        <li><a href="{{ route('vacationType.index') }}"> تعریف انواع مرخصی</a></li>--}}
+{{--                        <li><a href="{{ route('specialVacation.index') }}"> مرخصی های خاص</a></li>--}}
+{{--                        <li><a href="{{ route('attendanceFiles.index') }}"> حضور و غیاب</a></li>--}}
+{{--                        <li><a href="{{ route('roles.index') }}">تعریف نقش ها</a></li>--}}
+{{--                        <li><a href="{{ route('userRoles.index') }}">اختصاص نقش به کاربر</a></li>--}}
+{{--                    </ul>--}}
+{{--                </li>--}}
+{{----}}
+{{--                <li class="treeview">--}}
+{{--                    <a href="#"><i class="fa fa-link"></i> <span> درخواست مرخصی/ ماموریت</span>--}}
+{{--                        <span class="pull-left-container">--}}
+{{--                            <i class="fa fa-angle-right pull-left"></i>--}}
+{{--                        </span>--}}
+{{--                    </a>--}}
+{{--                    <ul class="treeview-menu">--}}
+{{--                        <li><a href="{{ route('demandVacation.index')}} ">لیست درخواست های من</a></li>--}}
+{{--                        <li><a href="{{ route('demandVacation.create') }}">ثبت درخواست جدید</a></li>--}}
+{{--                    </ul>--}}
+{{--                </li>--}}
 
 
             </ul>

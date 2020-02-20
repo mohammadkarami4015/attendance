@@ -67,7 +67,7 @@
                 var to = document.getElementById('to').value;
 
 
-                var url = '{{URL::asset('admin/attendanceReport')}}' + '?';
+                var url = '{{route('attendance.report')}}' + '?';
                 var xhttp = new XMLHttpRequest();
 
                 xhttp.onreadystatechange = function () {

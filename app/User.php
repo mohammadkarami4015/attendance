@@ -5,8 +5,6 @@ namespace App;
 use App\Helpers\DateFormat;
 use App\Helpers\ManageList;
 use Carbon\Carbon;
-use http\QueryString;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -231,7 +229,7 @@ class User extends Authenticatable
 
     public  static function filterByUnit($data)
     {
-        return self::query()->where('unit_id',$data);
+        return self::query()->whereIn('unit_id',$data);
     }
 
 

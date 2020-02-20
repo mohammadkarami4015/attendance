@@ -12,74 +12,136 @@
 */
 
 
-Route::get('/', function () {
+use App\Http\Controllers\admin\AttendanceController;
+use App\Http\Controllers\admin\HolidayController;
+use App\Http\Controllers\admin\ShiftController;
+use App\Http\Controllers\admin\TimeSheetController;
+use App\Http\Controllers\admin\UnitController;
+use App\Http\Controllers\admin\UsersController;
+use App\Http\Controllers\admin\WorkTimesController;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
+Route::namespace('App\Http\Controllers')->group(function () {
+    Auth::routes();
+
+});
+
+Route::get('/', function () {
     return view('welcome');
 });
 
-Route::namespace('admin')->prefix('/admin')->group(function () {
+Route::prefix('/admin')->group(function () {
 
-    //**************User Route**************
-    Route::resource('users', 'UsersController');
-    Route::get('/usersChangePassword','UsersController@changePasswordForm')->name('users.changePasswordForm');
-    Route::patch('usersChangePassword','UsersController@changePassword')->name('users.changePassword');
-    Route::get('usersSearch','UsersController@searchCode');
-    Route::get('usersFilterByUnit','UsersController@filterByUnit');
+    Route::name('users.')->prefix('/users')->group(function () {
 
-    //**************Unit Route**************
-    Route::resource('units', 'UnitController');
-    Route::get('/units/addShiftForm/{unit}', 'UnitController@addShiftForm')->name('units.addShiftForm');
-    Route::post('/units/addShift/{unit}', 'UnitController@addShift')->name('units.addShift');
+        Route::get('/change-password', [UsersController::class, 'changePasswordForm'])
+            ->name('changePasswordForm');
 
-    //**************Shift Route**************
-    Route::resource('shifts', 'ShiftController');
-    Route::get('/shift/editTime/{shift}', 'ShiftController@editTime')->name('shifts.editTime');
-    Route::get('/shift/getWorkTime/{shift}', 'ShiftController@getWorkTimeAjax')->name('shifts.getWorkTimes');
-    Route::post('/shift/addWorkTime/{shift}', 'ShiftController@addWorkTime')->name('shifts.addWorkTime');
-    Route::post('/shift/removeWorkTime', 'ShiftController@removeWorkTime')->name('shifts.removeWorkTime');
-    Route::get('/shift/editDays/{shift}', 'ShiftController@editDays')->name('shifts.editDays');
-    Route::patch('/shift/updateDays/{shift}', 'ShiftController@updateDays')->name('shifts.updateDays');
-    //**************WorkTime Route**************
-    Route::resource('workTimes', 'WorkTimesController');
-    //**************Holiday Route**************
-    Route::resource('holidays', 'HolidayController');
+        Route::patch('/change-password', [UsersController::class, 'changePassword'])
+            ->name('changePassword');
 
-    //**************TimeSheet Route**************
-    Route::resource('timeSheets', 'TimeSheetController');
-    Route::get('timeSheet/uploadFile','TimeSheetController@uploadForm')->name('timeSheet.uploadForm');
-    Route::post('timeSheet/uploadFile','TimeSheetController@upload')->name('timeSheet.upload');
-    Route::get('timeSheetFilter','TimeSheetController@filter')->name('timeSheet.filter');
-    Route::get('timeSheet/checkDouble','TimeSheetController@checkDouble')->name('timeSheet.checkDouble');
+        Route::get('/searchByCode', [UsersController::class, 'searchByCode'])
+            ->name('searchByCode');
 
+        Route::get('/filterByUnit', [UsersController::class, 'filterByUnit'])
+            ->name('filterByUnit');
 
+        Route::resource('/', UsersController::class);
 
-    //**************Attendance Route**************
-    Route::resource('attendance', 'AttendanceController');
-    Route::get('attendanceReport','AttendanceController@getReport');
-    Route::get('attendanceCollectIndex', 'AttendanceController@collectIndex')->name('attendance.collectIndex');
-    Route::get('attendanceCollectReport','AttendanceController@getCollectReport');
-//    Route::post('attendance/CollectReport', 'AttendanceController@getCollectReport')->name('attendance.collectReport');
-//    Route::post('attendance/Report','AttendanceController@getReport')->name('attendance.getReport');
+    });
+
+    Route::name('units.')->prefix('/units')->group(function () {
+
+        Route::resource('/', UnitController::class);
+
+        Route::get('/addShiftForm/{unit}', [UnitController::class, 'addShiftForm'])
+            ->name('addShiftForm');
+
+        Route::post('/addShift/{unit}', [UnitController::class, 'addShift'])
+            ->name('addShift');
+
+    });
+
+    Route::name('shifts.')->prefix('/shifts')->group(function () {
 
 
-//**************Attendance Route**************
+        Route::get('/editTime/{shift}', [ShiftController::class, 'editTime'])
+            ->name('editTime');
 
+        Route::get('/getWorkTime/{shift}', [ShiftController::class, 'getWorkTimeAjax'])
+            ->name('getWorkTime');
+
+        Route::post('/addWorkTime/{shift}', [ShiftController::class, 'addWorkTime'])
+            ->name('addWorkTime');
+
+        Route::post('/removeWorkTime', [ShiftController::class, 'removeWorkTime'])
+            ->name('removeWorkTime');
+
+        Route::get('/editDays/{shift}', [ShiftController::class, 'editDays'])
+            ->name('editDays');
+
+        Route::patch('/updateDays/{shift}', [ShiftController::class, 'updateDays'])
+            ->name('updateDays');
+
+    });
+
+    Route::resource('/shifts', ShiftController::class);
+    Route::resource('/workTimes', WorkTimesController::class);
+
+    Route::resource('/holidays', HolidayController::class);
+
+    Route::name('timeSheets.')->prefix('/timeSheets')->group(function () {
+
+        Route::get('/uploadFile', [TimeSheetController::class, 'uploadForm'])
+            ->name('uploadForm');
+
+        Route::post('/uploadFile', [TimeSheetController::class, 'upload'])
+            ->name('upload');
+
+        Route::get('/filter', [TimeSheetController::class, 'filter'])
+            ->name('filter');
+
+        Route::get('/checkDouble', [TimeSheetController::class, 'checkDouble'])
+            ->name('checkDouble');
+
+        Route::resource('/', TimeSheetController::class);
+
+    });
+
+    Route::name('attendance.')->prefix('/attendance')->group(function () {
+
+        Route::resource('/', AttendanceController::class);
+
+        Route::get('/report', [AttendanceController::class, 'getReport'])
+            ->name('report');
+
+        Route::get('/collectIndex', [AttendanceController::class, 'collectIndex'])
+            ->name('collectIndex');
+
+        Route::get('/collectReport', [AttendanceController::class, 'getCollectReport'])
+            ->name('collectReport');
+
+//        Route::post('/CollectReport', [AttendanceController::class, 'getCollectReport'])->name('attendance.collectReport');
+
+//        Route::post('/Report', [AttendanceController::class, 'getReport'])->name('attendance.getReport');
+
+    });
 
 });
-
-Route::resource('vacationType', 'admin\VacationTypeController');
-Route::resource('specialVacation', 'admin\SpecialVacationController');
-Route::resource('demandVacation', 'DemandVacationController');
-Route::resource('userVacation', 'admin\UserVacationController');
-Route::resource('attendanceFiles', 'admin\AttendanceFileController');
-
-Route::resource('roles', 'admin\RoleController')->except(['patch']);
-Route::patch('/roles/update/{role}', 'admin\RoleController@update')
-    ->name('roles.update');
-
-Route::resource('userRoles', 'admin\UserRoleController');
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-Route::resource('demandVacation', 'DemandVacationController');
+//
+//Route::resource('vacationType', 'admin\VacationTypeController');
+//Route::resource('specialVacation', 'admin\SpecialVacationController');
+//Route::resource('demandVacation', 'DemandVacationController');
+//Route::resource('userVacation', 'admin\UserVacationController');
+//Route::resource('attendanceFiles', 'admin\AttendanceFileController');
+//
+//Route::resource('roles', 'admin\RoleController')->except(['patch']);
+//Route::patch('/roles/update/{role}', 'admin\RoleController@update')
+//    ->name('roles.update');
+//
+//Route::resource('userRoles', 'admin\UserRoleController');
+//
+//
+//Route::get('/home', 'HomeController@index')->name('home');
+//Route::resource('demandVacation', 'DemandVacationController');

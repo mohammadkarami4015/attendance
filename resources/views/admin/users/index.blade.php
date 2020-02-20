@@ -14,8 +14,8 @@
                 <div class="col-sm-3">
                     <div class="form-group">
                         <label for="section_id">گروه کاری</label>
-                        <select  type="text" name="section_id" id="section_id"  class="form-control select2 select2-container"
-                                 onchange="filterByUnit(this.value)">
+                        <select  type="text" name="unit_id" id="unit_id" multiple class="form-control select2 select2-container"
+                                 onchange="filterByUnit(this.value)" >
                             <option value="0"> همه گروه ها</option>
                             @foreach($units as $unit)
                                 <option  value="{{$unit->id}}" >{{$unit->title}}</option>
@@ -87,7 +87,7 @@
     <script>
         function search() {
             var data = document.getElementById('code').value;
-            var url = '{{URL::asset('admin/usersSearch')}}' + '?';
+            var url = '{{route('users.searchByCode')}}' + '?';
             var xhttp = new XMLHttpRequest();
 
             xhttp.onreadystatechange = function () {
@@ -100,9 +100,10 @@
         }
 
 
-        function filterByUnit(unit_id) {
+        function filterByUnit() {
+            var values = $('#unit_id').val();
 
-            var url = '{{URL::asset('admin/usersFilterByUnit')}}' + '?';
+            var url = '{{route('users.filterByUnit')}}' + '?';
             var xhttp = new XMLHttpRequest();
 
             xhttp.onreadystatechange = function () {
@@ -111,7 +112,23 @@
                 }
             };
 
-            xhttp.open("GET", url + 'unit_id=' + unit_id, true);
+            xhttp.open("GET", url + 'unit_id=' + values, true);
+            xhttp.send();
+        }
+
+        function filterByShift() {
+            var values = $('#shift_id').val();
+
+            var url = '{{route('users.filterByUnit')}}' + '?';
+            var xhttp = new XMLHttpRequest();
+
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById('users').innerHTML = this.responseText;
+                }
+            };
+
+            xhttp.open("GET", url + 'unit_id=' + values, true);
             xhttp.send();
         }
     </script>
