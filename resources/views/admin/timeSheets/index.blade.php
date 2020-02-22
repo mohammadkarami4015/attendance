@@ -66,6 +66,7 @@
             <select required id="user_id" name="user_id" class="input-group select2 select2-hidden-accessible"
                     data-placeholder="انتخاب کاربر" style="width: 30%" tabindex="-1"
                     aria-hidden="true">
+                <option value="0">همه کاربران</option>
                 @foreach($users as $user)
                     <option value="{{$user->id}}">{{\App\Helpers\Name::userFullName($user)}} </option>
                 @endforeach
@@ -95,7 +96,7 @@
                 @foreach($timeSheets as $timeSheet)
                     <tr>
                         <td>
-                                {{\App\Helpers\Name::userFullName($timeSheet->user)}}
+                            {{\App\Helpers\Name::userFullName($timeSheet->user)}}
 
                         </td>
                         <td>
@@ -153,8 +154,10 @@
 
 
         function CheckDouble() {
+
             var url = '{{route('timeSheets.checkDouble')}}';
             var xhttp = new XMLHttpRequest();
+
 
             xhttp.onreadystatechange = function () {
                 if (this.readyState == 4 && this.status == 200) {

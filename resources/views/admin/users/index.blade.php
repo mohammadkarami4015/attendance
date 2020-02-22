@@ -55,20 +55,20 @@
                     <tr>
                         <td>
                             <a title="نمایش جزيیات"
-                               href="{{route('users.show',$user->id)}}"> {{\App\Helpers\Name::userFullName($user)}}</a>
+                               href="{{route('users.show',$user)}}"> {{\App\Helpers\Name::userFullName($user)}}</a>
                         </td>
                         <td>{{$user->personal_code}}</td>
                         <td>{{$user->national_code}}</td>
-                        <td>{{$user->unit->title}}</td>
-                        <td> {{($user->unit->getCurrentShift()->title)}}</td>
-                        <td> {{($user->unit->getCurrentShift()->title)}}</td>
+                        <td> {{optional($user->unit)->title}}</td>
+                        <td> {{optional(optional($user->unit)->getCurrentShift())->title}}</td>
+                        <td> تعیین نشده</td>
                         <td>
                             <form onsubmit="return confirm('آیا مایل به حذف این کاربر هستید؟');"
-                                  method="POST" action="{{route('users.destroy',$user->id)}}">
+                                  method="POST" action="{{route('users.destroy',$user)}}">
                                 {{csrf_field()}}
                                 {{method_field('delete')}}
 
-                                <a href="{{route('users.edit',$user->id)}}" class="btn btn-primary">ویرایش</a>
+                                <a href="{{route('users.edit',$user)}}" class="btn btn-primary">ویرایش</a>
                                 <button type="submit" class="btn btn-danger btn-sm">حذف</button>
                             </form>
                         </td>

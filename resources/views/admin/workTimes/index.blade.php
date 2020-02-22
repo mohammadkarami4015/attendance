@@ -28,46 +28,48 @@
                         <th style="text-align: center"> تنظیمات</th>
                     </tr>
                     </thead>
-                    @foreach($workTimes as $workTime)
-                        <tr>
-                            <td>
-                                {{$workTime->dayShift->shift->title}}
-                            </td>
-                            <td>
-                                {{$workTime->dayShift->day->label}}
-                            </td>
-                            <td>
-                                {{$workTime->start}}
-                            </td>
-                            <td>
-                                {{$workTime->end}}
-                            </td>
-                            <td>
-                                {{\App\Helpers\DateFormat::toJalali($workTime->from)->formatJalaliDate()}}
-                            </td>
-                            <td>
-                                @if($workTime->to != null)
-                                    {{\App\Helpers\DateFormat::toJalali($workTime->to)->formatJalaliDate()}}
-                                @else
-                                    تعیین نشده
-                                @endif
 
-                            </td>
+                        @foreach($workTimes as $workTime)
+                            <tr>
+                                <td>
+                                    {{$workTime->dayShift->shift->title}}
+                                </td>
+                                <td>
+                                    {{$workTime->dayShift->day->label}}
+                                </td>
+                                <td>
+                                    {{$workTime->start}}
+                                </td>
+                                <td>
+                                    {{$workTime->end}}
+                                </td>
+                                <td>
+                                    {{\App\Helpers\DateFormat::toJalali($workTime->from)->formatJalaliDate()}}
+                                </td>
+                                <td>
+                                    @if($workTime->to != null)
+                                        {{\App\Helpers\DateFormat::toJalali($workTime->to)->formatJalaliDate()}}
+                                    @else
+                                        تعیین نشده
+                                    @endif
 
-                            <td>
-                                <form onsubmit="return confirm('آیا مایل به حذف این زمان کاری می باشید؟');"
-                                      method="post"
-                                      action="{{route('workTimes.destroy',$workTime->id)}}">
-                                    {{csrf_field()}}
-                                    {{method_field('delete')}}
-                                    <div class="btn-group btn-group">
-                                        <a href="{{route('workTimes.edit',$workTime->id)}}" class="btn btn-primary">ویرایش</a>
-                                        <button type="submit" class="btn btn-danger">حذف</button>
-                                    </div>
-                                </form>
-                            </td>
-                        </tr>
-                    @endforeach
+                                </td>
+
+                                <td>
+                                    <form onsubmit="return confirm('آیا مایل به حذف این زمان کاری می باشید؟');"
+                                          method="post"
+                                          action="{{route('workTimes.destroy',$workTime->id)}}">
+                                        {{csrf_field()}}
+                                        {{method_field('delete')}}
+                                        <div class="btn-group btn-group">
+                                            <a href="{{route('workTimes.edit',$workTime->id)}}" class="btn btn-primary">ویرایش</a>
+                                            <button type="submit" class="btn btn-danger">حذف</button>
+                                        </div>
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
+
 
                 </table>
                 <div style="margin-right: 40%">

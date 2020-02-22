@@ -36,7 +36,6 @@ class UsersController extends Controller
 
     public function store(UserRequest $request)
     {
-
         $user = User::create(array_merge(
             ['password' => bcrypt($request->get('national_code'))],
             $request->validated()

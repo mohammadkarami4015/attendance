@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class DaySeeder extends Seeder
 {
@@ -9,8 +10,11 @@ class DaySeeder extends Seeder
      *
      * @return void
      */
+
     public function run()
     {
+
+    DB::table('days')->truncate();
         DB::table('days')->insert([
 
             [

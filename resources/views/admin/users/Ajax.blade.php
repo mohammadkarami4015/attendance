@@ -7,9 +7,9 @@
         </td>
         <td>{{$user->personal_code}}</td>
         <td>{{$user->national_code}}</td>
-        <td>{{$user->unit->title}}</td>
-        <td> {{($user->unit->getCurrentShift()->title)}}</td>
-        <td> {{($user->unit->getCurrentShift()->title)}}</td>
+        <td> {{optional($user->unit)->title}}</td>
+        <td> {{optional(optional($user->unit)->getCurrentShift())->title}}</td>
+        <td> تعیین نشده</td>
         <td>
             <form onsubmit="return confirm('آیا مایل به حذف این کاربر هستید؟');"
                   method="POST" action="{{route('users.destroy',$user->id)}}">

@@ -35,7 +35,11 @@ class TimeSheet extends Model
 
     public function scopeFilterByDate(Builder $query, $from, $to, $user_id)
     {
-        $query->where('user_id', $user_id)->whereBetween('finger_print_time', [$from, $to]);
+        if ($user_id != 0) {
+            $query->where('user_id', $user_id)->whereBetween('finger_print_time', [$from, $to]);
+        } else {
+            $query->whereBetween('finger_print_time', [$from, $to]);
+        }
     }
 
     public static function checkDouble()

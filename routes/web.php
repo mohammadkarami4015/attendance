@@ -47,13 +47,11 @@ Route::prefix('/admin')->group(function () {
         Route::get('/filterByUnit', [UsersController::class, 'filterByUnit'])
             ->name('filterByUnit');
 
-        Route::resource('/', UsersController::class);
+
 
     });
 
     Route::name('units.')->prefix('/units')->group(function () {
-
-        Route::resource('/', UnitController::class);
 
         Route::get('/addShiftForm/{unit}', [UnitController::class, 'addShiftForm'])
             ->name('addShiftForm');
@@ -64,7 +62,6 @@ Route::prefix('/admin')->group(function () {
     });
 
     Route::name('shifts.')->prefix('/shifts')->group(function () {
-
 
         Route::get('/editTime/{shift}', [ShiftController::class, 'editTime'])
             ->name('editTime');
@@ -86,11 +83,6 @@ Route::prefix('/admin')->group(function () {
 
     });
 
-    Route::resource('/shifts', ShiftController::class);
-    Route::resource('/workTimes', WorkTimesController::class);
-
-    Route::resource('/holidays', HolidayController::class);
-
     Route::name('timeSheets.')->prefix('/timeSheets')->group(function () {
 
         Route::get('/uploadFile', [TimeSheetController::class, 'uploadForm'])
@@ -105,13 +97,12 @@ Route::prefix('/admin')->group(function () {
         Route::get('/checkDouble', [TimeSheetController::class, 'checkDouble'])
             ->name('checkDouble');
 
-        Route::resource('/', TimeSheetController::class);
+
 
     });
 
     Route::name('attendance.')->prefix('/attendance')->group(function () {
 
-        Route::resource('/', AttendanceController::class);
 
         Route::get('/report', [AttendanceController::class, 'getReport'])
             ->name('report');
@@ -127,6 +118,14 @@ Route::prefix('/admin')->group(function () {
 //        Route::post('/Report', [AttendanceController::class, 'getReport'])->name('attendance.getReport');
 
     });
+
+    Route::resource('/units', UnitController::class);
+    Route::resource('/users', UsersController::class);
+    Route::resource('/shifts', ShiftController::class);
+    Route::resource('/workTimes', WorkTimesController::class);
+    Route::resource('/holidays', HolidayController::class);
+    Route::resource('/timeSheets', TimeSheetController::class);
+    Route::resource('/attendance', AttendanceController::class)->only('index');
 
 });
 //

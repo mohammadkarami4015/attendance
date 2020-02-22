@@ -29,6 +29,7 @@ class CreateDaysTable extends Migration
             $table->unsignedInteger('day_id');
             $table->timestamp('from')->default(now());
             $table->timestamp('to')->nullable();
+            $table->timestamps( );
             $table->foreign('shift_id')
                 ->references('id')->on('shifts')
                 ->onDelete('cascade');
