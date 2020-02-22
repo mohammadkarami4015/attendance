@@ -47,6 +47,7 @@ class WorkTimesController extends Controller
 
     public function update(WorkTimeRequest $request, WorkTime $workTime)
     {
+        
         $workTime->update($request->validated());
         message::show('زمان کاری مورد نظر با موفقیت ویرایش شد ');
         return back();

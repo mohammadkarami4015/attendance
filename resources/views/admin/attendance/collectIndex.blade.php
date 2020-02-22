@@ -88,16 +88,22 @@
                 let user_id = Array.from(selectElement.selectedOptions)
                     .map(option => option.value);
 
-                var url = '{{route('attendance.collectReport')}}' + '?';
-                var xhttp = new XMLHttpRequest();
+                axios.get('{{route('attendance.collectReport')}}'+ '?'+ 'user_id=' + user_id + '&start_date=' + From + '&end_date=' + to).then(res => {
+                    document.getElementById('filter').innerHTML = res.data;
+                }).catch(console.error);
 
-                xhttp.onreadystatechange = function () {
-                    if (this.readyState == 4 && this.status == 200) {
-                        document.getElementById('filter').innerHTML = this.responseText;
-                    }
-                };
-                xhttp.open("GET", url + 'user_id=' + user_id + '&start_date=' + From + '&end_date=' + to, true);
-                xhttp.send();
+
+
+                {{--var url = '{{route('attendance.collectReport')}}' + '?';--}}
+                {{--var xhttp = new XMLHttpRequest();--}}
+
+                {{--xhttp.onreadystatechange = function () {--}}
+                {{--    if (this.readyState == 4 && this.status == 200) {--}}
+                {{--        document.getElementById('filter').innerHTML = this.responseText;--}}
+                {{--    }--}}
+                {{--};--}}
+                {{--xhttp.open("GET", url + 'user_id=' + user_id + '&start_date=' + From + '&end_date=' + to, true);--}}
+                {{--xhttp.send();--}}
             }
         </script>
 

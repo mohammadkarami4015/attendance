@@ -140,32 +140,49 @@
             var From = document.getElementById('from').value;
             var to = document.getElementById('to').value;
 
-            var url = '{{route('timeSheets.filter')}}' + '?';
-            var xhttp = new XMLHttpRequest();
+            axios.get('{{route('timeSheets.filter')}}'+ '?'+ 'user_id=' + user_id + '&from=' + From + '&to=' + to).then(res => {
+                document.getElementById('filter').innerHTML = res.data;
+            }).catch(console.error);
 
-            xhttp.onreadystatechange = function () {
-                if (this.readyState == 4 && this.status == 200) {
-                    document.getElementById('filter').innerHTML = this.responseText;
-                }
-            };
-            xhttp.open("GET", url + 'user_id=' + user_id + '&from=' + From + '&to=' + to, true);
-            xhttp.send();
+
+
+
+            //
+            // var user_id = document.getElementById('user_id').value;
+            // var From = document.getElementById('from').value;
+            // var to = document.getElementById('to').value;
+
+            {{--var url = '{{route('timeSheets.filter')}}' + '?';--}}
+            {{--var xhttp = new XMLHttpRequest();--}}
+
+            {{--xhttp.onreadystatechange = function () {--}}
+            {{--    if (this.readyState == 4 && this.status == 200) {--}}
+            {{--        document.getElementById('filter').innerHTML = this.responseText;--}}
+            {{--    }--}}
+            {{--};--}}
+            {{--xhttp.open("GET", url + 'user_id=' + user_id + '&from=' + From + '&to=' + to, true);--}}
+            {{--xhttp.send();--}}
         }
 
 
         function CheckDouble() {
 
-            var url = '{{route('timeSheets.checkDouble')}}';
-            var xhttp = new XMLHttpRequest();
+                axios.get('{{route('timeSheets.checkDouble')}}').then(res => {
+                    document.getElementById('checkDouble').innerHTML = res.data;
+                }).catch(console.error);
 
 
-            xhttp.onreadystatechange = function () {
-                if (this.readyState == 4 && this.status == 200) {
-                    document.getElementById('checkDouble').innerHTML = this.responseText;
-                }
-            };
-            xhttp.open("GET", url, true);
-            xhttp.send();
+            {{--var url = '{{route('timeSheets.checkDouble')}}';--}}
+            {{--var xhttp = new XMLHttpRequest();--}}
+
+
+            {{--xhttp.onreadystatechange = function () {--}}
+            {{--    if (this.readyState == 4 && this.status == 200) {--}}
+            {{--        document.getElementById('checkDouble').innerHTML = this.responseText;--}}
+            {{--    }--}}
+            {{--};--}}
+            {{--xhttp.open("GET", url, true);--}}
+            {{--xhttp.send();--}}
         }
     </script>
 

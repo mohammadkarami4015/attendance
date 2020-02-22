@@ -328,6 +328,8 @@ desired effect
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the
      user experience. -->
+{{--<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>--}}
+<script src="{{asset("/js/app.js")}}"></script>
 <script src="{{asset('/js/jquery-1.10.2.js')}}"></script>
 <script src="{{asset('/js/jquery-ui-1.10.3.js')}}"></script>
 <script src="{{asset('/dist/js/persian-date-0.1.8.min.js')}}"></script>
@@ -336,6 +338,11 @@ desired effect
 <script src="{{asset('/plugins/timepicker/bootstrap-timepicker.min.js')}}"></script>
 @yield('script')
 <script>
+
+    {{--axios.get('{{route('timeSheets.checkDouble')}}').then(res => {--}}
+    {{--    console.log(res.data);--}}
+    {{--}).catch(console.error);--}}
+
     $(document).ready(function () {
         $('#insurance_start').pDatepicker({
             autoClose: true,

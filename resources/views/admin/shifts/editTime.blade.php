@@ -112,19 +112,22 @@
 
 
         function getWorkTimes(id) {
-            var url = '{{route('shifts.getWorkTime', $shift)}}';
-            {{--var shift = '{{$shift->id}}';--}}
-            // alert(sub_url);
-            var xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function () {
-                if (this.readyState == 4 && this.status == 200) {
-                    document.getElementById('test').innerHTML = this.responseText;
+            {{--var url = '{{route('shifts.getWorkTime', $shift)}}';--}}
 
-                }
-            };
-            // xhttp.open("GET", url + 'day=' + id, true);
-            xhttp.open("GET", url + '?day=' + id, true);
-            xhttp.send();
+            axios.get('{{route('shifts.getWorkTime', $shift)}}'+ '?'+ 'day=' + id ).then(res => {
+                document.getElementById('test').innerHTML = res.data;
+            }).catch(console.error);
+
+            // var xhttp = new XMLHttpRequest();
+            // xhttp.onreadystatechange = function () {
+            //     if (this.readyState == 4 && this.status == 200) {
+            //         document.getElementById('test').innerHTML = this.responseText;
+            //
+            //     }
+            // };
+            // // xhttp.open("GET", url + 'day=' + id, true);
+            // xhttp.open("GET", url + '?day=' + id, true);
+            // xhttp.send();
         }
 
         function add() {

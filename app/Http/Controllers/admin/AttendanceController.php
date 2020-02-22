@@ -5,9 +5,11 @@ namespace App\Http\Controllers\admin;
 use App\Helper\general;
 use App\Helpers\DateFormat;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ReportRequest;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class AttendanceController extends Controller
 {
@@ -19,12 +21,12 @@ class AttendanceController extends Controller
 
     }
 
-    public function getReport(Request $request)
+    public function getReport(ReportRequest $request)
     {
 
         $user = User::query()->find($request->user_id);
-        $startDate = Carbon::parse(DateFormat::toMiladi($request->start_date));
-        $endDate = Carbon::parse(DateFormat::toMiladi($request->end_date));
+        $startDate = Carbon::parse(DateFormat::toMiladi($request->get('start_date')));
+        $endDate = Carbon::parse(DateFormat::toMiladi($request->get('end_date')));
         $reportList = $user->getReportBetweenDays($startDate, $endDate);
         return view('admin.attendance.showReportAjax', [
             'reportList' => $reportList,
@@ -40,7 +42,7 @@ class AttendanceController extends Controller
 
     }
 
-    public function getCollectReport(Request $request)
+    public function getCollectReport(ReportRequest $request)
     {
         $users = explode(',', $request->get('user_id'));
         $helper = new general();

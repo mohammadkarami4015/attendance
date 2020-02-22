@@ -96,13 +96,11 @@ class UsersController extends Controller
 
     public function filterByUnit(Request $request)
     {
-
         if ($request->get('unit_id') != 0) {
-            $users = User::filterByUnit(explode(',',$request->unit_id))->latest()->get();
+            $users = User::filterByUnit(explode(',', $request->unit_id))->latest()->get();
         } else {
             $users = User::query()->latest()->paginate(20);
         }
-
         return view('admin.users.Ajax', compact('users'));
 
     }
@@ -110,11 +108,10 @@ class UsersController extends Controller
     public function filterByShift(Request $request)
     {
         if ($request->get('shift_id') != 0) {
-            $users = User::filterByShift(explode(',',$request->get('shift_id')))->latest()->get();
+            $users = User::filterByShift(explode(',', $request->get('shift_id')))->latest()->get();
         } else {
             $users = User::query()->latest()->paginate(20);
         }
-
         return view('admin.users.Ajax', compact('users'));
 
     }

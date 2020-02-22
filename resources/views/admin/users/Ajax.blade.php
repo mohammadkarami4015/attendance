@@ -1,6 +1,9 @@
+@php
+    $index = 1;
+@endphp
 @foreach($users as $user)
     <tr>
-
+        <td>{{$index}}</td>
         <td>
             <a title="نمایش جزيیات"
                href="{{route('users.show',$user->id)}}"> {{\App\Helpers\Name::userFullName($user)}}</a>
@@ -21,4 +24,7 @@
             </form>
         </td>
     </tr>
+    @php
+        $index ++;
+    @endphp
 @endforeach

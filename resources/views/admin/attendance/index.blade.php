@@ -45,7 +45,7 @@
                         <div class="footer-a">
                         <input onclick="getReport()"  style=" "
                                class="btn btn-primary btn-sm pr-1"
-                               value=" فیلتر ">
+                               value=" نمایش ">
                         </div>
                     </div>
                 </div>
@@ -66,17 +66,21 @@
                 var From = document.getElementById('from').value;
                 var to = document.getElementById('to').value;
 
+                axios.get('{{route('attendance.report')}}'+ '?'+ 'user_id=' + user_id + '&start_date=' + From + '&end_date=' + to).then(res => {
+                    document.getElementById('filter').innerHTML = res.data;
+                }).catch(console.error);
 
-                var url = '{{route('attendance.report')}}' + '?';
-                var xhttp = new XMLHttpRequest();
 
-                xhttp.onreadystatechange = function () {
-                    if (this.readyState == 4 && this.status == 200) {
-                        document.getElementById('filter').innerHTML = this.responseText;
-                    }
-                };
-                xhttp.open("GET", url + 'user_id=' + user_id + '&start_date=' + From + '&end_date=' + to, true);
-                xhttp.send();
+                {{--var url = '{{route('attendance.report')}}' + '?';--}}
+                {{--var xhttp = new XMLHttpRequest();--}}
+
+                {{--xhttp.onreadystatechange = function () {--}}
+                {{--    if (this.readyState == 4 && this.status == 200) {--}}
+                {{--        document.getElementById('filter').innerHTML = this.responseText;--}}
+                {{--    }--}}
+                {{--};--}}
+                {{--xhttp.open("GET", url + 'user_id=' + user_id + '&start_date=' + From + '&end_date=' + to, true);--}}
+                {{--xhttp.send();--}}
             }
         </script>
 

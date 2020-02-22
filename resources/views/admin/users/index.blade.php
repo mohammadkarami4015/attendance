@@ -6,7 +6,7 @@
             <div class="row">
                 <div class="col-sm-3">
                     <div class="form-group">
-                        <label for="personal_code">جستجو  </label>
+                        <label for="personal_code">جستجو </label>
                         <input type="text" name="personal_code" id="code" class="form-control"
                                onkeyup="search()" placeholder="نام،نام خانوادگی،کدملی،کدپرسنلی">
                     </div>
@@ -14,11 +14,12 @@
                 <div class="col-sm-3">
                     <div class="form-group">
                         <label for="section_id">گروه کاری</label>
-                        <select  type="text" name="unit_id" id="unit_id" multiple class="form-control select2 select2-container"
-                                 onchange="filterByUnit(this.value)" >
+                        <select type="text" name="unit_id" id="unit_id" multiple
+                                class="form-control select2 select2-container"
+                                onchange="filterByUnit(this.value)">
                             <option value="0"> همه گروه ها</option>
                             @foreach($units as $unit)
-                                <option  value="{{$unit->id}}" >{{$unit->title}}</option>
+                                <option value="{{$unit->id}}">{{$unit->title}}</option>
                             @endforeach
 
                         </select>
@@ -27,14 +28,19 @@
                 <div class="col-sm-3">
                     <div class="form-group">
                         <label for="section_id">شیفت کاری</label>
-                        <select type="text" name="shift_id" id="shift_id" multiple class="form-control select2 select2-container"
+                        <select type="text" name="shift_id" id="shift_id" multiple
+                                class="form-control select2 select2-container"
                                 onchange="filterByShift(this.value)">
                             @foreach($shifts as $shift)
-                                <option value="{{$shift->id}}" >{{$shift->title}}</option>
+                                <option value="{{$shift->id}}">{{$shift->title}}</option>
                             @endforeach
 
                         </select>
                     </div>
+                </div>
+                <div class="col-sm-2">
+                    <label for="">تعداد کل کاربران : </label>
+                    <label for="">{{$users->total()}}</label>
                 </div>
             </div>
         </div>
@@ -42,6 +48,7 @@
             <table id="example2" class="table table-bordered table-hover">
                 <tbody>
                 <tr>
+                    <th class="text-danger"> ردیف</th>
                     <th class="text-danger"> نام و نام خانوادگی</th>
                     <th class="text-danger">کد پرسنلی</th>
                     <th class="text-danger">کد ملی</th>
@@ -52,8 +59,10 @@
                 </tr>
                 </tbody>
                 <tbody id="users">
-                     @foreach($users as $user)
+                @foreach($users as $user)
+
                     <tr>
+
                         <td>
                             <a title="نمایش جزيیات"
                                href="{{route('users.show',$user)}}"> {{\App\Helpers\Name::userFullName($user)}}</a>
@@ -74,6 +83,7 @@
                             </form>
                         </td>
                     </tr>
+
                 @endforeach
                 </tbody>
                 <tfoot>

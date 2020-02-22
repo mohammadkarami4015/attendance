@@ -23,13 +23,14 @@ class WorkTimeRequest extends FormRequest
      */
     public function rules()
     {
-        if ($this->method() == 'POST') {
+
+        if ($this->isMethod('POST') ) {
             return [
                 'days' => 'required',
                 'start' => 'required',
                 'end' => 'required',
             ];
-        } elseif($this->method()=='patch') {
+        } elseif ($this->isMethod('patch')) {
             return [
                 'start' => 'required',
                 'end' => 'required'

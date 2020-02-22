@@ -10,7 +10,7 @@
         </div>
         <!-- /.box-header -->
         <!-- form start -->
-        <form role="form" method="post" action="{{route('workTimes.update',$workTime->id)}}">
+        <form role="form" method="post" action="{{route('workTimes.update',$workTime)}}">
             @csrf
             {{method_field('patch')}}
             <div class="box-body">
