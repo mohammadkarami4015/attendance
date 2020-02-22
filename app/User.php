@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use phpDocumentor\Reflection\Types\Collection;
+use function foo\func;
 
 class User extends Authenticatable
 {
@@ -221,16 +223,24 @@ class User extends Authenticatable
     public static function scopeSearch(Builder $query, $data)
     {
         return $query->where('personal_code', 'like', '%' . $data . '%')
-            ->orWhere('national_code','like', '%' . $data . '%')
-            ->orwhere('name','like','%'.$data.'%')
-            ->orwhere('family','like','%'.$data.'%');
+            ->orWhere('national_code', 'like', '%' . $data . '%')
+            ->orwhere('name', 'like', '%' . $data . '%')
+            ->orwhere('family', 'like', '%' . $data . '%');
 
     }
 
-    public  static function filterByUnit($data)
+    public static function filterByUnit($data)
     {
-        return self::query()->whereIn('unit_id',$data);
+        return self::query()->whereIn('unit_id', $data);
     }
 
+    public static function filterByShift($data)
+    {
+        return self::query()->whereHas('unit', function (Builder $unit) use ($data) {
+            $unit->whereHas('shifts', function ($shift) use ($data) {
+               return $shift->where('to',null)->whereIn('shift_id',$data);
+            });
+        });
 
+    }
 }

@@ -107,4 +107,16 @@ class UsersController extends Controller
 
     }
 
+    public function filterByShift(Request $request)
+    {
+        if ($request->get('shift_id') != 0) {
+            $users = User::filterByShift(explode(',',$request->get('shift_id')))->latest()->get();
+        } else {
+            $users = User::query()->latest()->paginate(20);
+        }
+
+        return view('admin.users.Ajax', compact('users'));
+
+    }
+
 }

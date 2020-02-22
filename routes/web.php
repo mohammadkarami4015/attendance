@@ -47,6 +47,9 @@ Route::prefix('/admin')->group(function () {
         Route::get('/filterByUnit', [UsersController::class, 'filterByUnit'])
             ->name('filterByUnit');
 
+        Route::get('/filterByShift', [UsersController::class, 'filterByShift'])
+            ->name('filterByShift');
+
 
 
     });
@@ -96,8 +99,6 @@ Route::prefix('/admin')->group(function () {
 
         Route::get('/checkDouble', [TimeSheetController::class, 'checkDouble'])
             ->name('checkDouble');
-
-
 
     });
 

@@ -27,7 +27,8 @@
                 <div class="col-sm-3">
                     <div class="form-group">
                         <label for="section_id">شیفت کاری</label>
-                        <select type="text" name="section_id" id="section_id" multiple class="form-control select2 select2-container" onchange="">
+                        <select type="text" name="shift_id" id="shift_id" multiple class="form-control select2 select2-container"
+                                onchange="filterByShift(this.value)">
                             @foreach($shifts as $shift)
                                 <option value="{{$shift->id}}" >{{$shift->title}}</option>
                             @endforeach
@@ -102,7 +103,6 @@
 
         function filterByUnit() {
             var values = $('#unit_id').val();
-
             var url = '{{route('users.filterByUnit')}}' + '?';
             var xhttp = new XMLHttpRequest();
 
@@ -118,8 +118,7 @@
 
         function filterByShift() {
             var values = $('#shift_id').val();
-
-            var url = '{{route('users.filterByUnit')}}' + '?';
+            var url = '{{route('users.filterByShift')}}' + '?';
             var xhttp = new XMLHttpRequest();
 
             xhttp.onreadystatechange = function () {
@@ -128,7 +127,7 @@
                 }
             };
 
-            xhttp.open("GET", url + 'unit_id=' + values, true);
+            xhttp.open("GET", url + 'shift_id=' + values, true);
             xhttp.send();
         }
     </script>
