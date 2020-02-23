@@ -104,7 +104,6 @@ Route::prefix('/admin')->group(function () {
 
     Route::name('attendance.')->prefix('/attendance')->group(function () {
 
-
         Route::get('/report', [AttendanceController::class, 'getReport'])
             ->name('report');
 
@@ -113,10 +112,6 @@ Route::prefix('/admin')->group(function () {
 
         Route::get('/collectReport', [AttendanceController::class, 'getCollectReport'])
             ->name('collectReport');
-
-//        Route::post('/CollectReport', [AttendanceController::class, 'getCollectReport'])->name('attendance.collectReport');
-
-//        Route::post('/Report', [AttendanceController::class, 'getReport'])->name('attendance.getReport');
 
     });
 
@@ -134,8 +129,7 @@ Route::prefix('/admin')->group(function () {
 //Route::resource('specialVacation', 'admin\SpecialVacationController');
 //Route::resource('demandVacation', 'DemandVacationController');
 //Route::resource('userVacation', 'admin\UserVacationController');
-//Route::resource('attendanceFiles', 'admin\AttendanceFileController');
-//
+
 //Route::resource('roles', 'admin\RoleController')->except(['patch']);
 //Route::patch('/roles/update/{role}', 'admin\RoleController@update')
 //    ->name('roles.update');
