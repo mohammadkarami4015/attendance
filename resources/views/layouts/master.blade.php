@@ -178,6 +178,13 @@ desired effect
                         <li><a href="{{ route('users.changePasswordForm') }}">تغییر رمز عبور کاربران </a></li>
                     </ul>
                 </li>
+
+                <li>
+                    <a href="{{route('roles.index')}}"><i class="fa fa-link"></i> <span>نفش ها</span>
+
+                    </a>
+                </li>
+
                 <li>
                     <a href="{{route('units.index')}}"><i class="fa fa-link"></i> <span>گروه های کاری</span>
 

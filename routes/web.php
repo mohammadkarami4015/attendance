@@ -14,6 +14,7 @@
 
 use App\Http\Controllers\admin\AttendanceController;
 use App\Http\Controllers\admin\HolidayController;
+use App\Http\Controllers\admin\RoleController;
 use App\Http\Controllers\admin\ShiftController;
 use App\Http\Controllers\admin\TimeSheetController;
 use App\Http\Controllers\admin\UnitController;
@@ -122,6 +123,8 @@ Route::prefix('/admin')->group(function () {
     Route::resource('/holidays', HolidayController::class);
     Route::resource('/timeSheets', TimeSheetController::class);
     Route::resource('/attendance', AttendanceController::class)->only('index');
+    Route::resource('/roles', RoleController::class);
+
 
 });
 //
@@ -130,7 +133,6 @@ Route::prefix('/admin')->group(function () {
 //Route::resource('demandVacation', 'DemandVacationController');
 //Route::resource('userVacation', 'admin\UserVacationController');
 
-//Route::resource('roles', 'admin\RoleController')->except(['patch']);
 //Route::patch('/roles/update/{role}', 'admin\RoleController@update')
 //    ->name('roles.update');
 //
