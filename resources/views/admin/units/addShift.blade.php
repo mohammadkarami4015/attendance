@@ -15,10 +15,8 @@
 
                             <label> انتخاب شیفت کاری مربوط به گروه {{$unit->title}}</label>
                             <select required name="shift" class="input-group" style="width: 50%"
-                                    data-placeholder="انتخاب گروه کاری"
+                                    data-placeholder="شیفت کاری"
                             >
-                                <option selected disabled>انتخاب شیفت</option>
-
                                 @foreach($shifts as $shift)
                                     <option @if($unit->getCurrentShift() != null)
                                             {{ $shift->id == $unit->getCurrentShift()->id ? 'selected' : ''}}
@@ -27,6 +25,11 @@
                                 @endforeach
                             </select>
                         </div>
+                    </div>
+                    <div >
+                        <label style="width: 100px" class="text-danger">تاریخ اجرا </label>
+                        <input type="text" id="from" readonly name="from" class="apply">0700
+
                     </div>
 
                     <div class="box-footer">

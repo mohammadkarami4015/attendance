@@ -43,11 +43,6 @@ class Shift extends Model
         return $this->hasManyThrough(WorkTime::class, DayShift::class, 'shift_id', 'day_shift_id');
     }
 
-
-//    public function getPivotDay($days)
-//    {
-//        return $this->days()->wherePivotIn('day_id', $days)->get();
-//    }
     public function dayShift($days)
     {
         return $this->days()->whereIn('day_id', $days)->get()->pluck('pivot.id');

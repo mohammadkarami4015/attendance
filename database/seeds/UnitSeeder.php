@@ -13,16 +13,25 @@ class UnitSeeder extends Seeder
     {
         \Illuminate\Support\Facades\DB::table('units')->insert([
             [
-                'title' => 'backEnd'
+                'title' => 'بک اند'
             ],
             [
-                'title' => 'frontEnd'
+                'title' => 'فرانت اند'
             ],
             [
-                'title' => 'UiUX'
+                'title' => 'یو آی یو ایکس'
             ],
             [
-                'title' => 'Services'
+                'title' => 'خدمات'
+            ],
+            [
+                'title' => 'اندروید'
+            ],
+            [
+                'title' => 'آی او اس'
+            ],
+            [
+                'title' => 'گرافیک'
             ]
 
         ]);

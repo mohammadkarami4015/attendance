@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Helper\message;
+use App\Helpers\DateFormat;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -31,13 +32,12 @@ class DayShift extends Model
     }
 
 
-
     public static function getNullDays($shift, $days)
     {
         return self::query()->whereIn('day_id', $days)->where('to', null)->where('shift_id', $shift->id)->get();
     }
 
-    public  function getWorkTimes($currentDate)
+    public function getWorkTimes($currentDate)
     {
         return $this->workTimes()
             ->where(function (Builder $query) use ($currentDate) {
@@ -46,12 +46,13 @@ class DayShift extends Model
             })->get();
     }
 
-    public  function addWorkTime($start, $end)
+    public function addWorkTime($start, $end, $from)
     {
         for ($counter = 1; $counter < sizeof($start) + 1; $counter++) {
             $this->workTimes()->create([
                 'start' => $start[$counter],
-                'end' => $end[$counter]
+                'end' => $end[$counter],
+                'from' => $from
             ]);
         }
         message::show('زمان های مورد نظر با موفقیت ثبت شدند');

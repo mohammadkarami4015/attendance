@@ -24,6 +24,18 @@ class PermissionSeeder extends Seeder
             [
                 'title' => 'workTimes',
                 'label' => 'مدیریت زمان کاری',
+            ],
+            [
+                'title' => 'timeSheets',
+                'label' => 'مدیریت ورود و خروج ',
+            ],
+            [
+                'title' => 'holidays',
+                'label' => 'مدیریت تعطیلی',
+            ],
+            [
+                'title' => 'reports',
+                'label' => 'مدیریت گزارشات',
             ]
 
 

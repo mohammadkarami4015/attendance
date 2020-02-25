@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use App\Day;
 use App\DayShift;
 use App\Helper\message;
+use App\Helpers\DateFormat;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ShiftRequest;
 use App\Http\Requests\TimeRequest;
@@ -26,6 +27,7 @@ class ShiftController extends Controller
 
     public function index()
     {
+
         $shifts = Shift::query()->latest()->paginate(20);
         return view('admin.shifts.index', compact('shifts'));
     }
@@ -38,8 +40,12 @@ class ShiftController extends Controller
 
     public function store(ShiftRequest $request)
     {
+        $from = DateFormat::checkApplyDate(DateFormat::toMiladi($request->get('from')));
+
         $shift = Shift::query()->create($request->validated());
-        $shift->days()->sync($request->days);
+
+        $shift->days()->attach($request->days, ['from' => $from]);
+
         message::show('شیفت جدید با موفقیت ثبت شد');
         return back();
 
@@ -57,7 +63,7 @@ class ShiftController extends Controller
     {
         $days = $shift->getUsageDay();
         $dayIndex = implode(',', $days->pluck('id')->toArray());
-        return view('admin.shifts.editTime', compact('days', 'shift','dayIndex'));
+        return view('admin.shifts.editTime', compact('days', 'shift', 'dayIndex'));
     }
 
     public function getWorkTimeAjax(Request $request, Shift $shift)
@@ -68,10 +74,14 @@ class ShiftController extends Controller
 
     public function addWorkTime(WorkTimeRequest $request, Shift $shift)
     {
-
+        $from = DateFormat::checkApplyDate(DateFormat::toMiladi($request->get('from')));
         $dayShifts = $shift->dayShift($request->get('days'));
         foreach ($dayShifts as $dayShift) {
-            DayShift::query()->find($dayShift)->addWorkTime($request->get('start'), $request->get('end'));
+            DayShift::query()->find($dayShift)->addWorkTime(
+                $request->get('start'),
+                $request->get('end'),
+                $from
+            );
         }
         return back();
     }
@@ -92,9 +102,10 @@ class ShiftController extends Controller
 
     public function updateDays(Request $request, Shift $shift)
     {
+        $from = DateFormat::checkApplyDate(DateFormat::toMiladi($request->get('from')));
         $shift->updateDays($request->days);
         $newDays = $shift->getAddedDays($request->days);
-        $shift->days()->attach($newDays);
+        $shift->days()->attach($newDays, ['from' => $from]);
         message::show('روزهای کاری با موفقیت ویرایش شدند');
         return back();
     }

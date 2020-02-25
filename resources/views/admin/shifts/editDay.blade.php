@@ -29,6 +29,12 @@
                         </div>
                     </div>
 
+                    <div >
+                        <label style="width: 100px" class="text-danger">تاریخ اجرا </label>
+                        <input type="text" id="from" readonly name="from" class="apply">
+
+                    </div>
+
                     <div  class="box-footer">
                         <button type="submit" class="btn btn-primary">ویرایش</button>
                         <a href="{{ route('shifts.show',$shift->id)}}" class="btn btn-danger">بازگشت</a>

@@ -14,7 +14,7 @@ class DaySeeder extends Seeder
     public function run()
     {
 
-    DB::table('days')->truncate();
+
         DB::table('days')->insert([
 
             [

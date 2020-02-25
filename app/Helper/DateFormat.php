@@ -24,9 +24,18 @@ class DateFormat
 
     public static function toMiladi($date)
     {
-            $date = $date ?? Verta::now();
-            $var = Verta::parse($date);
-            return trim(Carbon::parse($var->DateTime()->format('Y-m-d H:i:s')));
+        $date = $date ?? Verta::now();
+        $var = Verta::parse($date);
+        return trim(Carbon::parse($var->DateTime()->format('Y-m-d H:i:s')));
+    }
+
+    public static function checkApplyDate($date)
+    {
+        if (now()->gte($date))
+            return $date;
+        else
+            return now()->format('Y-m-d 00:00:00');
+
     }
 
 }

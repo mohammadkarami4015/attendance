@@ -45,7 +45,7 @@
                     <br>
 
                     <label style="width: 150px"> تاریخ پایان </label>
-                    <input type="text" id="to" readonly name="end_date" class=" filter">
+                    <input type="text" id="to" readonly name="end_date" class="filter">
                     <br>
                     <br>
 

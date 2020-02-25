@@ -27,6 +27,11 @@
                             <a onclick="Clear()" class="clear btn-sm btn-primary">حذف همه</a>
                         </div>
                     </div>
+                    <div >
+                        <label style="width: 100px" class="text-danger">تاریخ اجرا </label>
+                        <input type="text" id="from" readonly name="from" class="apply">
+
+                    </div>
 
                     <div class="box-body">
                         <div class="box-body">

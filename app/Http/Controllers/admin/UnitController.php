@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\admin;
 
+use App\Helpers\DateFormat;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UnitRequest;
 use App\Shift;
@@ -70,16 +71,17 @@ class UnitController extends Controller
 
     public function addShift(Unit $unit, Request $request)
     {
+        $from = DateFormat::checkApplyDate(DateFormat::toMiladi($request->get('from')));
         $currentShift = $unit->getCurrentShift();
         if ($unit->shifts()->count() == 0) {
-            $unit->addShift($request->shift);
+            $unit->addShift($request->get('shift'), $from);
             return back();
-        } elseif ($currentShift->id == (int)$request->shift) {
+        } elseif ($currentShift->id == (int)$request->get('shift')) {
             return back()->withErrors('شیفت انتخابی تکراری است');
         } else {
             $currentShift->pivot->to = Carbon::now();
             $currentShift->pivot->save();
-            $unit->addShift($request->shift);
+            $unit->addShift($request->get('shift'), $from);
             return back();
         }
     }

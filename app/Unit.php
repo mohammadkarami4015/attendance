@@ -16,9 +16,9 @@ class Unit extends Model
             ->withPivot('from', 'to');
     }
 
-    public function addShift($shift)
+    public function addShift($shift,$date)
     {
-        $this->shifts()->attach($shift);
+        $this->shifts()->attach($shift,['from'=>$date]);
         session()->flash('flash_message', 'شیفت مورد نظر ثبت شد');
     }
 

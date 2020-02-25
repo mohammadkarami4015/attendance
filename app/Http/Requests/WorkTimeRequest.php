@@ -43,8 +43,8 @@ class WorkTimeRequest extends FormRequest
         return [
             'days.required' => 'انتخاب روز اجباری است',
             'ws.required' => 'انتخاب زمان شروع اجباری است',
-            'start.required' => 'انتخاب زمانdd شروع اجباری است',
-            'end.required' => 'انتخاب زمانss  شروع اجباری است',
+            'start.required' => 'انتخاب زمان شروع اجباری است',
+            'end.required' => 'انتخاب زمان  شروع اجباری است',
             'we.required' => 'انتخاب زمان پایان اجباری است',
         ];
 

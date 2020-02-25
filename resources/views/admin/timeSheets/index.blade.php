@@ -18,7 +18,7 @@
             @csrf
             <div class="box-body">
                 <div class="">
-                    <label for="exampleInputFile">انتخاب فایل</label>
+                    <label for="exampleInputFile">انتخاب فایل (csv.)</label>
                     <input required type="file" name="file" accept=".csv" id="exampleInputFile">
                 </div>
             </div>

@@ -1,6 +1,8 @@
 @extends('layouts.master')
 @section('content')
-
+    @php
+        $index = 1;
+    @endphp
     <div class="box box-primary">
         <div class="box-header">
             <div class="row">
@@ -62,7 +64,7 @@
                 @foreach($users as $user)
 
                     <tr>
-
+                        <td>{{$index}}</td>
                         <td>
                             <a title="نمایش جزيیات"
                                href="{{route('users.show',$user)}}"> {{\App\Helpers\Name::userFullName($user)}}</a>
@@ -84,6 +86,9 @@
                         </td>
                     </tr>
 
+                    @php
+                        $index ++;
+                    @endphp
                 @endforeach
                 </tbody>
                 <tfoot>

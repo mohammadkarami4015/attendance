@@ -20,7 +20,7 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <hr>
-                            <h4 class="box-title">انتخاب روزهای کاری</h4>
+                            <h4 class="box-title text-danger">انتخاب روزهای کاری</h4>
                         </div>
                     </div>
 
@@ -40,6 +40,13 @@
 
                         </div>
                     </div>
+                    <br>
+                    <div >
+                        <label style="width: 100px" class="text-danger">تاریخ اجرا </label>
+                        <input type="text" id="from" readonly name="from" class="apply">
+
+                    </div>
+                    <br>
 
                     <div class="box-footer">
                         <button type="submit" class="btn btn-primary">ایجاد</button>
