@@ -28,7 +28,7 @@
                     </div>
                     <div >
                         <label style="width: 100px" class="text-danger">تاریخ اجرا </label>
-                        <input type="text" id="from" readonly name="from" class="apply">0700
+                        <input type="text" id="from" readonly name="from" class="apply">
 
                     </div>
 

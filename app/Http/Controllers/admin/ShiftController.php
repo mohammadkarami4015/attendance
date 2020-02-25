@@ -103,7 +103,7 @@ class ShiftController extends Controller
     public function updateDays(Request $request, Shift $shift)
     {
         $from = DateFormat::checkApplyDate(DateFormat::toMiladi($request->get('from')));
-        $shift->updateDays($request->days);
+        $shift->updateDays($request->days,$from);
         $newDays = $shift->getAddedDays($request->days);
         $shift->days()->attach($newDays, ['from' => $from]);
         message::show('روزهای کاری با موفقیت ویرایش شدند');

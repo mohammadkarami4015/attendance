@@ -54,12 +54,12 @@ class Shift extends Model
         return $this->days()->wherePivot('to', null)->get();
     }
 
-    public function updateDays($days)
+    public function updateDays($days,$from)
     {
         $removeDays = $this->getRemoveDays($days);
         $value = DayShift::getNullDays($this, $removeDays);
         foreach ($value as $day) {
-            $day->to = now();
+            $day->to = $from;
             $day->save();
         }
 

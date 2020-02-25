@@ -79,7 +79,7 @@ class UnitController extends Controller
         } elseif ($currentShift->id == (int)$request->get('shift')) {
             return back()->withErrors('شیفت انتخابی تکراری است');
         } else {
-            $currentShift->pivot->to = Carbon::now();
+            $currentShift->pivot->to = $from;
             $currentShift->pivot->save();
             $unit->addShift($request->get('shift'), $from);
             return back();
