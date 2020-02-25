@@ -35,9 +35,10 @@
 
                     <div class="col-sm-5">
                         <div class="form-group">
-                            <label  for="unit_id">گروه کاری </label>
+                            <label for="unit_id">گروه کاری </label>
                             <br>
-                            <select required id="unit_id" name="unit_id" class="form-control select2 select2-hidden-accessible"
+                            <select required id="unit_id" name="unit_id"
+                                    class="form-control select2 select2-hidden-accessible"
                                     data-placeholder="انتخاب کاربر" style="width: 40%;" tabindex="-1"
                                     aria-hidden="true">
 
@@ -60,13 +61,13 @@
 
             </div>
 
-    <!-- /.box-body -->
+            <!-- /.box-body -->
 
-    <div class="box-footer">
-        <button type="submit" class="btn btn-primary">ثبت</button>
-        <a href="{{route('users.index')}}" class="btn btn-danger">بازگشت</a>
-    </div>
-    </form>
+            <div class="box-footer">
+                <button type="submit" class="btn btn-primary">ثبت</button>
+                <a href="{{route('users.index')}}" class="btn btn-danger">بازگشت</a>
+            </div>
+        </form>
     </div>
 
 @endsection
